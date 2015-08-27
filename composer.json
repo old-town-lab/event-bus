@@ -26,7 +26,11 @@
     "fabpot/php-cs-fixer": "1.9.1",
     "phpunit/phpunit": "4.7.7",
     "phpunit/phpcov": "2.0.1",
-    "zendframework/zend-loader": "2.5.1",
+    "zendframework/zend-loader": "~2.4.0",
+    "zendframework/zend-test": "~2.4.0",
+    "zendframework/zend-serializer": "~2.4.0",
+    "zendframework/zend-log": "~2.4.0",
+    "zendframework/zend-i18n": "~2.4.0",
     "satooshi/php-coveralls": "dev-master"
   },
   "autoload": {

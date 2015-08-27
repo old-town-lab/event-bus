@@ -6,21 +6,20 @@
 namespace OldTown\EventBuss;
 
 
-use Zend\ModuleManager\Listener\ServiceListenerInterface;
-use Zend\ModuleManager\ModuleManager;
 use Zend\Mvc\ModuleRouteListener;
 use Zend\Mvc\MvcEvent;
-use Zend\ServiceManager\ServiceLocatorInterface;
+use Zend\Loader\StandardAutoloader;
+
 
 /**
  * Class Module
- * @package MteWorkflow
+ *
+ * @package OldTown\EventBuss
  */
 class Module
 {
     /**
      * @param MvcEvent $e
-     * @return void
      */
     public function onBootstrap(MvcEvent $e)
     {
@@ -30,24 +29,6 @@ class Module
 
     }
 
-    /**
-     * @param ModuleManager $moduleManager
-     * @return void
-     */
-    public function init(ModuleManager $moduleManager)
-    {
-        /** @var ServiceLocatorInterface $sm */
-        $sm = $moduleManager->getEvent()->getParam('ServiceManager');
-
-        /** @var ServiceListenerInterface $serviceListener */
-        $serviceListener = $sm->get('ServiceListener');
-        $serviceListener->addServiceManager(
-            'mteWorkflowActivityManager',
-            'workflow_activities',
-            'MteWorkflow\ActivitiesProviderInterface',
-            'getWorkflowActivitiesConfig'
-        );
-    }
 
     /**
      * @return mixed
@@ -63,7 +44,7 @@ class Module
     public function getAutoloaderConfig()
     {
         return array(
-            'Zend\Loader\StandardAutoloader' => array(
+            StandardAutoloader::class => array(
                 'namespaces' => array(
                     __NAMESPACE__ => __DIR__ . '/src/' . __NAMESPACE__,
                 ),
