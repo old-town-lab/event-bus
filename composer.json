@@ -1,0 +1,41 @@
+{
+  "name": "old-town/event-buss",
+  "description": "Bus for communication applications.",
+  "type": "library",
+  "keywords": [
+    "zf2",
+    "event",
+    "buss"
+  ],
+  "license": "GPL-3.0",
+  "authors": [
+    {
+      "name": "Malofeykin Andrey",
+      "email": "and-rey2@yandex.ru"
+    }
+  ],
+  "require": {
+    "php": ">=5.5.0",
+    "zendframework/zend-eventmanager": "~2.4.0",
+    "zendframework/zend-modulemanager": "~2.4.0",
+    "zendframework/zend-mvc": "~2.4.0",
+    "zendframework/zend-servicemanager": "~2.4.0"
+  },
+  "require-dev": {
+    "ext-mbstring": "*",
+    "fabpot/php-cs-fixer": "1.9.1",
+    "phpunit/phpunit": "4.7.7",
+    "phpunit/phpcov": "2.0.1",
+    "zendframework/zend-loader": "2.5.1",
+    "satooshi/php-coveralls": "dev-master"
+  },
+  "autoload": {
+    "psr-4": {
+      "OldTown\\EventBuss\\": "src/",
+      "OldTown\\EventBuss\\Test\\": "test/"
+    },
+    "classmap": [
+      "./Module.php"
+    ]
+  }
+}
