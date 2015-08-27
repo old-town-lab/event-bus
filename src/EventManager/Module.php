@@ -12,5 +12,4 @@ namespace OldTown\EventBuss\EventManager;
  */
 class EventManager
 {
-
-} 
+}
