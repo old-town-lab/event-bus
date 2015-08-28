@@ -6,10 +6,10 @@
 namespace OldTown\EventBuss\EventBussManager;
 
 /**
- * Class EventBussManager
+ * Interface EventBussManagerInterface
  *
  * @package OldTown\EventBuss\EventBussManager
  */
-class EventBussManager implements EventBussManagerInterface
+interface EventBussManagerInterface
 {
 }

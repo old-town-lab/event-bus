@@ -3,27 +3,33 @@
  * @link https://github.com/old-town/event-buss
  * @author  Malofeykin Andrey  <and-rey2@yandex.ru>
  */
-namespace OldTown\EventBuss\PhpUnitTest\Factory;
+namespace OldTown\EventBuss\PhpUnitTest\EventBussManager;
 
 use Zend\Test\PHPUnit\Controller\AbstractHttpControllerTestCase;
 
 
 /**
- * Class ModuleTest
+ * Class EventBussManagerAbstractFactory
  *
- * @package OldTown\EventBuss\PhpUnitTest
+ * @package OldTown\EventBuss\PhpUnitTest\EventBussManager
  */
-class ServiceAbstractFactoryTest extends AbstractHttpControllerTestCase
+class EventBussManagerAbstractFactoryTest extends AbstractHttpControllerTestCase
 {
     /**
      * Проверка создания менеджера шины событий через абстрактную фабрику
      *
+     * @throws \Zend\Stdlib\Exception\LogicException
+     * @throws \Zend\ServiceManager\Exception\ServiceNotFoundException
      */
     public function testGetDefaultEventBussManager()
     {
         $this->setApplicationConfig(
             include __DIR__ . '/../../_files/application.config.php'
         );
-        $this->getApplicationServiceLocator()->get('event_buss.manager.default');
+        $eventBussManager = $this->getApplicationServiceLocator()->get('event_buss.manager.default');
+
+
     }
+
+
 }

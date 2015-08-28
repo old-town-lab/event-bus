@@ -3,13 +3,13 @@
  * @link https://github.com/old-town/event-buss
  * @author  Malofeykin Andrey  <and-rey2@yandex.ru>
  */
-namespace OldTown\EventBuss\Factory\Exception;
+namespace OldTown\EventBuss\Exception;
 
 /**
  * Class RuntimeException
  *
- * @package OldTown\EventBuss\Factory\Exception
+ * @package OldTown\EventBuss\Exception
  */
-class CreateServiceException extends RuntimeException
+class ErrorInitModuleException extends RuntimeException
 {
 }

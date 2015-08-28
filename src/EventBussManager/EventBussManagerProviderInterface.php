@@ -5,11 +5,16 @@
  */
 namespace OldTown\EventBuss\EventBussManager;
 
+
 /**
- * Class EventBussManager
+ * Class EventBussPluginManager
  *
  * @package OldTown\EventBuss\EventBussManager
  */
-class EventBussManager implements EventBussManagerInterface
+interface EventBussManagerProviderInterface
 {
+    /**
+     * @return array
+     */
+    public function getEventBussManagerConfig();
 }
