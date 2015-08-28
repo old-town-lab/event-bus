@@ -5,12 +5,16 @@
  */
 namespace OldTown\EventBuss\Driver;
 
+
 /**
- * Class RabbitMqDriver
+ * Interface EventBussDriverProviderInterface
  *
  * @package OldTown\EventBuss\Driver
  */
-class RabbitMqDriver extends AbstractDriver
+interface EventBussDriverProviderInterface
 {
-
+    /**
+     * @return array
+     */
+    public function getEventBussDriverConfig();
 }

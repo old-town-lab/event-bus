@@ -6,24 +6,23 @@
 namespace OldTown\EventBuss;
 
 
-use OldTown\EventBuss\EventBussManager\EventBussPluginManager;
+use OldTown\EventBuss\Driver\EventBussDriverProviderInterface;
 use OldTown\EventBuss\Options\ModuleOptions;
+use OldTown\EventBuss\EventBussManager\EventBussManagerProviderInterface;
+use Zend\Mvc\ModuleRouteListener;
+use Zend\Mvc\MvcEvent;
 use Zend\EventManager\EventInterface;
+use Zend\ServiceManager\ServiceLocatorAwareInterface;
+use Zend\ServiceManager\ServiceLocatorAwareTrait;
+use Zend\ServiceManager\ServiceLocatorInterface;
 use Zend\ModuleManager\Listener\ServiceListenerInterface;
 use Zend\ModuleManager\ModuleManager;
 use Zend\ModuleManager\ModuleManagerInterface;
-use Zend\Mvc\ModuleRouteListener;
-use Zend\Mvc\MvcEvent;
-use Zend\Loader\StandardAutoloader;
 use Zend\ModuleManager\Feature\AutoloaderProviderInterface;
 use Zend\ModuleManager\Feature\ConfigProviderInterface;
 use Zend\ModuleManager\Feature\LocatorRegisteredInterface;
 use Zend\ModuleManager\Feature\BootstrapListenerInterface;
-use Zend\ServiceManager\ServiceLocatorAwareInterface;
-use Zend\ServiceManager\ServiceLocatorAwareTrait;
 use Zend\ModuleManager\Feature\InitProviderInterface;
-use Zend\ServiceManager\ServiceLocatorInterface;
-use OldTown\EventBuss\EventBussManager\EventBussManagerProviderInterface;
 
 
 /**
@@ -78,7 +77,7 @@ class Module implements
     public function getAutoloaderConfig()
     {
         return array(
-            StandardAutoloader::class => array(
+            'Zend\Loader\StandardAutoloader' => array(
                 'namespaces' => array(
                     __NAMESPACE__ => __DIR__ . '/src/' . __NAMESPACE__,
                 ),
@@ -109,7 +108,7 @@ class Module implements
     public function init(ModuleManagerInterface $manager)
     {
         if (!$manager instanceof ModuleManager) {
-            $errMsg =sprintf('Менеджер модулей должен реализовывать %s', $manager);
+            $errMsg =sprintf('Менеджер модулей должен реализовывать %s', ModuleManager::class);
             throw new Exception\ErrorInitModuleException($errMsg);
         }
         /** @var ModuleManager $manager */
@@ -124,6 +123,12 @@ class Module implements
             'event_buss_manager',
             EventBussManagerProviderInterface::class,
             'getEventBussManagerConfig'
+        );
+        $serviceListener->addServiceManager(
+            'eventBussDriverManager',
+            'event_buss_driver',
+            EventBussDriverProviderInterface::class,
+            'getEventBussDriverConfig'
         );
     }
 } 

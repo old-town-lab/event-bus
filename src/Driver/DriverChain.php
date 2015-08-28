@@ -10,7 +10,7 @@ namespace OldTown\EventBuss\Driver;
  *
  * @package OldTown\EventBuss\Driver
  */
-class DriverChain
+class DriverChain extends  AbstractDriver
 {
 
 }

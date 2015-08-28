@@ -4,6 +4,7 @@
  * @author  Malofeykin Andrey  <and-rey2@yandex.ru>
  */
 namespace OldTown\EventBuss\EventBussManager;
+use OldTown\EventBuss\Driver\EventBussDriverInterface;
 use Zend\ServiceManager\FactoryInterface;
 use Zend\ServiceManager\MutableCreationOptionsInterface;
 use Zend\ServiceManager\MutableCreationOptionsTrait;
@@ -22,12 +23,25 @@ class EventBussManagerFactory implements FactoryInterface, MutableCreationOption
      * Create service
      *
      * @param ServiceLocatorInterface $serviceLocator
-     * @return mixed
+     * @return EventBussManager
+     *
+     * @throws \OldTown\EventBuss\EventBussManager\Exception\InvalidEventBussManagerConfigException
+     * @throws \Zend\ServiceManager\Exception\ServiceNotFoundException
      */
     public function createService(ServiceLocatorInterface $serviceLocator)
     {
         $options = $this->getCreationOptions();
-        $eventBussManager = new EventBussManager($options);
+        if (!array_key_exists(ManagerInfoContainer::DRIVER, $options)) {
+            $errMsg = sprintf('Отсутствует секция %s в конфиге', $options);
+            throw new Exception\InvalidEventBussManagerConfigException($errMsg);
+        }
+
+        $driverName = $options[ManagerInfoContainer::DRIVER];
+
+        /** @var EventBussDriverInterface $driver */
+        $driver = $serviceLocator->get("eventbuss.driver.{$driverName}");
+
+        $eventBussManager = new EventBussManager($driver);
 
         return $eventBussManager;
     }

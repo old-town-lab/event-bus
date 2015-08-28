@@ -5,6 +5,9 @@
  */
 namespace OldTown\EventBuss\PhpUnitTest;
 
+use OldTown\EventBuss\Driver\EventBussDriverPluginManager;
+use OldTown\EventBuss\EventBussManager\EventBussPluginManager;
+use Zend\ModuleManager\ModuleManagerInterface;
 use Zend\Test\PHPUnit\Controller\AbstractHttpControllerTestCase;
 use OldTown\EventBuss\Module;
 use OldTown\EventBuss\Options\ModuleOptions;
@@ -76,5 +79,61 @@ class ModuleTest extends AbstractHttpControllerTestCase
 
 
         static::assertInstanceOf(ModuleOptions::class, $module->getModuleOptions());
+    }
+
+    /**
+     * @expectedException \OldTown\EventBuss\Exception\ErrorInitModuleException
+     * @expectedExceptionMessage Менеджер модулей должен реализовывать Zend\ModuleManager\ModuleManager
+     *
+     * @return void
+     */
+    public function testInitBadModuleManager()
+    {
+        $this->setApplicationConfig(
+            include __DIR__ . '/../_files/application.config.php'
+        );
+        /** @var Module $module */
+        $module = $this->getApplicationServiceLocator()->get(Module::class);
+
+        $badManager = $this->getMock(ModuleManagerInterface::class);
+
+        /** @noinspection PhpParamsInspection */
+        $module->init($badManager);
+    }
+
+
+    /**
+     * Проверяем что инициируется плагин менеджер для работы с драйверами EventBuss
+     *
+     * @return void
+     */
+    public function testInitEventBussDriverPluginManager()
+    {
+        $this->setApplicationConfig(
+            include __DIR__ . '/../_files/application.config.php'
+        );
+
+        $pluginManager = $this->getApplicationServiceLocator()->get('eventBussDriverManager');
+
+        static::assertInstanceOf(EventBussDriverPluginManager::class, $pluginManager);
+
+    }
+
+
+    /**
+     * Проверяем что инициируется плагин менеджер для работы с драйверами EventBuss
+     *
+     * @return void
+     */
+    public function testInitEventBussPluginManager()
+    {
+        $this->setApplicationConfig(
+            include __DIR__ . '/../_files/application.config.php'
+        );
+
+        $pluginManager = $this->getApplicationServiceLocator()->get('eventBussPluginManager');
+
+        static::assertInstanceOf(EventBussPluginManager::class, $pluginManager);
+
     }
 }

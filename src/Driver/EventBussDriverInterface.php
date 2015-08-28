@@ -6,11 +6,10 @@
 namespace OldTown\EventBuss\Driver;
 
 /**
- * Class RabbitMqDriver
+ * Interface EventBussDriverInterface
  *
  * @package OldTown\EventBuss\Driver
  */
-class RabbitMqDriver extends AbstractDriver
+interface EventBussDriverInterface
 {
-
 }

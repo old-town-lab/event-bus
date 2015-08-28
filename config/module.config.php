@@ -2,6 +2,9 @@
 namespace OldTown\EventBuss;
 
 use OldTown\EventBuss\Driver\DriverChain;
+use OldTown\EventBuss\Driver\EventBussDriverAbstractFactory;
+use OldTown\EventBuss\Driver\EventBussDriverPluginManager;
+use OldTown\EventBuss\Driver\EventBussDriverPluginManagerFactory;
 use OldTown\EventBuss\Driver\RabbitMqDriver;
 use OldTown\EventBuss\EventBussManager\EventBussManager;
 use OldTown\EventBuss\EventBussManager\EventBussManagerAbstractFactory;
@@ -15,14 +18,17 @@ use OldTown\EventBuss\Options\ModuleOptionsFactory;
 return [
     'service_manager' => [
         'abstract_factories' =>[
-            EventBussManagerAbstractFactory::class => EventBussManagerAbstractFactory::class
+            EventBussManagerAbstractFactory::class => EventBussManagerAbstractFactory::class,
+            EventBussDriverAbstractFactory::class => EventBussDriverAbstractFactory::class
         ],
         'factories' => [
             ModuleOptions::class => ModuleOptionsFactory::class,
-            EventBussPluginManager::class => EventBussPluginManagerFactory::class
+            EventBussPluginManager::class => EventBussPluginManagerFactory::class,
+            EventBussDriverPluginManager::class => EventBussDriverPluginManagerFactory::class
         ],
         'aliases' => [
-            'eventBussPluginManager' => EventBussPluginManager::class
+            'eventBussPluginManager' => EventBussPluginManager::class,
+            'eventBussDriverManager' => EventBussDriverPluginManager::class
         ]
     ],
     'event_buss_manager' => [
@@ -33,6 +39,15 @@ return [
             'default' => EventBussManager::class
         ]
     ],
+    'event_buss_driver' => [
+        'factories' => [
+            DriverChain::class => EventBussManagerFactory::class,
+        ],
+        'aliases' => [
+            'chain' => DriverChain::class
+        ]
+    ],
+
     'event_buss' => [
         'connection' => [
             'default' => [
@@ -52,10 +67,10 @@ return [
         ],
         'driver' => [
             'default' => [
-                'class' => DriverChain::class,
+                'pluginName' => DriverChain::class,
                 'drivers' => [
                     'amqp' => [
-                        'class' => RabbitMqDriver::class,
+                        'pluginName' => RabbitMqDriver::class,
                         'connection' => 'default'
                     ]
                 ]

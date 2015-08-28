@@ -60,7 +60,7 @@ class ManagerInfoContainer
             $errMsg = sprintf('Отсутствует секция %s', static::DRIVER);
             throw new Exception\InvalidEventBussManagerConfigException($errMsg);
         }
-        $this->setPluginName($config[static::DRIVER]);
+        $this->setDriver($config[static::DRIVER]);
 
     }
 

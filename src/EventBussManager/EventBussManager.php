@@ -4,6 +4,7 @@
  * @author  Malofeykin Andrey  <and-rey2@yandex.ru>
  */
 namespace OldTown\EventBuss\EventBussManager;
+use OldTown\EventBuss\Driver\EventBussDriverInterface;
 
 /**
  * Class EventBussManager
@@ -12,4 +13,38 @@ namespace OldTown\EventBuss\EventBussManager;
  */
 class EventBussManager implements EventBussManagerInterface
 {
+    /**
+     * @var EventBussDriverInterface
+     */
+    protected $driver;
+
+    /**
+     * @param EventBussDriverInterface $driver
+     */
+    public function __construct(EventBussDriverInterface $driver)
+    {
+        $this->setDriver($driver);
+    }
+
+    /**
+     * @return EventBussDriverInterface
+     */
+    public function getDriver()
+    {
+        return $this->driver;
+    }
+
+    /**
+     * @param EventBussDriverInterface $driver
+     *
+     * @return $this
+     */
+    public function setDriver(EventBussDriverInterface $driver)
+    {
+        $this->driver = $driver;
+
+        return $this;
+    }
+
+
 }
