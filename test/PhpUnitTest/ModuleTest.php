@@ -116,7 +116,6 @@ class ModuleTest extends AbstractHttpControllerTestCase
         $pluginManager = $this->getApplicationServiceLocator()->get('eventBussDriverManager');
 
         static::assertInstanceOf(EventBussDriverPluginManager::class, $pluginManager);
-
     }
 
 
@@ -134,6 +133,5 @@ class ModuleTest extends AbstractHttpControllerTestCase
         $pluginManager = $this->getApplicationServiceLocator()->get('eventBussPluginManager');
 
         static::assertInstanceOf(EventBussPluginManager::class, $pluginManager);
-
     }
 }

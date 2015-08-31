@@ -46,7 +46,6 @@ class DriverConfig
             throw new Exception\InvalidEventBussDriverConfigException($errMsg);
         }
         $this->setPluginName($config[static::PLUGIN_NAME]);
-
     }
 
     /**

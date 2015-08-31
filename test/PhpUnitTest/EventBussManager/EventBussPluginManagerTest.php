@@ -18,7 +18,7 @@ use OldTown\EventBuss\EventBussManager\EventBussManager;
 class EventBussPluginManagerTest extends AbstractHttpControllerTestCase
 {
     /**
-     * Проверка создания менеджера шины событий через абстрактную фабрику
+     * Проверка создания не валидного EventBussManager
      *
      * @expectedException \OldTown\EventBuss\EventBussManager\Exception\InvalidEventBussManagerException
      * @expectedExceptionMessage EventBussManager должен реализовывать OldTown\EventBuss\EventBussManager\EventBussManagerInterface
@@ -35,7 +35,7 @@ class EventBussPluginManagerTest extends AbstractHttpControllerTestCase
         /** @var EventBussPluginManager $eventBussPluginManager */
         $eventBussPluginManager = $this->getApplicationServiceLocator()->get(EventBussPluginManager::class);
 
-        $eventBussPluginManager->setService('test', function() {
+        $eventBussPluginManager->setService('test', function () {
             return new \stdClass();
         });
 

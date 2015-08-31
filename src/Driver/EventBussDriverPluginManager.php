@@ -23,9 +23,8 @@ class EventBussDriverPluginManager extends AbstractPluginManager
     public function validatePlugin($plugin)
     {
         if (!$plugin instanceof EventBussDriverInterface) {
-            $errMsg = sprintf('EventBussManager должен реализовывать %s', EventBussDriverInterface::class);
+            $errMsg = sprintf('EventBussDriver должен реализовывать %s', EventBussDriverInterface::class);
             throw new Exception\InvalidEventBussDriverException($errMsg);
         }
     }
-
 }

@@ -17,6 +17,12 @@
         </testsuite>
     </testsuites>
 
+     <filter>
+         <blacklist>
+             <directory>./vendor</directory>
+             <directory>./test</directory>
+         </blacklist>
+     </filter>
     <logging>
         <log type="coverage-php" target="./.reports/coverage/coverage-phpunit.cov"/>
     </logging>

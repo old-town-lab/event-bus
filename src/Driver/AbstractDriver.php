@@ -12,5 +12,4 @@ namespace OldTown\EventBuss\Driver;
  */
 abstract class AbstractDriver implements EventBussDriverInterface
 {
-
 }

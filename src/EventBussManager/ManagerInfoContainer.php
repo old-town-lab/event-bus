@@ -61,7 +61,6 @@ class ManagerInfoContainer
             throw new Exception\InvalidEventBussManagerConfigException($errMsg);
         }
         $this->setDriver($config[static::DRIVER]);
-
     }
 
     /**

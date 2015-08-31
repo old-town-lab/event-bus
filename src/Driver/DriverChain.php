@@ -12,5 +12,4 @@ namespace OldTown\EventBuss\Driver;
  */
 class DriverChain extends  AbstractDriver
 {
-
 }

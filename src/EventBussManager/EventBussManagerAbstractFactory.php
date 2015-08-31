@@ -16,7 +16,6 @@ use OldTown\EventBuss\Module;
  */
 class EventBussManagerAbstractFactory implements AbstractFactoryInterface
 {
-
     /**
      * Контейнеры с информацие о EventBussManager
      *

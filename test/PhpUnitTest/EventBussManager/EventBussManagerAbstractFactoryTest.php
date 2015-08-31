@@ -46,7 +46,7 @@ class EventBussManagerAbstractFactoryTest extends AbstractHttpControllerTestCase
         $this->setApplicationConfig(
             include __DIR__ . '/../../_files/application.config.php'
         );
-         $this->getApplicationServiceLocator()->get('event_buss.manager.default.invalid');
+        $this->getApplicationServiceLocator()->get('event_buss.manager.default.invalid');
     }
 
 

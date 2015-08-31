@@ -4,6 +4,7 @@
  * @author  Malofeykin Andrey  <and-rey2@yandex.ru>
  */
 namespace OldTown\EventBuss\EventBussManager;
+
 use Zend\ServiceManager\AbstractPluginManager;
 
 
@@ -26,5 +27,4 @@ class EventBussPluginManager extends AbstractPluginManager
             throw new Exception\InvalidEventBussManagerException($errMsg);
         }
     }
-
 }

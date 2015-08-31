@@ -2,6 +2,7 @@
 namespace OldTown\EventBuss;
 
 use OldTown\EventBuss\Driver\DriverChain;
+use OldTown\EventBuss\Driver\DriverChainFactory;
 use OldTown\EventBuss\Driver\EventBussDriverAbstractFactory;
 use OldTown\EventBuss\Driver\EventBussDriverPluginManager;
 use OldTown\EventBuss\Driver\EventBussDriverPluginManagerFactory;
@@ -41,7 +42,7 @@ return [
     ],
     'event_buss_driver' => [
         'factories' => [
-            DriverChain::class => EventBussManagerFactory::class,
+            DriverChain::class => DriverChainFactory::class,
         ],
         'aliases' => [
             'chain' => DriverChain::class

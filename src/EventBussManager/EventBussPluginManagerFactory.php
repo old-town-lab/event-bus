@@ -4,6 +4,7 @@
  * @author  Malofeykin Andrey  <and-rey2@yandex.ru>
  */
 namespace OldTown\EventBuss\EventBussManager;
+
 use Zend\Mvc\Service\AbstractPluginManagerFactory;
 
 

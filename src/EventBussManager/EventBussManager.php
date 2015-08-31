@@ -4,6 +4,7 @@
  * @author  Malofeykin Andrey  <and-rey2@yandex.ru>
  */
 namespace OldTown\EventBuss\EventBussManager;
+
 use OldTown\EventBuss\Driver\EventBussDriverInterface;
 
 /**
@@ -45,6 +46,4 @@ class EventBussManager implements EventBussManagerInterface
 
         return $this;
     }
-
-
 }

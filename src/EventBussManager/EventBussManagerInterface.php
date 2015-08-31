@@ -5,6 +5,8 @@
  */
 namespace OldTown\EventBuss\EventBussManager;
 
+use OldTown\EventBuss\Driver\EventBussDriverInterface;
+
 /**
  * Interface EventBussManagerInterface
  *
@@ -12,4 +14,15 @@ namespace OldTown\EventBuss\EventBussManager;
  */
 interface EventBussManagerInterface
 {
+    /**
+     * @return EventBussDriverInterface
+     */
+    public function getDriver();
+
+    /**
+     * @param EventBussDriverInterface $driver
+     *
+     * @return $this
+     */
+    public function setDriver(EventBussDriverInterface $driver);
 }

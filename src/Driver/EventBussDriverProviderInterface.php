@@ -5,7 +5,6 @@
  */
 namespace OldTown\EventBuss\Driver;
 
-
 /**
  * Interface EventBussDriverProviderInterface
  *

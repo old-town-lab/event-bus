@@ -15,7 +15,6 @@ use OldTown\EventBuss\Module;
  */
 class ModuleOptionsFactory implements FactoryInterface
 {
-
     /**
      * Create service
      *
