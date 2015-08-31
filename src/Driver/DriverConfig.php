@@ -16,6 +16,21 @@ class DriverConfig
      * @var string
      */
     const PLUGIN_NAME = 'pluginName';
+    /**
+     *
+     * @var string
+     */
+    const DRIVERS = 'drivers';
+    /**
+     *
+     * @var string
+     */
+    const CONNECTION = 'connection';
+    /**
+     *
+     * @var string
+     */
+    const CONNECTION_CONFIG = 'connectionConfig';
 
     /**
      * Имя плагина зарегестрированного в EventBussDriverManager
@@ -25,9 +40,31 @@ class DriverConfig
     protected $pluginName;
 
     /**
+     * Секция описывает используемые драйвера. Используется только в DriverChain
+     *
+     * @var []
+     */
+    protected $drivers = [];
+
+    /**
+     * Имя соедения используемое для драйвера (в конфиге приложения event_buss|connection)
+     *
+     * @var string|null
+     */
+    protected $connection;
+
+    /**
+     * Настройки соеденения
+     *
+     * @var array
+     */
+    protected $connectionConfig = [];
+
+    /**
      * @param array $config
      *
      * @throws \OldTown\EventBuss\Driver\Exception\InvalidEventBussDriverConfigException
+     * @throws \OldTown\EventBuss\Driver\Exception\InvalidArgumentException
      */
     public function __construct(array $config = [])
     {
@@ -38,6 +75,7 @@ class DriverConfig
      * @param array $config
      *
      * @throws \OldTown\EventBuss\Driver\Exception\InvalidEventBussDriverConfigException
+     * @throws \OldTown\EventBuss\Driver\Exception\InvalidArgumentException
      */
     protected function init(array $config = [])
     {
@@ -46,7 +84,38 @@ class DriverConfig
             throw new Exception\InvalidEventBussDriverConfigException($errMsg);
         }
         $this->setPluginName($config[static::PLUGIN_NAME]);
+
+        if (array_key_exists(static::DRIVERS, $config) && is_array($config[static::DRIVERS])) {
+            $this->setDrivers($config[static::DRIVERS]);
+        }
+        if (array_key_exists(static::CONNECTION, $config)) {
+            $this->setConnection($config[static::CONNECTION]);
+        }
+        if (array_key_exists(static::CONNECTION_CONFIG, $config) && is_array($config[static::CONNECTION_CONFIG])) {
+            $this->setConnectionConfig($config[static::CONNECTION_CONFIG]);
+        }
     }
+
+    /**
+     * @return array
+     */
+    public function getConnectionConfig()
+    {
+        return $this->connectionConfig;
+    }
+
+    /**
+     * @param array $connectionConfig
+     *
+     * @return $this
+     */
+    public function setConnectionConfig(array $connectionConfig = [])
+    {
+        $this->connectionConfig = $connectionConfig;
+
+        return $this;
+    }
+
 
     /**
      * @return string
@@ -68,6 +137,51 @@ class DriverConfig
         return $this;
     }
 
+    /**
+     * @return array
+     */
+    public function getDrivers()
+    {
+        return $this->drivers;
+    }
+
+    /**
+     * @param array $drivers
+     *
+     * @return $this
+     */
+    public function setDrivers(array $drivers = [])
+    {
+        $this->drivers = $drivers;
+
+        return $this;
+    }
+
+    /**
+     * @return null|string
+     */
+    public function getConnection()
+    {
+        return $this->connection;
+    }
+
+    /**
+     * @param null|string $connection
+     *
+     * @return $this
+     * @throws \OldTown\EventBuss\Driver\Exception\InvalidArgumentException
+     */
+    public function setConnection($connection)
+    {
+        if (!settype($connection, 'string')) {
+            $errMsg = 'Имя соеденения должно быть строкой';
+            throw new Exception\InvalidArgumentException($errMsg);
+        }
+        $this->connection = $connection;
+
+        return $this;
+    }
+
 
     /**
      * @return array
@@ -75,7 +189,9 @@ class DriverConfig
     public function getPluginConfig()
     {
         $config = [
-
+            static::DRIVERS => $this->getDrivers(),
+            static::CONNECTION => $this->getConnection(),
+            static::CONNECTION_CONFIG => $this->getConnectionConfig()
         ];
 
         return $config;

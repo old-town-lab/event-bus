@@ -14,6 +14,7 @@ use OldTown\EventBuss\EventBussManager\EventBussPluginManager;
 use OldTown\EventBuss\EventBussManager\EventBussPluginManagerFactory;
 use OldTown\EventBuss\Options\ModuleOptions;
 use OldTown\EventBuss\Options\ModuleOptionsFactory;
+use OldTown\EventBuss\Driver\EventBussPluginDriverAbstractFactory;
 
 
 return [
@@ -44,8 +45,12 @@ return [
         'factories' => [
             DriverChain::class => DriverChainFactory::class,
         ],
+        'abstract_factories' =>[
+            EventBussPluginDriverAbstractFactory::class => EventBussPluginDriverAbstractFactory::class
+        ],
         'aliases' => [
-            'chain' => DriverChain::class
+            'chain' => DriverChain::class,
+            'rabbit' => RabbitMqDriver::class
         ]
     ],
 

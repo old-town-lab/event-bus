@@ -1,6 +1,6 @@
 <?php
 /**
- * @link https://github.com/old-town/event-buss
+ * @link    https://github.com/old-town/event-buss
  * @author  Malofeykin Andrey  <and-rey2@yandex.ru>
  */
 namespace OldTown\EventBuss\PhpUnitTest\Driver;
@@ -64,12 +64,31 @@ class DriverConfigTest extends PHPUnit_Framework_TestCase
     public function testGetPluginConfig()
     {
         $options = [
-            'pluginName' => 'test'
+            DriverConfig::PLUGIN_NAME       => 'test',
+            DriverConfig::DRIVERS           => [
+                'test'
+            ],
+            DriverConfig::CONNECTION        => 'test-connection-name',
+            DriverConfig::CONNECTION_CONFIG => [
+                'param' => [
+                    'test' => 'test'
+                ]
+            ]
         ];
         $driverConfig = new DriverConfig($options);
 
         $actualPluginConfig = $driverConfig->getPluginConfig();
-        $expectedPluginConfig = [];
+        $expectedPluginConfig = [
+            DriverConfig::DRIVERS           => [
+                'test'
+            ],
+            DriverConfig::CONNECTION        => 'test-connection-name',
+            DriverConfig::CONNECTION_CONFIG => [
+                'param' => [
+                    'test' => 'test'
+                ]
+            ]
+        ];
 
         static::assertEquals($expectedPluginConfig, $actualPluginConfig);
     }
