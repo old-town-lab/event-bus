@@ -6,9 +6,9 @@
 namespace OldTown\EventBuss\EventBussManager;
 
 /**
- * Class EventBussManager
+ * Class EventBussManagerFacade
  *
- * @package OldTown\EventBuss\EventBussManager
+ * @package OldTown\EventBuss\EventBussManagerFacade
  */
 class ManagerInfoContainer
 {
@@ -27,7 +27,7 @@ class ManagerInfoContainer
      *
      * @var string
      */
-    protected $pluginName = EventBussManager::class;
+    protected $pluginName = EventBussManagerFacade::class;
 
     /**
      * Имя плагина зарегестрированного в EventBussDriverManager

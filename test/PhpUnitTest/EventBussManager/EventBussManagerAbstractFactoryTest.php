@@ -6,13 +6,13 @@
 namespace OldTown\EventBuss\PhpUnitTest\EventBussManager;
 
 use Zend\Test\PHPUnit\Controller\AbstractHttpControllerTestCase;
-use OldTown\EventBuss\EventBussManager\EventBussManager;
+use OldTown\EventBuss\EventBussManager\EventBussManagerFacade;
 
 
 /**
  * Class EventBussManagerAbstractFactory
  *
- * @package OldTown\EventBuss\PhpUnitTest\EventBussManager
+ * @package OldTown\EventBuss\PhpUnitTest\EventBussManagerFacade
  */
 class EventBussManagerAbstractFactoryTest extends AbstractHttpControllerTestCase
 {
@@ -29,7 +29,7 @@ class EventBussManagerAbstractFactoryTest extends AbstractHttpControllerTestCase
         );
         $eventBussManager = $this->getApplicationServiceLocator()->get('event_buss.manager.default');
 
-        static::assertInstanceOf(EventBussManager::class, $eventBussManager);
+        static::assertInstanceOf(EventBussManagerFacade::class, $eventBussManager);
     }
 
     /**

@@ -13,9 +13,9 @@ use Zend\ServiceManager\MutableCreationOptionsTrait;
 use Zend\ServiceManager\ServiceLocatorInterface;
 
 /**
- * Class EventBussManager
+ * Class EventBussManagerFacade
  *
- * @package OldTown\EventBuss\EventBussManager
+ * @package OldTown\EventBuss\EventBussManagerFacade
  */
 class EventBussManagerFactory implements FactoryInterface, MutableCreationOptionsInterface
 {
@@ -25,7 +25,8 @@ class EventBussManagerFactory implements FactoryInterface, MutableCreationOption
      * Create service
      *
      * @param ServiceLocatorInterface $serviceLocator
-     * @return EventBussManager
+     *
+*@return EventBussManagerFacade
      *
      * @throws \OldTown\EventBuss\EventBussManager\Exception\InvalidEventBussManagerConfigException
      * @throws \Zend\ServiceManager\Exception\ServiceNotFoundException
@@ -55,7 +56,7 @@ class EventBussManagerFactory implements FactoryInterface, MutableCreationOption
         /** @var EventBussDriverInterface $driver */
         $driver = $appServiceLocator->get("eventbuss.driver.{$driverName}");
 
-        $eventBussManager = new EventBussManager($driver);
+        $eventBussManager = new EventBussManagerFacade($driver);
 
         return $eventBussManager;
     }

@@ -7,18 +7,18 @@ namespace OldTown\EventBuss\PhpUnitTest\EventBussManager;
 
 use OldTown\EventBuss\EventBussManager\EventBussPluginManager;
 use Zend\Test\PHPUnit\Controller\AbstractHttpControllerTestCase;
-use OldTown\EventBuss\EventBussManager\EventBussManager;
+
 
 
 /**
  * Class EventBussPluginManagerTest
  *
- * @package OldTown\EventBuss\PhpUnitTest\EventBussManager
+ * @package OldTown\EventBuss\PhpUnitTest\EventBussManagerFacade
  */
 class EventBussPluginManagerTest extends AbstractHttpControllerTestCase
 {
     /**
-     * Проверка создания не валидного EventBussManager
+     * Проверка создания не валидного EventBussManagerFacade
      *
      * @expectedException \OldTown\EventBuss\EventBussManager\Exception\InvalidEventBussManagerException
      * @expectedExceptionMessage EventBussManager должен реализовывать OldTown\EventBuss\EventBussManager\EventBussManagerInterface

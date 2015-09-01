@@ -8,11 +8,11 @@ namespace OldTown\EventBuss\EventBussManager;
 use OldTown\EventBuss\Driver\EventBussDriverInterface;
 
 /**
- * Class EventBussManager
+ * Class EventBussManagerFacade
  *
- * @package OldTown\EventBuss\EventBussManager
+ * @package OldTown\EventBuss\EventBussManagerFacade
  */
-class EventBussManager implements EventBussManagerInterface
+class EventBussManagerFacade implements EventBussManagerInterface
 {
     /**
      * @var EventBussDriverInterface

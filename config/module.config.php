@@ -7,7 +7,7 @@ use OldTown\EventBuss\Driver\EventBussDriverAbstractFactory;
 use OldTown\EventBuss\Driver\EventBussDriverPluginManager;
 use OldTown\EventBuss\Driver\EventBussDriverPluginManagerFactory;
 use OldTown\EventBuss\Driver\RabbitMqDriver;
-use OldTown\EventBuss\EventBussManager\EventBussManager;
+use OldTown\EventBuss\EventBussManager\EventBussManagerFacade;
 use OldTown\EventBuss\EventBussManager\EventBussManagerAbstractFactory;
 use OldTown\EventBuss\EventBussManager\EventBussManagerFactory;
 use OldTown\EventBuss\EventBussManager\EventBussPluginManager;
@@ -35,10 +35,10 @@ return [
     ],
     'event_buss_manager' => [
         'factories' => [
-            EventBussManager::class => EventBussManagerFactory::class,
+            EventBussManagerFacade::class => EventBussManagerFactory::class,
         ],
         'aliases' => [
-            'default' => EventBussManager::class
+            'default' => EventBussManagerFacade::class
         ]
     ],
     'event_buss_driver' => [

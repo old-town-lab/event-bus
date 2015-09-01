@@ -9,9 +9,9 @@ use Zend\ServiceManager\AbstractPluginManager;
 
 
 /**
- * Class EventBussManager
+ * Class EventBussManagerFacade
  *
- * @package OldTown\EventBuss\EventBussManager
+ * @package OldTown\EventBuss\EventBussManagerFacade
  */
 class EventBussPluginManager extends AbstractPluginManager
 {

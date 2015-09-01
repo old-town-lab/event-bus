@@ -10,7 +10,7 @@ use OldTown\EventBuss\Driver\EventBussDriverInterface;
 /**
  * Interface EventBussManagerInterface
  *
- * @package OldTown\EventBuss\EventBussManager
+ * @package OldTown\EventBuss\EventBussManagerFacade
  */
 interface EventBussManagerInterface
 {

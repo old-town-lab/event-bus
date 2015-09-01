@@ -12,7 +12,7 @@ use Zend\Test\PHPUnit\Controller\AbstractHttpControllerTestCase;
 /**
  * Class EventBussDriverAbstractFactoryTest
  *
- * @package OldTown\EventBuss\PhpUnitTest\EventBussManager
+ * @package OldTown\EventBuss\PhpUnitTest\EventBussManagerFacade
  */
 class EventBussDriverAbstractFactoryTest extends AbstractHttpControllerTestCase
 {

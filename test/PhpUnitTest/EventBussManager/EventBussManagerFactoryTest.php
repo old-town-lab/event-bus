@@ -7,7 +7,7 @@ namespace OldTown\EventBuss\PhpUnitTest\EventBussManager;
 
 use Zend\Test\PHPUnit\Controller\AbstractHttpControllerTestCase;
 use OldTown\EventBuss\EventBussManager\EventBussPluginManager;
-use OldTown\EventBuss\EventBussManager\EventBussManager;
+use OldTown\EventBuss\EventBussManager\EventBussManagerFacade;
 use Zend\ServiceManager\Exception\ExceptionInterface as ServiceManagerException;
 use OldTown\EventBuss\EventBussManager\Exception\InvalidEventBussManagerConfigException;
 use OldTown\EventBuss\EventBussManager\EventBussManagerFactory;
@@ -17,12 +17,12 @@ use Zend\ServiceManager\ServiceLocatorInterface;
 /**
  * Class EventBussManagerFactoryTest
  *
- * @package OldTown\EventBuss\PhpUnitTest\EventBussManager
+ * @package OldTown\EventBuss\PhpUnitTest\EventBussManagerFacade
  */
 class EventBussManagerFactoryTest extends AbstractHttpControllerTestCase
 {
     /**
-     * Создаем стандартного EventBussManager
+     * Создаем стандартного EventBussManagerFacade
      *
      */
     public function testCreateEventBussDefaultManager()
@@ -40,12 +40,12 @@ class EventBussManagerFactoryTest extends AbstractHttpControllerTestCase
         ];
         $eventBussManager = $eventBussPluginManager->get('default', $config);
 
-        static::assertInstanceOf(EventBussManager::class, $eventBussManager);
+        static::assertInstanceOf(EventBussManagerFacade::class, $eventBussManager);
     }
 
 
     /**
-     *  Создаем стандартного EventBussManager. Отсутствует секция driver в конфиге
+     *  Создаем стандартного EventBussManagerFacade. Отсутствует секция driver в конфиге
      *
      */
     public function testCreateEventBussDefaltManagerSectionOfTheDriverIsAbsent()
@@ -75,7 +75,7 @@ class EventBussManagerFactoryTest extends AbstractHttpControllerTestCase
      * @expectedException \OldTown\EventBuss\EventBussManager\Exception\RuntimeException
      * @expectedExceptionMessage Не удалось получить ServiceLocator
      *
-     *  Создаем стандартного EventBussManager. Отсуттсвует сервис локатор приложения
+     *  Создаем стандартного EventBussManagerFacade. Отсуттсвует сервис локатор приложения
      *
      */
     public function testCreateEventBussDefaltManagerNoServiceLocatorApp()

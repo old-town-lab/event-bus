@@ -22,7 +22,7 @@ class ModuleOptions extends AbstractOptions
     protected $connection;
 
     /**
-     * Конфигурация EventBussManager
+     * Конфигурация EventBussManagerFacade
      *
      * @var  array
      */

@@ -11,7 +11,7 @@ use Zend\ServiceManager\AbstractPluginManager;
 /**
  * Class EventBussDriverPluginManager
  *
- * @package OldTown\EventBuss\EventBussManager
+ * @package OldTown\EventBuss\EventBussManagerFacade
  */
 class EventBussDriverPluginManager extends AbstractPluginManager
 {

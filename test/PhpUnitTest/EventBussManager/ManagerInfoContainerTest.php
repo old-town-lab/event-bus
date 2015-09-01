@@ -12,7 +12,7 @@ use PHPUnit_Framework_TestCase;
 /**
  * Class ManagerInfoContainerTest
  *
- * @package OldTown\EventBuss\PhpUnitTest\EventBussManager
+ * @package OldTown\EventBuss\PhpUnitTest\EventBussManagerFacade
  */
 class ManagerInfoContainerTest extends PHPUnit_Framework_TestCase
 {

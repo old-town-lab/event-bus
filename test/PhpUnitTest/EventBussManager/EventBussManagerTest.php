@@ -8,18 +8,18 @@ namespace OldTown\EventBuss\PhpUnitTest\EventBussManager;
 use OldTown\EventBuss\EventBussManager\EventBussManagerInterface;
 use Zend\Test\PHPUnit\Controller\AbstractHttpControllerTestCase;
 use OldTown\EventBuss\EventBussManager\EventBussPluginManager;
-use OldTown\EventBuss\EventBussManager\EventBussManager;
+use OldTown\EventBuss\EventBussManager\EventBussManagerFacade;
 use OldTown\EventBuss\Driver\EventBussDriverInterface;
 
 /**
  * Class EventBussManagerTest
  *
- * @package OldTown\EventBuss\PhpUnitTest\EventBussManager
+ * @package OldTown\EventBuss\PhpUnitTest\EventBussManagerFacade
  */
 class EventBussManagerTest extends AbstractHttpControllerTestCase
 {
     /**
-     * Создаем стандартного EventBussManager
+     * Создаем стандартного EventBussManagerFacade
      *
      */
     public function testCreateEventBussDefaultManager()
@@ -38,7 +38,7 @@ class EventBussManagerTest extends AbstractHttpControllerTestCase
         /** @var EventBussManagerInterface $eventBussManager */
         $eventBussManager = $eventBussPluginManager->get('default', $config);
 
-        static::assertInstanceOf(EventBussManager::class, $eventBussManager);
+        static::assertInstanceOf(EventBussManagerFacade::class, $eventBussManager);
 
         static::assertInstanceOf(EventBussDriverInterface::class, $eventBussManager->getDriver());
     }

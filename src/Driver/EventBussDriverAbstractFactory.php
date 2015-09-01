@@ -17,7 +17,7 @@ use OldTown\EventBuss\Module;
 class EventBussDriverAbstractFactory implements AbstractFactoryInterface
 {
     /**
-     * Контейнеры с информацие о EventBussManager
+     * Контейнеры с информацие о EventBussManagerFacade
      *
      * @var DriverConfig[]
      */

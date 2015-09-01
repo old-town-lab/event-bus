@@ -17,6 +17,8 @@ class RabbitMqDriver extends AbstractDriver implements ConnectionDriverInterface
 {
     use ConnectionDriverTrait;
 
+    protected $driverName;
+
     /**
      * Trigger an event
      *
