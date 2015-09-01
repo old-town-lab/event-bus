@@ -127,7 +127,7 @@ class DriverChain extends  AbstractDriver
      */
     protected function buildDriversFromConfig(array $config = [])
     {
-        foreach ($config as $driverConfigArray) {
+        foreach ($config as $key => $driverConfigArray) {
             $driverConfig = new DriverConfig($driverConfigArray);
 
             try {

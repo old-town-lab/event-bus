@@ -173,7 +173,12 @@ class DriverConfig
      */
     public function setConnection($connection)
     {
-        if (!settype($connection, 'string')) {
+        try {
+            $flag = settype($connection, 'string');
+        } catch (\Exception $e) {
+            $flag = false;
+        }
+        if (!$flag) {
             $errMsg = 'Имя соеденения должно быть строкой';
             throw new Exception\InvalidArgumentException($errMsg);
         }

@@ -92,4 +92,20 @@ class DriverConfigTest extends PHPUnit_Framework_TestCase
 
         static::assertEquals($expectedPluginConfig, $actualPluginConfig);
     }
+
+
+    /**
+     * Проверка генерации конфига
+     *
+     * @expectedException \OldTown\EventBuss\Driver\Exception\InvalidArgumentException
+     * @expectedExceptionMessage Имя соеденения должно быть строкой
+     */
+    public function testSetConnectionNotString()
+    {
+        $options = [
+            DriverConfig::PLUGIN_NAME       => 'test',
+            DriverConfig::CONNECTION        => []
+        ];
+        new DriverConfig($options);
+    }
 }
