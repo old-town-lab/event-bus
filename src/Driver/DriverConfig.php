@@ -31,7 +31,11 @@ class DriverConfig
      * @var string
      */
     const CONNECTION_CONFIG = 'connectionConfig';
-
+    /**
+     *
+     * @var string
+     */
+    const EXTRA_OPTIONS = 'extraOptions';
     /**
      * Имя плагина зарегестрированного в EventBussDriverManager
      *
@@ -61,6 +65,13 @@ class DriverConfig
     protected $connectionConfig = [];
 
     /**
+     * Настройки специфичные для конкретного драйвера
+     *
+     * @var array
+     */
+    protected $extraOptions = [];
+
+    /**
      * @param array $config
      *
      * @throws \OldTown\EventBuss\Driver\Exception\InvalidEventBussDriverConfigException
@@ -84,17 +95,44 @@ class DriverConfig
             throw new Exception\InvalidEventBussDriverConfigException($errMsg);
         }
         $this->setPluginName($config[static::PLUGIN_NAME]);
+        unset($config[static::PLUGIN_NAME]);
 
         if (array_key_exists(static::DRIVERS, $config) && is_array($config[static::DRIVERS])) {
             $this->setDrivers($config[static::DRIVERS]);
+            unset($config[static::DRIVERS]);
         }
         if (array_key_exists(static::CONNECTION, $config)) {
             $this->setConnection($config[static::CONNECTION]);
+            unset($config[static::CONNECTION]);
         }
         if (array_key_exists(static::CONNECTION_CONFIG, $config) && is_array($config[static::CONNECTION_CONFIG])) {
             $this->setConnectionConfig($config[static::CONNECTION_CONFIG]);
+            unset($config[static::CONNECTION_CONFIG]);
         }
+
+        $this->setExtraOptions($config);
     }
+
+    /**
+     * @return array
+     */
+    public function getExtraOptions()
+    {
+        return $this->extraOptions;
+    }
+
+    /**
+     * @param array $extraOptions
+     *
+     * @return $this
+     */
+    public function setExtraOptions(array $extraOptions = [])
+    {
+        $this->extraOptions = $extraOptions;
+
+        return $this;
+    }
+
 
     /**
      * @return array
@@ -189,6 +227,8 @@ class DriverConfig
 
 
     /**
+     * Конфиг  с найстройкой драйвера шины событий
+     *
      * @return array
      */
     public function getPluginConfig()
@@ -196,7 +236,8 @@ class DriverConfig
         $config = [
             static::DRIVERS => $this->getDrivers(),
             static::CONNECTION => $this->getConnection(),
-            static::CONNECTION_CONFIG => $this->getConnectionConfig()
+            static::CONNECTION_CONFIG => $this->getConnectionConfig(),
+            static::EXTRA_OPTIONS => $this->getExtraOptions()
         ];
 
         return $config;

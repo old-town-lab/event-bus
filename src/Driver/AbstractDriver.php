@@ -23,6 +23,13 @@ abstract class AbstractDriver implements EventBussDriverInterface
     protected $driverOptions = [];
 
     /**
+     * Настройки специфичные для конкретного драйвера
+     *
+     * @var array
+     */
+    protected $extraOptions = [];
+
+    /**
      * @param array|Traversable $options
      *
      * @throws \Zend\Stdlib\Exception\InvalidArgumentException
@@ -63,5 +70,35 @@ abstract class AbstractDriver implements EventBussDriverInterface
     public function getDriverOptions()
     {
         return $this->driverOptions;
+    }
+
+    /**
+     * @return array
+     */
+    public function getExtraOptions()
+    {
+        if ($this->extraOptions) {
+            return $this->extraOptions;
+        }
+        $driverOption = $this->getDriverOptions();
+        $extraOptions = [];
+        if (array_key_exists(DriverConfig::EXTRA_OPTIONS, $driverOption) && is_array($driverOption[DriverConfig::EXTRA_OPTIONS])) {
+            $extraOptions = $driverOption[DriverConfig::EXTRA_OPTIONS];
+        }
+        $this->extraOptions = $extraOptions;
+
+        return $this->extraOptions;
+    }
+
+    /**
+     * @param array $extraOptions
+     *
+     * @return $this
+     */
+    public function setExtraOptions(array $extraOptions = [])
+    {
+        $this->extraOptions = $extraOptions;
+
+        return $this;
     }
 }

@@ -10,6 +10,6 @@ namespace OldTown\EventBuss\Driver\RabbitMqDriver\Adapter;
  *
  * @package OldTown\EventBuss\Driver\RabbitMqDriver\Adapter
  */
-class AmqpPhpExtension
+class AmqpPhpExtension extends AbstractAdapter
 {
 }

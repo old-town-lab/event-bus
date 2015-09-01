@@ -73,6 +73,9 @@ class DriverConfigTest extends PHPUnit_Framework_TestCase
                 'param' => [
                     'test' => 'test'
                 ]
+            ],
+            'example' => [
+                'test' => 'test'
             ]
         ];
         $driverConfig = new DriverConfig($options);
@@ -85,6 +88,11 @@ class DriverConfigTest extends PHPUnit_Framework_TestCase
             DriverConfig::CONNECTION        => 'test-connection-name',
             DriverConfig::CONNECTION_CONFIG => [
                 'param' => [
+                    'test' => 'test'
+                ]
+            ],
+            DriverConfig::EXTRA_OPTIONS => [
+                'example' => [
                     'test' => 'test'
                 ]
             ]

@@ -5,8 +5,10 @@
  */
 namespace OldTown\EventBuss\Driver;
 
+use OldTown\EventBuss\Driver\RabbitMqDriver\Adapter\AmqpPhpExtension;
 use Zend\EventManager\EventInterface;
 use Zend\EventManager\ResponseCollection;
+use \OldTown\EventBuss\Driver\RabbitMqDriver\Adapter\AdapterInterface;
 
 /**
  * Class RabbitMqDriver
@@ -17,7 +19,33 @@ class RabbitMqDriver extends AbstractDriver implements ConnectionDriverInterface
 {
     use ConnectionDriverTrait;
 
-    protected $driverName;
+    /**
+     * Имя секции в extraOptions содержащее имя драйвера
+     *
+     * @var string
+     */
+    const ADAPTER = 'adapter';
+
+    /**
+     * Имя адаптера по умолчанию
+     *
+     * @var string
+     */
+    protected static $defaultAdapterName = AmqpPhpExtension::class;
+
+    /**
+     * Имя используемого адаптера
+     *
+     * @var string
+     */
+    protected $adapterName;
+
+    /**
+     * Адаптер для работы с RabbitMq
+     *
+     * @var AdapterInterface
+     */
+    protected $adapter;
 
     /**
      * Trigger an event
@@ -37,5 +65,61 @@ class RabbitMqDriver extends AbstractDriver implements ConnectionDriverInterface
      */
     public function trigger($event, $target = null, $argv = [], $callback = null)
     {
+    }
+
+    /**
+     * Возвращает имя используемого адаптера
+     *
+     * @return string
+     *
+     * @throws \OldTown\EventBuss\Driver\Exception\InvalidAdapterNameException
+     */
+    public function getAdapterName()
+    {
+        if ($this->adapterName) {
+            return $this->adapterName;
+        }
+
+        $extraOptions = $this->getExtraOptions();
+
+        $adapterName = static::$defaultAdapterName;
+        if (array_key_exists(static::ADAPTER, $extraOptions)) {
+            $adapterName = $extraOptions[static::ADAPTER];
+            if (!class_exists($adapterName)) {
+                $errMsg = sprintf('Отсутствует класс адаптера %s', $adapterName);
+                throw new Exception\InvalidAdapterNameException($errMsg);
+            }
+            if (!array_key_exists(AdapterInterface::class, class_implements($adapterName))) {
+                $errMsg = sprintf('Адаптер должен реализовывать %s', AdapterInterface::class);
+                throw new Exception\InvalidAdapterNameException($errMsg);
+            }
+        }
+
+        $this->adapterName = $adapterName;
+        return $this->adapterName;
+    }
+
+    /**
+     * Возвращает адаптер для работы с сервером очередей
+     *
+     * @return AdapterInterface
+     *
+     * @throws \OldTown\EventBuss\Driver\Exception\InvalidEventBussDriverConfigException
+     * @throws \OldTown\EventBuss\Driver\Exception\InvalidAdapterNameException
+     */
+    public function getAdapter()
+    {
+        if ($this->adapter) {
+            return $this->adapter;
+        }
+
+        $connections = $this->getConnectionConfig();
+        $adapterName = $this->getAdapterName();
+
+        $adapter = new $adapterName($connections);
+
+        $this->adapter = $adapter;
+
+        return $this->adapter;
     }
 }

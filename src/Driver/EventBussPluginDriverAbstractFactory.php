@@ -67,7 +67,7 @@ class EventBussPluginDriverAbstractFactory implements AbstractFactoryInterface, 
             throw new Exception\RuntimeException($errMsg);
         }
 
-        if (array_key_exists(DriverConfig::CONNECTION, $options)) {
+        if (array_key_exists(DriverConfig::CONNECTION, $options) && is_string($options[DriverConfig::CONNECTION])) {
             $connectionName = $options[DriverConfig::CONNECTION];
 
             /** @var Module $module */

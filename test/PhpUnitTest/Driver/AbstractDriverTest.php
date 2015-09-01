@@ -6,6 +6,7 @@
 namespace OldTown\EventBuss\PhpUnitTest\Driver;
 
 use OldTown\EventBuss\Driver\AbstractDriver;
+use OldTown\EventBuss\Driver\DriverConfig;
 use PHPUnit_Framework_TestCase;
 use Zend\Stdlib\Parameters;
 
@@ -65,5 +66,47 @@ class AbstractDriverTest extends PHPUnit_Framework_TestCase
             'options' => 'invalid-options'
         ];
         $this->getMockForAbstractClass(AbstractDriver::class, $arg);
+    }
+
+    /**
+     * Создание драйвера, установка опций специфичных для конкретного драйвера
+     *
+     */
+    public function testSetExtraOptions()
+    {
+        /** @var AbstractDriver $driver */
+        $driver = $this->getMockForAbstractClass(AbstractDriver::class);
+
+        $expected = [
+            'test' => 'test'
+        ];
+        $driver->setExtraOptions($expected);
+        $actual = $driver->getExtraOptions();
+
+        static::assertEquals($expected, $actual);
+    }
+
+    /**
+     * Создание драйвера, установка опций специфичных для конкретного драйвера. Установка производится через констуктор
+     *
+     */
+    public function testSetExtraOptionsFromConfig()
+    {
+        $expected = [
+            'test' => 'test'
+        ];
+        $arg = [
+            'options' => [
+                DriverConfig::EXTRA_OPTIONS => $expected
+            ]
+        ];
+        /** @var AbstractDriver $driver */
+        $driver = $this->getMockForAbstractClass(AbstractDriver::class, $arg);
+
+
+        $driver->setExtraOptions($expected);
+        $actual = $driver->getExtraOptions();
+
+        static::assertEquals($expected, $actual);
     }
 }
