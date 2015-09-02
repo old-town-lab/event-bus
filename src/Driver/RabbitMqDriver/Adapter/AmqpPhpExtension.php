@@ -12,4 +12,12 @@ namespace OldTown\EventBuss\Driver\RabbitMqDriver\Adapter;
  */
 class AmqpPhpExtension extends AbstractAdapter
 {
+    /**
+     * Инициализация шины
+     *
+     * @param $metadata
+     */
+    public function initEventBuss($metadata)
+    {
+    }
 }

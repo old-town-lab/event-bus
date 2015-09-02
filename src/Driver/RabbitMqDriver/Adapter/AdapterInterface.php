@@ -12,4 +12,10 @@ namespace OldTown\EventBuss\Driver\RabbitMqDriver\Adapter;
  */
 interface AdapterInterface
 {
+    /**
+     * Инициализация шины
+     *
+     * @param $metadata
+     */
+    public function initEventBuss($metadata);
 }

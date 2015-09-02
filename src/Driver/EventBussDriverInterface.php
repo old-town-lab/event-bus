@@ -48,4 +48,11 @@ interface EventBussDriverInterface
      * @return $this
      */
     public function setOptions(array $options = []);
+
+    /**
+     * Инициализация шины
+     *
+     * @return void
+     */
+    public function initEventBuss();
 }

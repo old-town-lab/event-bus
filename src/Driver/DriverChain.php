@@ -142,4 +142,18 @@ class DriverChain extends  AbstractDriver
             }
         }
     }
+
+
+    /**
+     * Инициализация шины
+     *
+     * @return void
+     */
+    public function initEventBuss()
+    {
+        $drivers = $this->getDrivers();
+        foreach ($drivers as $driver) {
+            $driver->initEventBuss();
+        }
+    }
 }

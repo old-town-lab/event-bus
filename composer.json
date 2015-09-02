@@ -32,6 +32,7 @@
     "zendframework/zend-serializer": "~2.4.0",
     "zendframework/zend-log": "~2.4.0",
     "zendframework/zend-i18n": "~2.4.0",
+    "zendframework/zend-code": "~2.4.0",
     "satooshi/php-coveralls": "dev-master"
   },
   "autoload": {

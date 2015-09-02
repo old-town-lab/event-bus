@@ -15,9 +15,9 @@ use \OldTown\EventBuss\Driver\RabbitMqDriver\Adapter\AdapterInterface;
  *
  * @package OldTown\EventBuss\Driver
  */
-class RabbitMqDriver extends AbstractDriver implements ConnectionDriverInterface
+class RabbitMqDriver extends AbstractDriver implements ConnectionDriverInterface, PathsInterface
 {
-    use ConnectionDriverTrait;
+    use ConnectionDriverTrait, PathsTrait;
 
     /**
      * Имя секции в extraOptions содержащее имя драйвера
@@ -46,6 +46,7 @@ class RabbitMqDriver extends AbstractDriver implements ConnectionDriverInterface
      * @var AdapterInterface
      */
     protected $adapter;
+
 
     /**
      * Trigger an event
@@ -121,5 +122,19 @@ class RabbitMqDriver extends AbstractDriver implements ConnectionDriverInterface
         $this->adapter = $adapter;
 
         return $this->adapter;
+    }
+
+
+    /**
+     * Инициализация шины
+     *
+     * @return void
+     *
+     * @throws \OldTown\EventBuss\Driver\Exception\InvalidEventBussDriverConfigException
+     * @throws \OldTown\EventBuss\Driver\Exception\InvalidAdapterNameException
+     */
+    public function initEventBuss()
+    {
+        $paths = $this->getPaths();
     }
 }

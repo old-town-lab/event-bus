@@ -37,6 +37,12 @@ class DriverConfig
      */
     const EXTRA_OPTIONS = 'extraOptions';
     /**
+     *
+     * @var string
+     */
+    const PATHS = 'paths';
+
+    /**
      * Имя плагина зарегестрированного в EventBussDriverManager
      *
      * @var string
@@ -70,6 +76,13 @@ class DriverConfig
      * @var array
      */
     protected $extraOptions = [];
+
+    /**
+     * Путь до директории в которой расположенны классы описывающие сообещния передаваемые по шине
+     *
+     * @var array
+     */
+    protected $paths = [];
 
     /**
      * @param array $config
@@ -109,8 +122,32 @@ class DriverConfig
             $this->setConnectionConfig($config[static::CONNECTION_CONFIG]);
             unset($config[static::CONNECTION_CONFIG]);
         }
+        if (array_key_exists(static::PATHS, $config) && is_array($config[static::PATHS])) {
+            $this->setPaths($config[static::PATHS]);
+            unset($config[static::PATHS]);
+        }
 
         $this->setExtraOptions($config);
+    }
+
+    /**
+     * @return array
+     */
+    public function getPaths()
+    {
+        return $this->paths;
+    }
+
+    /**
+     * @param array $paths
+     *
+     * @return $this
+     */
+    public function setPaths(array $paths = [])
+    {
+        $this->paths = $paths;
+
+        return $this;
     }
 
     /**
@@ -237,7 +274,8 @@ class DriverConfig
             static::DRIVERS => $this->getDrivers(),
             static::CONNECTION => $this->getConnection(),
             static::CONNECTION_CONFIG => $this->getConnectionConfig(),
-            static::EXTRA_OPTIONS => $this->getExtraOptions()
+            static::EXTRA_OPTIONS => $this->getExtraOptions(),
+            static::PATHS => $this->getPaths()
         ];
 
         return $config;
