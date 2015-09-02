@@ -6,14 +6,14 @@
 namespace OldTown\EventBuss\MetadataReader;
 
 /**
- * Class AnnotationReader
+ * Interface EventBussMetadataReaderProviderInterface
  *
  * @package OldTown\EventBuss\MetadataReader
  */
-class  AnnotationReader implements ReaderInterface
+interface EventBussMetadataReaderProviderInterface
 {
     /**
-     * @var
+     * @return array
      */
-    protected $reader;
+    public function getEventBussMetadataReaderConfig();
 }

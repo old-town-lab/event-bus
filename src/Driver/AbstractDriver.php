@@ -7,6 +7,8 @@ namespace OldTown\EventBuss\Driver;
 
 use Traversable;
 use Zend\Stdlib\ArrayUtils;
+use OldTown\EventBuss\MetadataReader\EventBussMetadataReaderPluginManager;
+
 
 /**
  * Class AbstractDriver
@@ -30,12 +32,14 @@ abstract class AbstractDriver implements EventBussDriverInterface
     protected $extraOptions = [];
 
     /**
-     * @param array|Traversable $options
+     * @param array|Traversable                    $options
      *
-     * @throws \Zend\Stdlib\Exception\InvalidArgumentException
+     * @param EventBussMetadataReaderPluginManager $metadataReaderPluginManager
+     *
      * @throws \OldTown\EventBuss\Driver\Exception\InvalidArgumentException
+     * @throws \Zend\Stdlib\Exception\InvalidArgumentException
      */
-    public function __construct($options = null)
+    public function __construct($options = null, EventBussMetadataReaderPluginManager $metadataReaderPluginManager = null)
     {
         if (null === $options) {
             $options = [];
@@ -45,12 +49,19 @@ abstract class AbstractDriver implements EventBussDriverInterface
             $options = ArrayUtils::iteratorToArray($options);
         }
         if (!is_array($options)) {
-            throw new Exception\InvalidArgumentException('Некорректное значение опций');
+            $errMsg = 'Некорректное значение опций';
+            throw new Exception\InvalidArgumentException($errMsg);
         }
 
         $this->setOptions($options);
         $this->driverOptions = $options;
+
+        if ($this instanceof MetadataReaderInterface) {
+            $this->setMetadataReaderPluginManager($metadataReaderPluginManager);
+        }
     }
+
+
 
     /**
      * @param array $options

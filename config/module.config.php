@@ -12,10 +12,12 @@ use OldTown\EventBuss\EventBussManager\EventBussManagerAbstractFactory;
 use OldTown\EventBuss\EventBussManager\EventBussManagerFactory;
 use OldTown\EventBuss\EventBussManager\EventBussPluginManager;
 use OldTown\EventBuss\EventBussManager\EventBussPluginManagerFactory;
+use OldTown\EventBuss\MetadataReader\EventBussMetadataReaderPluginManager;
+use OldTown\EventBuss\MetadataReader\EventBussMetadataReaderPluginManagerFactory;
 use OldTown\EventBuss\Options\ModuleOptions;
 use OldTown\EventBuss\Options\ModuleOptionsFactory;
 use OldTown\EventBuss\Driver\EventBussPluginDriverAbstractFactory;
-
+use OldTown\EventBuss\Driver\RabbitMqDriver\MetadataReader\AnnotationReader;
 
 return [
     'service_manager' => [
@@ -26,11 +28,13 @@ return [
         'factories' => [
             ModuleOptions::class => ModuleOptionsFactory::class,
             EventBussPluginManager::class => EventBussPluginManagerFactory::class,
-            EventBussDriverPluginManager::class => EventBussDriverPluginManagerFactory::class
+            EventBussDriverPluginManager::class => EventBussDriverPluginManagerFactory::class,
+            EventBussMetadataReaderPluginManager::class => EventBussMetadataReaderPluginManagerFactory::class
         ],
         'aliases' => [
             'eventBussPluginManager' => EventBussPluginManager::class,
-            'eventBussDriverManager' => EventBussDriverPluginManager::class
+            'eventBussDriverManager' => EventBussDriverPluginManager::class,
+            'eventBussMetadataReaderManager' => EventBussMetadataReaderPluginManager::class
         ]
     ],
     'event_buss_manager' => [
@@ -51,6 +55,11 @@ return [
         'aliases' => [
             'chain' => DriverChain::class,
             'rabbit' => RabbitMqDriver::class
+        ]
+    ],
+    'event_buss_metadata_reader' => [
+        'invokables' => [
+            AnnotationReader::class => AnnotationReader::class
         ]
     ],
 

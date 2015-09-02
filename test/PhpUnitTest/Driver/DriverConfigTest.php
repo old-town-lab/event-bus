@@ -76,6 +76,10 @@ class DriverConfigTest extends PHPUnit_Framework_TestCase
             ],
             'example' => [
                 'test' => 'test'
+            ],
+            DriverConfig::METADATA_READER => 'test-metadata0reader',
+            DriverConfig::PATHS => [
+                __DIR__
             ]
         ];
         $driverConfig = new DriverConfig($options);
@@ -95,6 +99,10 @@ class DriverConfigTest extends PHPUnit_Framework_TestCase
                 'example' => [
                     'test' => 'test'
                 ]
+            ],
+            DriverConfig::METADATA_READER => 'test-metadata0reader',
+            DriverConfig::PATHS => [
+                __DIR__
             ]
         ];
 

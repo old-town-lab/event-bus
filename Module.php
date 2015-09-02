@@ -7,6 +7,7 @@ namespace OldTown\EventBuss;
 
 
 use OldTown\EventBuss\Driver\EventBussDriverProviderInterface;
+use OldTown\EventBuss\MetadataReader\EventBussMetadataReaderProviderInterface;
 use OldTown\EventBuss\Options\ModuleOptions;
 use OldTown\EventBuss\EventBussManager\EventBussManagerProviderInterface;
 use Zend\Mvc\ModuleRouteListener;
@@ -129,6 +130,12 @@ class Module implements
             'event_buss_driver',
             EventBussDriverProviderInterface::class,
             'getEventBussDriverConfig'
+        );
+        $serviceListener->addServiceManager(
+            'eventBussMetadataReaderManager',
+            'event_buss_metadata_reader',
+            EventBussMetadataReaderProviderInterface::class,
+            'getEventBussMetadataReaderConfig'
         );
     }
 } 

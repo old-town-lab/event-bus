@@ -8,16 +8,18 @@ namespace OldTown\EventBuss\Driver;
 use OldTown\EventBuss\Driver\RabbitMqDriver\Adapter\AmqpPhpExtension;
 use Zend\EventManager\EventInterface;
 use Zend\EventManager\ResponseCollection;
-use \OldTown\EventBuss\Driver\RabbitMqDriver\Adapter\AdapterInterface;
+use OldTown\EventBuss\Driver\RabbitMqDriver\Adapter\AdapterInterface;
+use OldTown\EventBuss\Driver\RabbitMqDriver\MetadataReader\AnnotationReader;
+
 
 /**
  * Class RabbitMqDriver
  *
  * @package OldTown\EventBuss\Driver
  */
-class RabbitMqDriver extends AbstractDriver implements ConnectionDriverInterface, PathsInterface
+class RabbitMqDriver extends AbstractDriver implements ConnectionDriverInterface, MetadataReaderInterface
 {
-    use ConnectionDriverTrait, PathsTrait;
+    use ConnectionDriverTrait, MetadataReaderTrait;
 
     /**
      * Имя секции в extraOptions содержащее имя драйвера
@@ -47,6 +49,13 @@ class RabbitMqDriver extends AbstractDriver implements ConnectionDriverInterface
      */
     protected $adapter;
 
+
+    /**
+     * Должно реализовываться к конкретном классе
+     *
+     * @var string
+     */
+    protected $defaultMetadataReaderName = AnnotationReader::class;
 
     /**
      * Trigger an event
@@ -132,9 +141,14 @@ class RabbitMqDriver extends AbstractDriver implements ConnectionDriverInterface
      *
      * @throws \OldTown\EventBuss\Driver\Exception\InvalidEventBussDriverConfigException
      * @throws \OldTown\EventBuss\Driver\Exception\InvalidAdapterNameException
+     * @throws \Zend\ServiceManager\Exception\ServiceNotFoundException
+     * @throws \Zend\ServiceManager\Exception\ServiceNotCreatedException
+     * @throws \Zend\ServiceManager\Exception\RuntimeException
+     * @throws \OldTown\EventBuss\Driver\Exception\InvalidMetadataReaderNameException
      */
     public function initEventBuss()
     {
         $paths = $this->getPaths();
+        $messages = $this->getMetadataReader()->getAllClassNames();
     }
 }

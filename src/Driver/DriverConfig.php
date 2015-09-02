@@ -41,6 +41,11 @@ class DriverConfig
      * @var string
      */
     const PATHS = 'paths';
+    /**
+     *
+     * @var string
+     */
+    const METADATA_READER = 'metadataReader';
 
     /**
      * Имя плагина зарегестрированного в EventBussDriverManager
@@ -85,6 +90,13 @@ class DriverConfig
     protected $paths = [];
 
     /**
+     * Имя ридера метаданных
+     *
+     * @var string
+     */
+    protected $metadataReader;
+
+    /**
      * @param array $config
      *
      * @throws \OldTown\EventBuss\Driver\Exception\InvalidEventBussDriverConfigException
@@ -126,9 +138,35 @@ class DriverConfig
             $this->setPaths($config[static::PATHS]);
             unset($config[static::PATHS]);
         }
+        if (array_key_exists(static::METADATA_READER, $config) && is_string($config[static::METADATA_READER])) {
+            $this->setMetadataReader($config[static::METADATA_READER]);
+            unset($config[static::METADATA_READER]);
+        }
 
         $this->setExtraOptions($config);
     }
+
+    /**
+     * @return string
+     */
+    public function getMetadataReader()
+    {
+        return $this->metadataReader;
+    }
+
+    /**
+     * @param string $metadataReader
+     *
+     * @return $this
+     */
+    public function setMetadataReader($metadataReader)
+    {
+        $this->metadataReader = (string)$metadataReader;
+
+        return $this;
+    }
+
+
 
     /**
      * @return array
@@ -275,6 +313,7 @@ class DriverConfig
             static::CONNECTION => $this->getConnection(),
             static::CONNECTION_CONFIG => $this->getConnectionConfig(),
             static::EXTRA_OPTIONS => $this->getExtraOptions(),
+            static::METADATA_READER => $this->getMetadataReader(),
             static::PATHS => $this->getPaths()
         ];
 

@@ -12,6 +12,8 @@ use Zend\ServiceManager\MutableCreationOptionsTrait;
 use Zend\ServiceManager\ServiceLocatorInterface;
 use OldTown\EventBuss\Module;
 use Zend\Stdlib\ArrayUtils;
+use OldTown\EventBuss\MetadataReader\EventBussMetadataReaderPluginManager;
+
 
 /**
  * Class ServiceAbstractFactory
@@ -93,7 +95,9 @@ class EventBussPluginDriverAbstractFactory implements AbstractFactoryInterface, 
             }
         }
 
-        $driver = new $requestedName($options);
+        $metadataReaderPluginManager = $appServiceLocator->get(EventBussMetadataReaderPluginManager::class);
+
+        $driver = new $requestedName($options, $metadataReaderPluginManager);
         return $driver;
     }
 }
