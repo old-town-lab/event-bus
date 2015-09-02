@@ -21,7 +21,7 @@
     "zendframework/zend-mvc": "~2.4.0",
     "zendframework/zend-servicemanager": "~2.4.0",
     "zendframework/zend-stdlib": "~2.4.0",
-    "doctrine/annotations":
+    "doctrine/annotations": "~1.2.0"
   },
   "require-dev": {
     "ext-mbstring": "*",
@@ -33,7 +33,6 @@
     "zendframework/zend-serializer": "~2.4.0",
     "zendframework/zend-log": "~2.4.0",
     "zendframework/zend-i18n": "~2.4.0",
-    "doctrine/annotations": "~1.2.0",
     "satooshi/php-coveralls": "dev-master"
   },
   "autoload": {
