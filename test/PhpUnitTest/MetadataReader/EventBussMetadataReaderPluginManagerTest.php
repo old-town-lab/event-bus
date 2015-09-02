@@ -5,7 +5,6 @@
  */
 namespace OldTown\EventBuss\PhpUnitTest\MetadataReader;
 
-
 use Zend\Test\PHPUnit\Controller\AbstractHttpControllerTestCase;
 use OldTown\EventBuss\MetadataReader\EventBussMetadataReaderPluginManager;
 
