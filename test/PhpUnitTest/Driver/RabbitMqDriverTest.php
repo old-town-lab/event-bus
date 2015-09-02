@@ -323,6 +323,6 @@ class RabbitMqDriverTest extends AbstractHttpControllerTestCase
         /** @var EventBussManagerFacade $eventBussManager */
         $eventBussManager = $appServiceManager->get('event_buss.manager.example');
 
-        //$eventBussManager->getDriver()->initEventBuss();
+        $eventBussManager->getDriver()->initEventBuss();
     }
 }

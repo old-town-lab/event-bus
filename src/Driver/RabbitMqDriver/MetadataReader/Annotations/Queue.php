@@ -17,7 +17,8 @@ class Queue
 {
     /**
      * @var string
+     *
      * @Required
      */
-    protected $name;
+    public $name;
 }

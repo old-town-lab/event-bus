@@ -5,6 +5,8 @@
  */
 namespace OldTown\EventBuss\Driver\RabbitMqDriver\Adapter;
 
+use \OldTown\EventBuss\Driver\RabbitMqDriver\MetadataReader\Metadata;
+
 /**
  * Interface AdapterInterface
  *
@@ -15,7 +17,7 @@ interface AdapterInterface
     /**
      * Инициализация шины
      *
-     * @param $metadata
+     * @param Metadata[] $metadata
      */
     public function initEventBuss($metadata);
 }

@@ -14,6 +14,8 @@ before_install:
 install:
   - travis_retry composer install
 
+before_script:
+  - phpenv config-add .travis/php.ini
 
 script:
   - ./vendor/bin/phpunit
@@ -22,6 +24,9 @@ script:
 after_script:
   - ./vendor/bin/phpcov merge --clover .reports/clover.xml .reports/coverage
   - ./vendor/bin/coveralls -v --config .coveralls.yml
+
+services:
+  - rabbitmq
 
 notifications:
   email:

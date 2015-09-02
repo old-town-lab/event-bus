@@ -156,9 +156,7 @@ trait MetadataReaderTrait
         $paths = $this->getPaths();
         $pluginManager = $this->getMetadataReaderPluginManager();
         $name = $this->getMetadataReaderName();
-        $reader = $pluginManager->get($name, [
-            'paths' => $paths
-        ]);
+        $reader = $pluginManager->get($name, $paths);
 
         $this->metadataReader = $reader;
 

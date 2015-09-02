@@ -10,7 +10,7 @@ use Zend\EventManager\EventInterface;
 use Zend\EventManager\ResponseCollection;
 use OldTown\EventBuss\Driver\RabbitMqDriver\Adapter\AdapterInterface;
 use OldTown\EventBuss\Driver\RabbitMqDriver\MetadataReader\AnnotationReader;
-
+use OldTown\EventBuss\Driver\RabbitMqDriver\MetadataReader\Metadata;
 
 /**
  * Class RabbitMqDriver
@@ -145,10 +145,20 @@ class RabbitMqDriver extends AbstractDriver implements ConnectionDriverInterface
      * @throws \Zend\ServiceManager\Exception\ServiceNotCreatedException
      * @throws \Zend\ServiceManager\Exception\RuntimeException
      * @throws \OldTown\EventBuss\Driver\Exception\InvalidMetadataReaderNameException
+     * @throws \OldTown\EventBuss\MetadataReader\Exception\InvalidPathException
      */
     public function initEventBuss()
     {
-        $paths = $this->getPaths();
-        $messages = $this->getMetadataReader()->getAllClassNames();
+        $reader = $this->getMetadataReader();
+        $allClassNames = $reader->getAllClassNames();
+
+        $metadataStorage = [];
+        foreach ($allClassNames as $classNames) {
+            /** @var Metadata $metadata */
+            $metadata = $reader->loadMetadataForClass($classNames);
+            $metadataStorage[$classNames] = $metadata;
+        }
+
+        $this->getAdapter()->initEventBuss($metadataStorage);
     }
 }

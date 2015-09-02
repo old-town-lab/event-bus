@@ -26,7 +26,7 @@ class EventBussMessage
     public $exchange;
 
     /**
-     * @var  array<\OldTown\EventBuss\Driver\RabbitMqDriver\MetadataReader\Annotations\BindingKey>
+     * @var array<\OldTown\EventBuss\Driver\RabbitMqDriver\MetadataReader\Annotations\BindingKey>
      */
-    public $bindingKeys;
+    public $bindingKeys = [];
 }

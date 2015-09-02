@@ -88,4 +88,11 @@ interface ReaderInterface
      * @throws \OldTown\EventBuss\MetadataReader\Exception\InvalidPathException
      */
     public function getAllClassNames();
+
+    /**
+     * @param $class
+     *
+     * @return MetadataInterface
+     */
+    public function loadMetadataForClass($class);
 }

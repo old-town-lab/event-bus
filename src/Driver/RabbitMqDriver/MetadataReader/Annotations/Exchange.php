@@ -19,5 +19,5 @@ class Exchange
      * @var string
      * @Required
      */
-    protected $name;
+    public $name;
 }

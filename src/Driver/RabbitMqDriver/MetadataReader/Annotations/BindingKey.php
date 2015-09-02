@@ -15,4 +15,8 @@ namespace OldTown\EventBuss\Driver\RabbitMqDriver\MetadataReader\Annotations;
  */
 class BindingKey
 {
+    /**
+     * @var string
+     */
+    public $name;
 }

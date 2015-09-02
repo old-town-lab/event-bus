@@ -66,7 +66,8 @@ class Bootstrap
                     'autoregister_zf' => true,
                     'namespaces' => [
                         'OldTown\\EventBuss' => __DIR__ . '/../../src/',
-                        __NAMESPACE__ => __DIR__
+                        __NAMESPACE__ => __DIR__,
+                        'OldTown\\EventBuss\\TestData' => __DIR__ . '/../_files'
                     ]
                 ]
             ]);

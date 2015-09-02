@@ -6,6 +6,7 @@
 namespace OldTown\EventBuss\MetadataReader;
 
 use Doctrine\Common\Annotations\AnnotationReader as DoctrineAnnotationReader;
+use Doctrine\Common\Annotations\AnnotationRegistry;
 
 
 /**
@@ -58,8 +59,25 @@ abstract class  AbstractAnnotationReader implements ReaderInterface
     protected $messageAnnotationClasses = [];
 
     /**
+     * Массив получаемый на основе свойства:$messageAnnotationClasses. Ключами являются и значениями, являются значения из
+     * $messageAnnotationClasses
+     *
+     * @var array|null
+     */
+    protected $messageAnnotationClassesNormalize;
+
+    /**
+     * Кеш результатов разбора натоации
+     *
+     * @var array
+     */
+    protected $classAnnotations = [];
+
+    /**
      *
      * @param array|null $paths
+     *
+     * @throws \InvalidArgumentException
      */
     public function __construct(array $paths = null)
     {
@@ -67,6 +85,9 @@ abstract class  AbstractAnnotationReader implements ReaderInterface
         if ($paths) {
             $this->addPaths($paths);
         }
+        AnnotationRegistry::registerLoader(function ($class) {
+            return (bool) class_exists($class);
+        });
     }
 
     /**
@@ -152,6 +173,35 @@ abstract class  AbstractAnnotationReader implements ReaderInterface
     }
 
     /**
+     * @return array
+     */
+    public function getMessageAnnotationClasses()
+    {
+        if ($this->messageAnnotationClassesNormalize) {
+            $this->messageAnnotationClassesNormalize;
+        }
+        $this->messageAnnotationClassesNormalize = array_combine($this->messageAnnotationClasses, $this->messageAnnotationClasses);
+
+        return $this->messageAnnotationClassesNormalize;
+    }
+
+    /**
+     * Получение анотаций для класса
+     *
+     * @param $className
+     */
+    public function getClassAnnotation($className)
+    {
+        if (array_key_exists($className, $this->classAnnotations)) {
+            return $this->classAnnotations[$className];
+        }
+
+        $classAnnotation = $this->getReader()->getClassAnnotations(new \ReflectionClass($className));
+        $this->classAnnotations[$className] = $classAnnotation;
+        return $this->classAnnotations[$className];
+    }
+
+    /**
      * Определяет является ли класс конечным в цепочке наследования. Критерий: все метаданные уже загружены
      *
 
@@ -161,10 +211,11 @@ abstract class  AbstractAnnotationReader implements ReaderInterface
      */
     public function isTransient($className)
     {
-        $classAnnotations = $this->reader->getClassAnnotations(new \ReflectionClass($className));
+        $classAnnotations = $this->getClassAnnotation($className);
 
+        $messageAnnotationClasses = $this->getMessageAnnotationClasses();
         foreach ($classAnnotations as $annot) {
-            if (array_key_exists(get_class($annot), $this->messageAnnotationClasses)) {
+            if (array_key_exists(get_class($annot), $messageAnnotationClasses)) {
                 return false;
             }
         }
@@ -231,7 +282,7 @@ abstract class  AbstractAnnotationReader implements ReaderInterface
         foreach ($declared as $className) {
             $rc = new \ReflectionClass($className);
             $sourceFile = $rc->getFileName();
-            if (array_key_exists($sourceFile, $includedFiles) && ! $this->isTransient($className)) {
+            if ($sourceFile && array_key_exists($sourceFile, $includedFiles) && ! $this->isTransient($className)) {
                 $classes[] = $className;
             }
         }

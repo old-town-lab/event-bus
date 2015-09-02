@@ -12,4 +12,18 @@ namespace OldTown\EventBuss\Driver\RabbitMqDriver\Adapter;
  */
 abstract class AbstractAdapter implements AdapterInterface
 {
+    /**
+     * Настройки соеденения
+     *
+     * @var array|null
+     */
+    protected $connectionConfig;
+
+    /**
+     * @param $connection
+     */
+    public function __construct(array $connection = [])
+    {
+        $this->connectionConfig = $connection;
+    }
 }
