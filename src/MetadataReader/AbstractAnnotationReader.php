@@ -178,7 +178,7 @@ abstract class  AbstractAnnotationReader implements ReaderInterface
     public function getMessageAnnotationClasses()
     {
         if ($this->messageAnnotationClassesNormalize) {
-            $this->messageAnnotationClassesNormalize;
+            return $this->messageAnnotationClassesNormalize;
         }
         $this->messageAnnotationClassesNormalize = array_combine($this->messageAnnotationClasses, $this->messageAnnotationClasses);
 
