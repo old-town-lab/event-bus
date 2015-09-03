@@ -306,10 +306,6 @@ class RabbitMqDriverTest extends AbstractHttpControllerTestCase
         ]);
         $module->getModuleOptions()->setEventBussManager($managerConfig);
 
-
-        $adapterMock = $this->getMock(AdapterInterface::class);
-        $adapterName = get_class($adapterMock);
-
         $driverConfig = ArrayUtils::merge($module->getModuleOptions()->getDriver(), [
             'example' => [
                 'pluginName' => RabbitMqDriver::class,
@@ -324,5 +320,44 @@ class RabbitMqDriverTest extends AbstractHttpControllerTestCase
         $eventBussManager = $appServiceManager->get('event_buss.manager.example');
 
         $eventBussManager->getDriver()->initEventBuss();
+    }
+
+
+
+    /**
+     * Тестирование бросание события
+     *
+     */
+    public function testTrigger()
+    {
+        $this->setApplicationConfig(
+            include __DIR__ . '/../../_files/application.config.php'
+        );
+
+        $appServiceManager = $this->getApplicationServiceLocator();
+        /** @var Module $module */
+        $module = $appServiceManager->get(Module::class);
+
+        $managerConfig = ArrayUtils::merge($module->getModuleOptions()->getEventBussManager(), [
+            'example' => [
+                'driver' => 'example'
+            ]
+        ]);
+        $module->getModuleOptions()->setEventBussManager($managerConfig);
+
+        $driverConfig = ArrayUtils::merge($module->getModuleOptions()->getDriver(), [
+            'example' => [
+                'pluginName' => RabbitMqDriver::class,
+                'paths' => [
+                    __DIR__ . '/../../_files/Messages'
+                ]
+            ]
+        ]);
+        $module->getModuleOptions()->setDriver($driverConfig);
+
+        /** @var EventBussManagerFacade $eventBussManager */
+        $eventBussManager = $appServiceManager->get('event_buss.manager.example');
+
+        $eventBussManager->getDriver()->trigger('test');
     }
 }

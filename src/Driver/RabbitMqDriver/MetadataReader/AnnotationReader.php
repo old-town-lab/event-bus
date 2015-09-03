@@ -51,7 +51,7 @@ class AnnotationReader extends AbstractAnnotationReader
             }
         }
         if (null === $eventBussMessageAnnotation) {
-            $errMsg = sprintf('Класс не содержит необходимы метаданных : %s', $className);
+            $errMsg = sprintf('Класс не содержит необходимых метаданных : %s', $className);
             throw new Exception\InvalidClassException($errMsg);
         }
 

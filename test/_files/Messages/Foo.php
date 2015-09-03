@@ -14,11 +14,14 @@ use OldTown\EventBuss\Driver\RabbitMqDriver\MetadataReader\Annotations as EventB
  * @package OldTown\EventBuss\TestData\Messages
  *
  * @EventBuss\EventBussMessage(
- *     queue=@EventBuss\Queue(name="test"),
- *     exchange=@EventBuss\Exchange(name="test"),
+ *     queue=@EventBuss\Queue(name="test_queue_name"),
+ *     exchange=@EventBuss\Exchange(name="test_exchange_name"),
  *     bindingKeys={
  *         @EventBuss\BindingKey(
- *             name="test"
+ *             name="test_binding_key_1"
+ *         ),
+ *         @EventBuss\BindingKey(
+ *             name="test_binding_key_2"
  *         )
  *     }
  * )

@@ -57,7 +57,7 @@ trait MetadataReaderTrait
      */
     public function getPaths()
     {
-        if ($this->paths) {
+        if (null !== $this->paths) {
             return $this->paths;
         }
 

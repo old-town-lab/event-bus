@@ -6,6 +6,7 @@
 namespace OldTown\EventBuss\PhpUnitTest\Driver;
 
 use OldTown\EventBuss\Driver\DriverConfig;
+use OldTown\EventBuss\Driver\EventBussDriverInterface;
 use OldTown\EventBuss\Driver\EventBussDriverPluginManager;
 use OldTown\EventBuss\Driver\RabbitMqDriver;
 use Zend\Test\PHPUnit\Controller\AbstractHttpControllerTestCase;
@@ -113,5 +114,56 @@ class DriverChainTest extends AbstractHttpControllerTestCase
 
         $drivers->rewind();
         static::assertInstanceOf(RabbitMqDriver::class, $drivers->current());
+    }
+
+    /**
+     * Тестирование иницализации шины. Создаем два мок объекта, имитирующих драйвера. Ожидаем что у них по одному разу
+     * будут вызванны методы initEventBuss.
+     *
+     */
+    public function testInitEventBuss()
+    {
+        $this->setApplicationConfig(
+            include __DIR__ . '/../../_files/application.config.php'
+        );
+        /** @var EventBussDriverPluginManager $eventBussDriverPluginManager */
+        $eventBussDriverPluginManager = $this->getApplicationServiceLocator()->get(EventBussDriverPluginManager::class);
+
+        /** @var DriverChain $driverChain */
+        $driverChain = $eventBussDriverPluginManager->get('chain');
+
+        $methods = get_class_methods(EventBussDriverInterface::class);
+        for ($i = 0; $i < 2; $i++) {
+            /** @var EventBussDriverInterface|PHPUnit_Framework_MockObject_MockObject $driver */
+            $driver = static::getMock(EventBussDriverInterface::class, $methods);
+            foreach ($methods as $method) {
+                if ('initEventBuss' === $method) {
+                    $driver->expects(static::once())->method($method);
+                } else {
+                    $driver->expects(static::any())->method($method);
+                }
+            }
+            $driverChain->addDriver($driver);
+        }
+
+        $driverChain->initEventBuss();
+    }
+
+    /**
+     * Тестирование бросание события
+     *
+     */
+    public function testTrigger()
+    {
+        $this->setApplicationConfig(
+            include __DIR__ . '/../../_files/application.config.php'
+        );
+        /** @var EventBussDriverPluginManager $eventBussDriverPluginManager */
+        $eventBussDriverPluginManager = $this->getApplicationServiceLocator()->get(EventBussDriverPluginManager::class);
+
+        /** @var DriverChain $driverChain */
+        $driverChain = $eventBussDriverPluginManager->get('chain');
+
+        $driverChain->trigger('test_event');
     }
 }
