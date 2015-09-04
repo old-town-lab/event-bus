@@ -6,6 +6,8 @@
 namespace OldTown\EventBuss\PhpUnitTest;
 
 use RabbitMQ\Management\APIClient;
+use RabbitMQ\Management\Entity\Exchange;
+use RabbitMQ\Management\Entity\Queue;
 
 /**
  * Class ModuleTest
@@ -30,6 +32,18 @@ trait  RabbitMqTestCaseTrait
     protected static $rabbitMqVirtualHost = '/';
 
     /**
+     * Очереди которые не удалюятся при очистки
+     *
+     * @var array
+     */
+    protected static $notDeleteExchange = [
+        'amq.rabbitmq.trace' => 'amq.rabbitmq.trace',
+        '' => ''
+    ];
+
+    /**
+     * Реализация функционала который должен вызываться перед запуском первого теста
+     *
      * @param $connection
      *
      * @throws \InvalidArgumentException
@@ -42,6 +56,8 @@ trait  RabbitMqTestCaseTrait
     }
 
     /**
+     * Инициализация клиента для работы с кролем
+     *
      * @param array $connection
      */
     protected static function initAPIClient(array $connection = [])
@@ -69,16 +85,69 @@ trait  RabbitMqTestCaseTrait
         static::$rabbitMqClient = APIClient::factory($connectionApi);
     }
 
-
-    protected function clearRabbitMqVirtualHost($virtualHost)
+    /**
+     * Выводит список очередей для заданого виртуалхоста
+     *
+     * @param $virtualHost
+     * @return Queue[]
+     */
+    protected static function  getListQueues($virtualHost)
     {
-        $listExchange = static::getRabbitMqClient()->listExchanges($virtualHost);
+        $list = [];
+        /** @var Queue[] $listQueue */
+        $listQueue = static::getRabbitMqClient()->listQueues($virtualHost);
+        foreach ($listQueue as $queue) {
+            $list[$queue->name] = $queue;
+        }
 
-
-        var_dump($listExchange);
+        return $list;
     }
 
     /**
+     * Выводит список всех обменников
+     *
+     * @param $virtualHost
+     * @return Exchange[]
+     */
+    protected static function getListExchanges($virtualHost)
+    {
+        $list = [];
+        /** @var Exchange[] $listExchange */
+        $listExchange = static::getRabbitMqClient()->listExchanges($virtualHost);
+        foreach ($listExchange as $exchange) {
+            $list[$exchange->name] = $exchange;
+        }
+
+        return $list;
+    }
+
+    /**
+     * Очистка виртуального хоста
+     *
+     * @param $virtualHost
+     */
+    protected static function clearRabbitMqVirtualHost($virtualHost)
+    {
+        $listQueue = static::getListQueues($virtualHost);
+
+        foreach ($listQueue as $queue) {
+            if ($queue->name) {
+                static::getRabbitMqClient()->deleteQueue($virtualHost, $queue->name);
+            }
+        }
+
+        $listExchange = static::getListExchanges($virtualHost);
+
+        foreach ($listExchange as $exchange) {
+            if (!array_key_exists($exchange->name, static::$notDeleteExchange)) {
+                static::getRabbitMqClient()->deleteExchange($virtualHost, $exchange->name);
+            }
+        }
+    }
+
+    /**
+     * Возвращает клиент для работы с кроликом
+     *
      * @return APIClient
      */
     public static function getRabbitMqClient()
@@ -87,6 +156,8 @@ trait  RabbitMqTestCaseTrait
     }
 
     /**
+     * Имя виртуального хоста используемого при тестирование
+     *
      * @return string
      */
     public static function getRabbitMqVirtualHost()
@@ -95,6 +166,8 @@ trait  RabbitMqTestCaseTrait
     }
 
     /**
+     * Устанавливает имя виртуального хоста используемого при тестирование
+     *
      * @param string $rabbitMqVirtualHost
      */
     public static function setRabbitMqVirtualHost($rabbitMqVirtualHost)
@@ -103,6 +176,8 @@ trait  RabbitMqTestCaseTrait
     }
 
     /**
+     * Возвращает настройки коннекта кролика
+     *
      * @return array|null
      */
     public static function  getConnectionRabbitMq()
@@ -111,6 +186,8 @@ trait  RabbitMqTestCaseTrait
     }
 
     /**
+     * Устанавливает настройки коннекта кролика
+     *
      * @param array|null $connection
      *
      * @return $this

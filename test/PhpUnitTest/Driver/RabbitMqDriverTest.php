@@ -30,9 +30,9 @@ class RabbitMqDriverTest extends AbstractHttpControllerTestCase
         static::setUpBeforeClassRabbitMqTestCase([
             'host'     => 'localhost',
             'port'     => '15672',
-            'vhost'    => 'test',
-            'login'    => 'test',
-            'password' => 'test'
+            'vhost'    => '/',
+            'login'    => 'guest',
+            'password' => 'guest'
         ]);
         parent::setUpBeforeClass();
     }
