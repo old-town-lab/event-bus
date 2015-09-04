@@ -12,10 +12,8 @@ before_install:
   - composer require --dev
 
 install:
-  - travis_retry composer install
-
-before_script:
   - phpenv config-add .travis/php.ini
+  - travis_retry composer install
 
 script:
   - ./vendor/bin/phpunit
