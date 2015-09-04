@@ -25,6 +25,7 @@
   },
   "require-dev": {
     "ext-amqp": "*",
+    "ext-curl": "*",
     "fabpot/php-cs-fixer": "1.9.1",
     "phpunit/phpunit": "4.7.7",
     "phpunit/phpcov": "2.0.1",
