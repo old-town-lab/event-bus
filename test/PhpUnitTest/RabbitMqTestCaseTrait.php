@@ -32,7 +32,7 @@ trait  RabbitMqTestCaseTrait
     protected static $rabbitMqVirtualHost = '/';
 
     /**
-     * Очереди которые не удалюятся при очистки
+     * Очереди которые не удалюятся при очистки.
      *
      * @var array
      */
