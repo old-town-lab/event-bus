@@ -24,7 +24,7 @@
     "doctrine/annotations": "~1.2.0"
   },
   "require-dev": {
-    "ext-mbstring": "*",
+    "ext-amqp": "*",
     "fabpot/php-cs-fixer": "1.9.1",
     "phpunit/phpunit": "4.7.7",
     "phpunit/phpcov": "2.0.1",

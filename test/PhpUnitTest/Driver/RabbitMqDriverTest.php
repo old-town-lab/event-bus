@@ -8,6 +8,7 @@ namespace OldTown\EventBuss\PhpUnitTest\Driver;
 use OldTown\EventBuss\Driver\RabbitMqDriver;
 use OldTown\EventBuss\EventBussManager\EventBussManagerFacade;
 use OldTown\EventBuss\Module;
+use Zend\ServiceManager\ServiceLocatorInterface;
 use Zend\Stdlib\ArrayUtils;
 use Zend\Test\PHPUnit\Controller\AbstractHttpControllerTestCase;
 use OldTown\EventBuss\Driver\RabbitMqDriver\Adapter\AmqpPhpExtension;
@@ -286,6 +287,34 @@ class RabbitMqDriverTest extends AbstractHttpControllerTestCase
     }
 
     /**
+     * Проверка поведения драйвера, когда не установлено расширение для работы с сервером очередей
+     *
+     * @expectedException \OldTown\EventBuss\Driver\RabbitMqDriver\Adapter\Exception\AmqpPhpExtensionNotInstalledException
+     * @expectedExceptionMessage Для работы драйвера необходимо php расширение amqp_extension_not_found
+     */
+    public function testAmqpPhpExtensionNotFound()
+    {
+        $this->setApplicationConfig(
+            include __DIR__ . '/../../_files/application.config.php'
+        );
+
+        $r = new \ReflectionClass(AmqpPhpExtension::class);
+        $property = $r->getProperty('amqpPhpExtensionName');
+        $property->setAccessible(true);
+        $originalValue = $property->getValue();
+        $property->setValue(null, 'amqp_extension_not_found');
+        try {
+            $r->newInstance();
+        } catch (\Exception $e) {
+            throw $e;
+        } finally {
+            $property->setValue(null, $originalValue);
+        }
+
+    }
+
+
+    /**
      *
      *
      */
@@ -296,25 +325,22 @@ class RabbitMqDriverTest extends AbstractHttpControllerTestCase
         );
 
         $appServiceManager = $this->getApplicationServiceLocator();
-        /** @var Module $module */
-        $module = $appServiceManager->get(Module::class);
 
-        $managerConfig = ArrayUtils::merge($module->getModuleOptions()->getEventBussManager(), [
-            'example' => [
-                'driver' => 'example'
-            ]
-        ]);
-        $module->getModuleOptions()->setEventBussManager($managerConfig);
-
-        $driverConfig = ArrayUtils::merge($module->getModuleOptions()->getDriver(), [
-            'example' => [
-                'pluginName' => RabbitMqDriver::class,
-                'paths' => [
-                    __DIR__ . '/../../_files/Messages'
+        $this->buildEventBussManager($appServiceManager, [
+            'event_buss_manager' => [
+                'example' => [
+                    'driver' => 'example'
+                ]
+            ],
+            'driver' => [
+                'example' => [
+                    'pluginName' => RabbitMqDriver::class,
+                    'paths' => [
+                        __DIR__ . '/../../_files/Messages'
+                    ]
                 ]
             ]
         ]);
-        $module->getModuleOptions()->setDriver($driverConfig);
 
         /** @var EventBussManagerFacade $eventBussManager */
         $eventBussManager = $appServiceManager->get('event_buss.manager.example');
@@ -322,6 +348,27 @@ class RabbitMqDriverTest extends AbstractHttpControllerTestCase
         $eventBussManager->getDriver()->initEventBuss();
     }
 
+    /**
+     * Настраивает event buss manager на оснвое конфига
+     *
+     * @param ServiceLocatorInterface $appServiceManager
+     * @param array                   $config
+     */
+    protected function buildEventBussManager(ServiceLocatorInterface $appServiceManager, array $config = [])
+    {
+        /** @var Module $module */
+        $module = $appServiceManager->get(Module::class);
+
+        if (array_key_exists('event_buss_manager', $config)) {
+            $managerConfig = ArrayUtils::merge($module->getModuleOptions()->getEventBussManager(), $config['event_buss_manager']);
+            $module->getModuleOptions()->setEventBussManager($managerConfig);
+        }
+
+        if (array_key_exists('driver', $config)) {
+            $driverConfig = ArrayUtils::merge($module->getModuleOptions()->getEventBussManager(), $config['driver']);
+            $module->getModuleOptions()->setDriver($driverConfig);
+        }
+    }
 
 
     /**
