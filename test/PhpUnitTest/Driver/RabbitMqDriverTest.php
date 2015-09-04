@@ -34,6 +34,7 @@ class RabbitMqDriverTest extends AbstractHttpControllerTestCase
             'login'    => 'guest',
             'password' => 'guest'
         ]);
+
         parent::setUpBeforeClass();
     }
 
