@@ -38,7 +38,8 @@ trait  RabbitMqTestCaseTrait
      */
     protected static $notDeleteExchange = [
         'amq.rabbitmq.trace' => 'amq.rabbitmq.trace',
-        '' => ''
+        '' => '',
+        'amq.rabbitmq.log' => 'amq.rabbitmq.log'
     ];
 
     /**
