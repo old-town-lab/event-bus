@@ -16,7 +16,7 @@ install:
   - travis_retry composer install
 
 script:
-  - ./vendor/bin/phpunit -ñ phpunit.xml.travis
+  - ./vendor/bin/phpunit -c phpunit.xml.travis
   - ./vendor/bin/php-cs-fixer fix -v --diff --dry-run --config-file ./.php_cs
 
 after_script:
