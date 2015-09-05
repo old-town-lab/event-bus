@@ -20,3 +20,5 @@ demos/
 extras/documentation
 
 .idea
+
+phpunit.xml

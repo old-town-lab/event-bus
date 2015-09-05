@@ -14,30 +14,16 @@ use Zend\Test\PHPUnit\Controller\AbstractHttpControllerTestCase;
 use OldTown\EventBuss\Driver\RabbitMqDriver\Adapter\AmqpPhpExtension;
 use OldTown\EventBuss\Driver\RabbitMqDriver\Adapter\AdapterInterface;
 use OldTown\EventBuss\PhpUnitTest\RabbitMqTestCaseTrait;
+use OldTown\EventBuss\PhpUnitTest\RabbitMqTestCaseInterface;
 
 /**
  * Class DriverChainTest
  *
  * @package OldTown\EventBuss\PhpUnitTest\Driver
  */
-class RabbitMqDriverTest extends AbstractHttpControllerTestCase
+class RabbitMqDriverTest extends AbstractHttpControllerTestCase implements RabbitMqTestCaseInterface
 {
     use RabbitMqTestCaseTrait;
-
-
-    public static function setUpBeforeClass()
-    {
-        static::setUpBeforeClassRabbitMqTestCase([
-            'host'     => 'localhost',
-            'port'     => '15672',
-            'vhost'    => '/',
-            'login'    => 'guest',
-            'password' => 'guest'
-        ]);
-
-        parent::setUpBeforeClass();
-    }
-
 
     /**
      * Получение имени адаптера используемого для работы с сервером очередей
@@ -332,8 +318,10 @@ class RabbitMqDriverTest extends AbstractHttpControllerTestCase
 
 
     /**
+     * Тестирование инициализация обменников и очередей
      *
      *
+     *  @group RabbitMqTest
      */
     public function testInitEventBuss()
     {
