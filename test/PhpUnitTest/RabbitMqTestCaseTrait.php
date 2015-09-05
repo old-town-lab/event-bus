@@ -67,7 +67,7 @@ trait  RabbitMqTestCaseTrait
      * @param RabbitMqTestManager $rabbitMqTestManager
      * @return $this
      */
-    public function setRabbitMqTestManager( RabbitMqTestManager $rabbitMqTestManager)
+    public function setRabbitMqTestManager(RabbitMqTestManager $rabbitMqTestManager)
     {
         $this->rabbitMqTestManager = $rabbitMqTestManager;
 

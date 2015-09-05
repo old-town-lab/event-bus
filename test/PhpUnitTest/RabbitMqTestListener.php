@@ -18,7 +18,6 @@ use PHPUnit_Framework_TestSuite;
  */
 class  RabbitMqTestListener implements PHPUnit_Framework_TestListener
 {
-
     /**
      * @var RabbitMqTestManager
      */
@@ -60,7 +59,7 @@ class  RabbitMqTestListener implements PHPUnit_Framework_TestListener
     /**
      * @inheritDoc
      */
-    function __construct(array $options = [])
+    public function __construct(array $options = [])
     {
         $this->options = $options;
     }
@@ -85,7 +84,6 @@ class  RabbitMqTestListener implements PHPUnit_Framework_TestListener
      */
     public function addError(PHPUnit_Framework_Test $test, Exception $e, $time)
     {
-
     }
 
     /**
@@ -93,7 +91,6 @@ class  RabbitMqTestListener implements PHPUnit_Framework_TestListener
      */
     public function addFailure(PHPUnit_Framework_Test $test, PHPUnit_Framework_AssertionFailedError $e, $time)
     {
-
     }
 
     /**
@@ -101,7 +98,6 @@ class  RabbitMqTestListener implements PHPUnit_Framework_TestListener
      */
     public function addIncompleteTest(PHPUnit_Framework_Test $test, Exception $e, $time)
     {
-
     }
 
     /**
@@ -109,7 +105,6 @@ class  RabbitMqTestListener implements PHPUnit_Framework_TestListener
      */
     public function addRiskyTest(PHPUnit_Framework_Test $test, Exception $e, $time)
     {
-
     }
 
     /**
@@ -117,7 +112,6 @@ class  RabbitMqTestListener implements PHPUnit_Framework_TestListener
      */
     public function addSkippedTest(PHPUnit_Framework_Test $test, Exception $e, $time)
     {
-
     }
 
     /**
@@ -125,7 +119,6 @@ class  RabbitMqTestListener implements PHPUnit_Framework_TestListener
      */
     public function startTestSuite(PHPUnit_Framework_TestSuite $suite)
     {
-
     }
 
     /**
@@ -133,7 +126,6 @@ class  RabbitMqTestListener implements PHPUnit_Framework_TestListener
      */
     public function endTestSuite(PHPUnit_Framework_TestSuite $suite)
     {
-
     }
 
     /**
@@ -157,7 +149,6 @@ class  RabbitMqTestListener implements PHPUnit_Framework_TestListener
      */
     public function endTest(PHPUnit_Framework_Test $test, $time)
     {
-
     }
 
     /**

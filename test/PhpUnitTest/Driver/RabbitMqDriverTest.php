@@ -313,7 +313,6 @@ class RabbitMqDriverTest extends AbstractHttpControllerTestCase implements Rabbi
         } finally {
             $property->setValue(null, $originalValue);
         }
-
     }
 
 

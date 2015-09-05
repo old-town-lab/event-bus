@@ -15,7 +15,6 @@ use RabbitMQ\Management\Entity\Queue;
  */
 class  RabbitMqTestManager
 {
-
     /**
      * @var string
      */
@@ -143,7 +142,7 @@ class  RabbitMqTestManager
      *
      * @return Queue[]
      */
-    public function  getListQueues()
+    public function getListQueues()
     {
         $list = [];
         /** @var Queue[] $listQueue */

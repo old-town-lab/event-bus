@@ -5,14 +5,12 @@
  */
 namespace OldTown\EventBuss\PhpUnitTest;
 
-
 /**
  * Interface RabbitMqTestCaseInterface
  * @package OldTown\EventBuss\PhpUnitTest
  */
 interface  RabbitMqTestCaseInterface
 {
-
     /**
      * @return RabbitMqTestManager
      */
@@ -22,7 +20,7 @@ interface  RabbitMqTestCaseInterface
      * @param RabbitMqTestManager $rabbitMqTestManager
      * @return $this
      */
-    public function setRabbitMqTestManager( RabbitMqTestManager $rabbitMqTestManager);
+    public function setRabbitMqTestManager(RabbitMqTestManager $rabbitMqTestManager);
 
     /**
      * Определяет был ли установлен виртуальных хост на котором происходит тестирование
