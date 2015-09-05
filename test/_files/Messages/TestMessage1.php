@@ -9,25 +9,25 @@ use OldTown\EventBuss\Driver\RabbitMqDriver\MetadataReader\Annotations as EventB
 
 
 /**
- * Class Foo
+ * Class TestMessage1
  *
  * @package OldTown\EventBuss\TestData\Messages
  *
  * @EventBuss\EventBussMessage(
- *     queue=@EventBuss\Queue(name="test_queue_name_foo"),
+ *     queue=@EventBuss\Queue(name="test_queue_name_message1"),
  *     exchange=@EventBuss\Exchange(name="test_exchange_name_foo", type="topic"),
  *     bindingKeys={
  *         @EventBuss\BindingKey(
  *             name="*.procedure.*"
  *         ),
  *         @EventBuss\BindingKey(
- *             name="create.procedure.*"
+ *             name="delete.procedure.*"
  *         )
  *     }
  * )
  *
  */
-class Foo
+class TestMessage1
 {
 
 }

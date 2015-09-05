@@ -35,8 +35,12 @@
                     <element key="host">
                         <string>localhost</string>
                     </element>
-                    <!-- Порт сервера с RabbitMq используемого для проведения тестов-->
+                    <!-- Порт сервера с RabbitMq-->
                     <element key="port">
+                        <string>5672</string>
+                    </element>
+                    <!-- Порт сервера с RabbitMq для доступа к API-->
+                    <element key="portApi">
                         <string>15672</string>
                     </element>
                     <!-- Для запуска тестов рекомендуется создать отдельного пользователя с правами management-->

@@ -19,5 +19,13 @@ interface AdapterInterface
      *
      * @param Metadata[] $metadata
      */
-    public function initEventBuss($metadata);
+    public function initEventBuss(array $metadata = []);
+
+
+    /**
+     * Настройки соеденения
+     *
+     * @return array
+     */
+    public function getConnectionConfig();
 }

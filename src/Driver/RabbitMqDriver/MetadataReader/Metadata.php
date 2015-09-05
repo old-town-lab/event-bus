@@ -34,12 +34,64 @@ class Metadata
     protected $bindingKeys = [];
 
     /**
+     * Тип обменника
+     *
+     * @var string
+     */
+    protected $exchangeType;
+
+    /**
+     * @var boolean|null
+     */
+    protected $flagExchangeDurable;
+
+    /**
      * @param Annotations\EventBussMessage $metadata
      */
     public function __construct(Annotations\EventBussMessage $metadata)
     {
         $this->init($metadata);
     }
+
+    /**
+     * @return bool|null
+     */
+    public function getFlagExchangeDurable()
+    {
+        return $this->flagExchangeDurable;
+    }
+
+    /**
+     * @param bool|null $flagExchangeDurable
+     * @return $this
+     */
+    public function setFlagExchangeDurable($flagExchangeDurable = null)
+    {
+        $this->flagExchangeDurable = null === $flagExchangeDurable ? null : (boolean)$flagExchangeDurable;
+
+        return $this;
+    }
+
+
+    /**
+     * @return string
+     */
+    public function getExchangeType()
+    {
+        return $this->exchangeType;
+    }
+
+    /**
+     * @param string $exchangeType
+     * @return $this
+     */
+    public function setExchangeType($exchangeType)
+    {
+        $this->exchangeType = (string)$exchangeType;
+
+        return $this;
+    }
+
 
     /**
      * Инициализация метаданных на основе анотации
@@ -50,6 +102,11 @@ class Metadata
     {
         $this->setQueueName($metadata->queue->name);
         $this->setExchangeName($metadata->exchange->name);
+        $this->setExchangeType($metadata->exchange->type);
+
+        if (true === $metadata->exchange->durable) {
+            $this->setFlagExchangeDurable(true);
+        }
 
         $bindingKeysStorage = [];
         /** @var Annotations\BindingKey[] $bindingKeys */

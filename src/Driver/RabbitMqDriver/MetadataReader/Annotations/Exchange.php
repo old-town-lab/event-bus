@@ -20,4 +20,15 @@ class Exchange
      * @Required
      */
     public $name;
+
+    /**
+     * @Enum({"direct", "fanout", "header", "topic"})
+     * @Required
+     */
+    public $type;
+
+    /**
+     * @var bool
+     */
+    public $durable;
 }

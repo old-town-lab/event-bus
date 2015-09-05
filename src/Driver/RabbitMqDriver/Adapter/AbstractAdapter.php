@@ -26,4 +26,12 @@ abstract class AbstractAdapter implements AdapterInterface
     {
         $this->connectionConfig = $connection;
     }
+
+    /**
+     * @return array
+     */
+    public function getConnectionConfig()
+    {
+        return $this->connectionConfig;
+    }
 }

@@ -38,15 +38,35 @@ class  RabbitMqTestListener implements PHPUnit_Framework_TestListener
     protected $testVirtualHost;
 
     /**
-     * Конфиг соеденения с кроликом по умолчанию
+     * Коннект для тестирования
+     *
+     * @var array
+     */
+    protected $rabbitMqConnectionForTest;
+
+    /**
+     * Конфиг соеденения с API кролика по умолчанию
      *
      * @var array
      */
     protected $defaultConnection = [
         RabbitMqTestManager::HOST     => 'localhost',
-        RabbitMqTestManager::PORT     => '15672',
+        RabbitMqTestManager::PORT_API     => '15672',
         RabbitMqTestManager::LOGIN    => 'test_event_buss',
         RabbitMqTestManager::PASSWORD => 'test_event_buss'
+    ];
+
+    /**
+     * Конфиг соеденения с кроликом по умолчанию
+     *
+     * @var array
+     */
+    protected $defaultRabbitMqConnectionForTest = [
+        RabbitMqTestManager::HOST     => 'localhost',
+        RabbitMqTestManager::PORT     => '5672',
+        RabbitMqTestManager::LOGIN    => 'test_event_buss',
+        RabbitMqTestManager::PASSWORD => 'test_event_buss',
+        RabbitMqTestManager::VHOST => 'test_event_buss'
     ];
 
     /**
@@ -133,13 +153,17 @@ class  RabbitMqTestListener implements PHPUnit_Framework_TestListener
      */
     public function startTest(PHPUnit_Framework_Test $test)
     {
-        if ($test instanceof RabbitMqTestCaseInterface && !$test->hasRabbitMqTestManager() instanceof RabbitMqTestManager) {
+        if ($test instanceof RabbitMqTestCaseInterface && !$test->hasRabbitMqTestManager()) {
             $manager = $this->getRabbitMqTestManager();
             $test->setRabbitMqTestManager($manager);
         }
-        if ($test instanceof RabbitMqTestCaseInterface && !$test->hasTestVirtualHost() instanceof RabbitMqTestManager) {
+        if ($test instanceof RabbitMqTestCaseInterface && !$test->hasTestVirtualHost()) {
             $manager = $this->getTestVirtualHost();
             $test->setTestVirtualHost($manager);
+        }
+        if ($test instanceof RabbitMqTestCaseInterface && !$test->hasRabbitMqConnectionForTest()) {
+            $connectionForTest = $this->getRabbitMqConnectionForTest();
+            $test->setRabbitMqConnectionForTest($connectionForTest);
         }
         $this->getRabbitMqTestManager()->clearRabbitMqVirtualHost();
     }
@@ -204,6 +228,24 @@ class  RabbitMqTestListener implements PHPUnit_Framework_TestListener
         return $this->connection;
     }
 
+    /**
+     * @return array
+     */
+    public function getRabbitMqConnectionForTest()
+    {
+        if ($this->rabbitMqConnectionForTest) {
+            return $this->rabbitMqConnectionForTest;
+        }
+        $connection = [];
+        $options = $this->getOptions();
+
+        foreach ($this->defaultRabbitMqConnectionForTest as $key => $value) {
+            $connection[$key] = array_key_exists($key, $options) ? $options[$key] : $value;
+        }
+        $this->rabbitMqConnectionForTest = $connection;
+
+        return $this->rabbitMqConnectionForTest;
+    }
     /**
      *
      *

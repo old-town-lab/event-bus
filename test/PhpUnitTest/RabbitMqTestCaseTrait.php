@@ -18,6 +18,11 @@ trait  RabbitMqTestCaseTrait
     protected $rabbitMqTestManager;
 
     /**
+     * @var array
+     */
+    protected $testRabbitMqConnection;
+
+    /**
      * Имя виртуального хоста используемого для тестов
      *
      * @var string
@@ -94,5 +99,39 @@ trait  RabbitMqTestCaseTrait
     {
         $has = null !== $this->rabbitMqTestManager;
         return $has;
+    }
+
+    /**
+     * Определяет был ли установлен конфиг позволяющий подключиться к тестовому серверу кролика
+     *
+     * @return bool
+     */
+    public function hasRabbitMqConnectionForTest()
+    {
+        $has = null !== $this->testRabbitMqConnection;
+        return $has;
+    }
+
+    /**
+     * @return array
+     */
+    public function getRabbitMqConnectionForTest()
+    {
+        if (null === $this->testRabbitMqConnection) {
+            $errMsg = 'Необходимо установить testRabbitMqConnection';
+            throw new \RuntimeException($errMsg);
+        }
+        return $this->testRabbitMqConnection;
+    }
+
+    /**
+     * @param array $testRabbitMqConnection
+     * @return $this
+     */
+    public function setRabbitMqConnectionForTest(array $testRabbitMqConnection = [])
+    {
+        $this->testRabbitMqConnection = $testRabbitMqConnection;
+
+        return $this;
     }
 }

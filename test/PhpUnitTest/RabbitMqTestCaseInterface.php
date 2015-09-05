@@ -47,4 +47,22 @@ interface  RabbitMqTestCaseInterface
      * @return $this
      */
     public function setTestVirtualHost($testVirtualHost);
+
+
+    /**
+     * Определяет был ли установлен конфиг позволяющий подключиться к тестовому серверу кролика
+     *
+     * @return bool
+     */
+    public function hasRabbitMqConnectionForTest();
+
+    /**
+     * @return array
+     */
+    public function getRabbitMqConnectionForTest();
+    /**
+     * @param array $testRabbitMqConnection
+     * @return $this
+     */
+    public function setRabbitMqConnectionForTest(array $testRabbitMqConnection = []);
 }

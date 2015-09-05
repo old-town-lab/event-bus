@@ -330,15 +330,25 @@ class RabbitMqDriverTest extends AbstractHttpControllerTestCase implements Rabbi
 
         $appServiceManager = $this->getApplicationServiceLocator();
 
+
+        $connectionConfig = $this->getRabbitMqConnectionForTest();
+
+
         $this->buildEventBussManager($appServiceManager, [
             'event_buss_manager' => [
                 'example' => [
                     'driver' => 'example'
                 ]
             ],
+            'connection' => [
+                'example' => [
+                    'params' => $connectionConfig
+                ]
+            ],
             'driver' => [
                 'example' => [
                     'pluginName' => RabbitMqDriver::class,
+                    'connection' => 'example',
                     'paths' => [
                         __DIR__ . '/../../_files/Messages'
                     ]
@@ -369,8 +379,12 @@ class RabbitMqDriverTest extends AbstractHttpControllerTestCase implements Rabbi
         }
 
         if (array_key_exists('driver', $config)) {
-            $driverConfig = ArrayUtils::merge($module->getModuleOptions()->getEventBussManager(), $config['driver']);
+            $driverConfig = ArrayUtils::merge($module->getModuleOptions()->getDriver(), $config['driver']);
             $module->getModuleOptions()->setDriver($driverConfig);
+        }
+        if (array_key_exists('connection', $config)) {
+            $connectionConfig = ArrayUtils::merge($module->getModuleOptions()->getConnection(), $config['connection']);
+            $module->getModuleOptions()->setConnection($connectionConfig);
         }
     }
 

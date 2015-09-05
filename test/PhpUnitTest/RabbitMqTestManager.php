@@ -28,6 +28,11 @@ class  RabbitMqTestManager
     /**
      * @var string
      */
+    const PORT_API = 'portApi';
+
+    /**
+     * @var string
+     */
     const LOGIN = 'login';
 
     /**
@@ -122,8 +127,8 @@ class  RabbitMqTestManager
         }
         $connectionApi['host'] = $connection[static::HOST];
 
-        if (array_key_exists(static::PORT, $connection)) {
-            $connectionApi['port'] = $connection[static::PORT];
+        if (array_key_exists(static::PORT_API, $connection)) {
+            $connectionApi['port'] = $connection[static::PORT_API];
         }
         if (array_key_exists(static::LOGIN, $connection)) {
             $connectionApi['username'] = $connection[static::LOGIN];
