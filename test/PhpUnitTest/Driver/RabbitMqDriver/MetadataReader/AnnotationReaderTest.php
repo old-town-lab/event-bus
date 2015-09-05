@@ -38,11 +38,12 @@ class AnnotationReaderTest extends AbstractHttpControllerTestCase
         $metadata = $annotationReader->loadMetadataForClass(Foo::class);
 
         static::assertInstanceOf(Metadata::class, $metadata);
-        static::assertEquals($metadata->getQueueName(), 'test_queue_name');
-        static::assertEquals($metadata->getExchangeName(), 'test_exchange_name');
+        static::assertEquals($metadata->getQueueName(), 'test_queue_name_foo');
+        static::assertEquals($metadata->getExchangeName(), 'test_exchange_name_foo');
+        static::assertEquals($metadata->getExchangeType(), 'topic');
         static::assertEquals($metadata->getBindingKeys(), [
-            'test_binding_key_1' => 'test_binding_key_1',
-            'test_binding_key_2' => 'test_binding_key_2',
+            '*.procedure.*' => '*.procedure.*',
+            'create.procedure.*' => 'create.procedure.*',
         ]);
 
         $cacheMetadata = $annotationReader->loadMetadataForClass(Foo::class);

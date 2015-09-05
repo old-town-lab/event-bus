@@ -6,6 +6,7 @@
 namespace OldTown\EventBuss\PhpUnitTest\MetadataReader;
 
 use OldTown\EventBuss\MetadataReader\AbstractAnnotationReader;
+use OldTown\EventBuss\TestData\Messages\TestMessage1;
 use PHPUnit_Framework_TestCase;
 use PHPUnit_Framework_MockObject_MockObject;
 use OldTown\EventBuss\TestData\Messages\Foo;
@@ -81,7 +82,12 @@ class AbstractAnnotationReaderTest extends PHPUnit_Framework_TestCase
 
 
         $actual = $abstractAnnotationReaderMock->getAllClassNames();
-        static::assertEquals([Foo::class], $actual);
+        $expected = [Foo::class, TestMessage1::class];
+        foreach ($expected as $className) {
+            static::assertTrue(in_array($className, $actual));
+        }
+        static::assertEquals(count($actual), count($expected));
+
 
         //Тест локального кеширования
         $expected = $abstractAnnotationReaderMock->getAllClassNames();
