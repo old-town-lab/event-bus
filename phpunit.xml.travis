@@ -23,9 +23,7 @@
             <directory>./test</directory>
         </blacklist>
     </filter>
-    <logging>
-        <log type="coverage-php" target="./.reports/coverage/coverage-phpunit.cov"/>
-    </logging>
+
 
     <listeners>
         <listener class="\OldTown\EventBuss\PhpUnitTest\RabbitMqTestListener" file="./test/PhpUnitTest/RabbitMqTestListener.php">
