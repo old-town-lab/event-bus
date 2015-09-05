@@ -1,5 +1,7 @@
 language: php
 
+sudo: false
+
 php:
   - 5.5
 
@@ -16,7 +18,7 @@ install:
   - travis_retry composer install
 
 script:
-  - ./vendor/bin/phpunit --configuration ./phpunit.xml.travis
+  - ./vendor/bin/phpunit --configuration $TRAVIS_BUILD_DIR/phpunit.xml.travis
   - ./vendor/bin/php-cs-fixer fix -v --diff --dry-run --config-file ./.php_cs
 
 after_script:
