@@ -15,87 +15,139 @@ use RabbitMQ\Management\Entity\Queue;
  */
 class  RabbitMqTestManager
 {
-    /**
-     * @var array|null
-     */
-    protected static $connectionRabbitMq;
-
-    /**
-     * @var APIClient
-     */
-    protected static $rabbitMqClient;
 
     /**
      * @var string
      */
-    protected static $rabbitMqVirtualHost = '/';
+    const HOST = 'host';
+
+    /**
+     * @var string
+     */
+    const PORT = 'port';
+
+    /**
+     * @var string
+     */
+    const LOGIN = 'login';
+
+    /**
+     * @var string
+     */
+    const PASSWORD = 'password';
+
+    /**
+     * @var string
+     */
+    const VHOST = 'vhost';
+
+    /**
+     * Имя хоста используемого для тестирования
+     *
+     * @var string
+     */
+    protected $testVirtualHost;
+
+    /**
+     * Конфиг соеденения с кроликом
+     *
+     * @var array
+     */
+    protected $connection;
 
     /**
      * Очереди которые не удалюятся при очистки.
      *
      * @var array
      */
-    protected static $notDeleteExchange = [
+    protected $notDeleteExchange = [
         'amq.rabbitmq.trace' => 'amq.rabbitmq.trace',
         '' => '',
         'amq.rabbitmq.log' => 'amq.rabbitmq.log'
     ];
 
     /**
-     * Реализация функционала который должен вызываться перед запуском первого теста
+     * Возвращает имя виртуального хоста кролика, используемого для тестирования
      *
-     * @param $connection
+     * @return string
+     */
+    public function getTestVirtualHost()
+    {
+        return $this->testVirtualHost;
+    }
+
+    /**
+     * @return array
+     */
+    public function getConnection()
+    {
+        return $this->connection;
+    }
+
+    /**
+     * @param array $connection
+     * @param $testVirtualHost
      *
      * @throws \InvalidArgumentException
      */
-    protected static function setUpBeforeClassRabbitMqTestCase(array $connection = [])
+    public function __construct(array $connection = [], $testVirtualHost)
     {
-        static::initAPIClient($connection);
-        static::setConnection($connection);
-        static::clearRabbitMqVirtualHost(static::getRabbitMqVirtualHost());
+        $this->connection = $connection;
+        if (!(is_string($testVirtualHost) && strlen(trim($testVirtualHost)) > 0)) {
+            $errMsg = 'Некорректный форма виртуального хоста для тестирования';
+            throw new \InvalidArgumentException($errMsg);
+        }
+        $this->testVirtualHost = $testVirtualHost;
     }
+    /**
+     * @var APIClient
+     */
+    protected $client;
 
     /**
      * Инициализация клиента для работы с кролем
      *
-     * @param array $connection
+     * @return APIClient
      */
-    protected static function initAPIClient(array $connection = [])
+    protected function getClient()
     {
+        if ($this->client) {
+            return $this->client;
+        }
+        $connection = $this->getConnection();
+
         $connectionApi = [];
-        if (!array_key_exists('host', $connection)) {
+        if (!array_key_exists(static::HOST, $connection)) {
             $errMsg = 'Отсутствует параметр host';
             throw new \InvalidArgumentException($errMsg);
         }
-        $connectionApi['host'] = $connection['host'];
+        $connectionApi['host'] = $connection[static::HOST];
 
-        if (array_key_exists('port', $connection)) {
-            $connectionApi['port'] = $connection['port'];
+        if (array_key_exists(static::PORT, $connection)) {
+            $connectionApi['port'] = $connection[static::PORT];
         }
-        if (array_key_exists('login', $connection)) {
-            $connectionApi['username'] = $connection['login'];
+        if (array_key_exists(static::LOGIN, $connection)) {
+            $connectionApi['username'] = $connection[static::LOGIN];
         }
-        if (array_key_exists('password', $connection)) {
-            $connectionApi['password'] = $connection['password'];
-        }
-        if (array_key_exists('vhost', $connection)) {
-            static::$rabbitMqVirtualHost = $connection['vhost'];
+        if (array_key_exists(static::PASSWORD, $connection)) {
+            $connectionApi['password'] = $connection[static::PASSWORD];
         }
 
-        static::$rabbitMqClient = APIClient::factory($connectionApi);
+        $this->client = APIClient::factory($connectionApi);
+
+        return $this->client;
     }
 
     /**
      * Выводит список очередей для заданого виртуалхоста
      *
-     * @param $virtualHost
      * @return Queue[]
      */
-    protected static function  getListQueues($virtualHost)
+    public function  getListQueues()
     {
         $list = [];
         /** @var Queue[] $listQueue */
-        $listQueue = static::getRabbitMqClient()->listQueues($virtualHost);
+        $listQueue = $this->getClient()->listQueues($this->getTestVirtualHost());
         foreach ($listQueue as $queue) {
             $list[$queue->name] = $queue;
         }
@@ -106,14 +158,13 @@ class  RabbitMqTestManager
     /**
      * Выводит список всех обменников
      *
-     * @param $virtualHost
      * @return Exchange[]
      */
-    protected static function getListExchanges($virtualHost)
+    public function getListExchanges()
     {
         $list = [];
         /** @var Exchange[] $listExchange */
-        $listExchange = static::getRabbitMqClient()->listExchanges($virtualHost);
+        $listExchange = $this->getClient()->listExchanges($this->getTestVirtualHost());
         foreach ($listExchange as $exchange) {
             $list[$exchange->name] = $exchange;
         }
@@ -124,78 +175,23 @@ class  RabbitMqTestManager
     /**
      * Очистка виртуального хоста
      *
-     * @param $virtualHost
      */
-    protected static function clearRabbitMqVirtualHost($virtualHost)
+    public function clearRabbitMqVirtualHost()
     {
-        $listQueue = static::getListQueues($virtualHost);
+        $listQueue = $this->getListQueues();
 
         foreach ($listQueue as $queue) {
             if ($queue->name) {
-                static::getRabbitMqClient()->deleteQueue($virtualHost, $queue->name);
+                $this->getClient()->deleteQueue($this->getTestVirtualHost(), $queue->name);
             }
         }
 
-        $listExchange = static::getListExchanges($virtualHost);
+        $listExchange = $this->getListExchanges();
 
         foreach ($listExchange as $exchange) {
-            if (!array_key_exists($exchange->name, static::$notDeleteExchange)) {
-                static::getRabbitMqClient()->deleteExchange($virtualHost, $exchange->name);
+            if (!array_key_exists($exchange->name, $this->notDeleteExchange)) {
+                $this->getClient()->deleteExchange($this->getTestVirtualHost(), $exchange->name);
             }
         }
     }
-
-    /**
-     * Возвращает клиент для работы с кроликом
-     *
-     * @return APIClient
-     */
-    public static function getRabbitMqClient()
-    {
-        return self::$rabbitMqClient;
-    }
-
-    /**
-     * Имя виртуального хоста используемого при тестирование
-     *
-     * @return string
-     */
-    public static function getRabbitMqVirtualHost()
-    {
-        return self::$rabbitMqVirtualHost;
-    }
-
-    /**
-     * Устанавливает имя виртуального хоста используемого при тестирование
-     *
-     * @param string $rabbitMqVirtualHost
-     */
-    public static function setRabbitMqVirtualHost($rabbitMqVirtualHost)
-    {
-        self::$rabbitMqVirtualHost = (string)$rabbitMqVirtualHost;
-    }
-
-    /**
-     * Возвращает настройки коннекта кролика
-     *
-     * @return array|null
-     */
-    public static function  getConnectionRabbitMq()
-    {
-        return static::$connectionRabbitMq;
-    }
-
-    /**
-     * Устанавливает настройки коннекта кролика
-     *
-     * @param array|null $connection
-     *
-     * @return $this
-     */
-    public static function setConnection(array $connection = [])
-    {
-        static::$connectionRabbitMq = $connection;
-    }
-
-
 }

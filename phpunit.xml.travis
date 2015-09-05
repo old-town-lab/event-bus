@@ -17,13 +17,43 @@
         </testsuite>
     </testsuites>
 
-     <filter>
-         <blacklist>
-             <directory>./vendor</directory>
-             <directory>./test</directory>
-         </blacklist>
-     </filter>
+    <filter>
+        <blacklist>
+            <directory>./vendor</directory>
+            <directory>./test</directory>
+        </blacklist>
+    </filter>
     <logging>
         <log type="coverage-php" target="./.reports/coverage/coverage-phpunit.cov"/>
     </logging>
+
+    <listeners>
+        <listener class="\OldTown\EventBuss\PhpUnitTest\RabbitMqTestListener" file="./test/PhpUnitTest/RabbitMqTestListener.php">
+            <arguments>
+                <array>
+                    <!-- Имя хоста либо ip, сервера с RabbitMq используемого для проведения тестов-->
+                    <element key="host">
+                        <string>localhost</string>
+                    </element>
+                    <!-- Порт сервера с RabbitMq используемого для проведения тестов-->
+                    <element key="port">
+                        <string>15672</string>
+                    </element>
+                    <!-- Для запуска тестов рекомендуется создать отдельного пользователя с правами management-->
+                    <element key="login">
+                        <string>guest</string>
+                    </element>
+                    <!-- Пароль пользователя-->
+                    <element key="password">
+                        <string>guest</string>
+                    </element>
+                    <!-- Виртуальных хост на котором запускаются тесты. При запуске тестов очереди и обменники удаляются-->
+                    <!-- Для тестирования рекомендуется создать отдельный виртуальный хост закрепленный за пользователем-->
+                    <element key="vhost">
+                        <string>/</string>
+                    </element>
+                </array>
+            </arguments>
+        </listener>
+    </listeners>
 </phpunit>

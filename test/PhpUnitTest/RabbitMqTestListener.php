@@ -18,6 +18,7 @@ use PHPUnit_Framework_TestSuite;
  */
 class  RabbitMqTestListener implements PHPUnit_Framework_TestListener
 {
+
     /**
      * @var RabbitMqTestManager
      */
@@ -28,7 +29,7 @@ class  RabbitMqTestListener implements PHPUnit_Framework_TestListener
      *
      * @var string
      */
-    protected $testVirtualHostDefault = 'test_event_buss';
+    protected $defaultTestVirtualHost = 'test_event_buss';
 
     /**
      * Имя хоста используемого для тестирования
@@ -43,11 +44,35 @@ class  RabbitMqTestListener implements PHPUnit_Framework_TestListener
      * @var array
      */
     protected $defaultConnection = [
-        'host'     => 'localhost',
-        'port'     => '15672',
-        'login'    => 'test_event_buss',
-        'password' => 'test_event_buss'
+        RabbitMqTestManager::HOST     => 'localhost',
+        RabbitMqTestManager::PORT     => '15672',
+        RabbitMqTestManager::LOGIN    => 'test_event_buss',
+        RabbitMqTestManager::PASSWORD => 'test_event_buss'
     ];
+
+    /**
+     * Настройки листенера
+     *
+     * @var array
+     */
+    protected $options = [];
+
+    /**
+     * @inheritDoc
+     */
+    function __construct(array $options = [])
+    {
+        $this->options = $options;
+    }
+
+    /**
+     * @return array
+     */
+    public function getOptions()
+    {
+        return $this->options;
+    }
+
     /**
      * Конфиг соеденения с кроликом
      *
@@ -60,7 +85,7 @@ class  RabbitMqTestListener implements PHPUnit_Framework_TestListener
      */
     public function addError(PHPUnit_Framework_Test $test, Exception $e, $time)
     {
-        // TODO: Implement addError() method.
+
     }
 
     /**
@@ -68,7 +93,7 @@ class  RabbitMqTestListener implements PHPUnit_Framework_TestListener
      */
     public function addFailure(PHPUnit_Framework_Test $test, PHPUnit_Framework_AssertionFailedError $e, $time)
     {
-        // TODO: Implement addFailure() method.
+
     }
 
     /**
@@ -76,7 +101,7 @@ class  RabbitMqTestListener implements PHPUnit_Framework_TestListener
      */
     public function addIncompleteTest(PHPUnit_Framework_Test $test, Exception $e, $time)
     {
-        // TODO: Implement addIncompleteTest() method.
+
     }
 
     /**
@@ -84,7 +109,7 @@ class  RabbitMqTestListener implements PHPUnit_Framework_TestListener
      */
     public function addRiskyTest(PHPUnit_Framework_Test $test, Exception $e, $time)
     {
-        // TODO: Implement addRiskyTest() method.
+
     }
 
     /**
@@ -92,7 +117,7 @@ class  RabbitMqTestListener implements PHPUnit_Framework_TestListener
      */
     public function addSkippedTest(PHPUnit_Framework_Test $test, Exception $e, $time)
     {
-        // TODO: Implement addSkippedTest() method.
+
     }
 
     /**
@@ -124,6 +149,7 @@ class  RabbitMqTestListener implements PHPUnit_Framework_TestListener
             $manager = $this->getTestVirtualHost();
             $test->setTestVirtualHost($manager);
         }
+        $this->getRabbitMqTestManager()->clearRabbitMqVirtualHost();
     }
 
     /**
@@ -132,7 +158,6 @@ class  RabbitMqTestListener implements PHPUnit_Framework_TestListener
     public function endTest(PHPUnit_Framework_Test $test, $time)
     {
 
-        // TODO: Implement endTest() method.
     }
 
     /**
@@ -142,6 +167,13 @@ class  RabbitMqTestListener implements PHPUnit_Framework_TestListener
      */
     public function getTestVirtualHost()
     {
+        if ($this->testVirtualHost) {
+            return $this->testVirtualHost;
+        }
+        $options = $this->getOptions();
+        $testVirtualHost = array_key_exists(RabbitMqTestManager::VHOST, $options) ? $options[RabbitMqTestManager::VHOST] : $this->defaultTestVirtualHost;
+        $this->testVirtualHost = $testVirtualHost;
+
         return $this->testVirtualHost;
     }
 
@@ -167,6 +199,17 @@ class  RabbitMqTestListener implements PHPUnit_Framework_TestListener
      */
     public function getConnection()
     {
+        if ($this->connection) {
+            return $this->connection;
+        }
+        $connection = [];
+        $options = $this->getOptions();
+
+        foreach ($this->defaultConnection as $key => $value) {
+            $connection[$key] = array_key_exists($key, $options) ? $options[$key] : $value;
+        }
+        $this->connection = $connection;
+
         return $this->connection;
     }
 
@@ -178,7 +221,8 @@ class  RabbitMqTestListener implements PHPUnit_Framework_TestListener
     protected function createTestManager()
     {
         $connectionConfig = $this->getConnection();
-        $manager = new RabbitMqTestManager($connectionConfig);
+        $virtualHost = $this->getTestVirtualHost();
+        $manager = new RabbitMqTestManager($connectionConfig, $virtualHost);
 
         return $manager;
     }
