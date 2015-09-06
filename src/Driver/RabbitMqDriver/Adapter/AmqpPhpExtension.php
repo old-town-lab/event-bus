@@ -10,6 +10,8 @@ use AMQPConnection;
 use AMQPChannel;
 use AMQPExchange;
 use AMQPQueue;
+use OldTown\EventBuss\Message\MessageInterface;
+use OldTown\EventBuss\MetadataReader\MetadataInterface;
 
 /**
  * Class AmqpPhpExtension
@@ -61,14 +63,28 @@ class AmqpPhpExtension extends AbstractAdapter
     ];
 
     /**
+     * Соеденение с сервером RabbitMq
+     *
      * @var AMQPConnection
      */
     protected $connection;
 
     /**
+     * Канал для взаимодействия с сервером RabbitMq
+     *
      * @var AMQPChannel
      */
-    protected $chanel;
+    protected $channel;
+
+
+    /**
+     * Канал используемый для инициации шины(используются транзакции). После того как был использован функционал
+     * работы с транзакиями требуется выполнять комиты в ручную, после таких действий как публикация сообщений.
+     * Что бы избежать этого используютется два канала, один для инициации шины, второй для всех других действий
+     *
+     * @var AMQPChannel
+     */
+    protected $channelInitBuss;
 
     /**
      * Имя расширения используемого для взаимодействия с сервером очередей
@@ -92,6 +108,8 @@ class AmqpPhpExtension extends AbstractAdapter
     }
 
     /**
+     * Получение соеденения для работы с сервером очередей
+     *
      * @return AMQPConnection
      */
     public function getConnection()
@@ -103,29 +121,50 @@ class AmqpPhpExtension extends AbstractAdapter
         $connectionConfig = $this->getConnectionConfig();
         $params = array_key_exists(static::PARAMS, $connectionConfig) ? $connectionConfig[static::PARAMS] : [];
 
-
-
-
         $this->connection = new AMQPConnection($params);
         return $this->connection;
     }
 
     /**
+     * Получение и создание канала для работы с сервером очередей. Данный канал используется для всех действий кроме
+     * инициации шины.
+     *
      * @return AMQPChannel
      */
-    public function getChanel()
+    public function getChannel()
     {
-        if ($this->chanel) {
-            return $this->chanel;
+        if ($this->channel) {
+            return $this->channel;
         }
 
         $connection = $this->getConnection();
         if (!$connection->isConnected()) {
             $connection->connect();
         }
-        $this->chanel = new AMQPChannel($connection);
+        $this->channel = new AMQPChannel($connection);
 
-        return $this->chanel;
+        return $this->channel;
+    }
+
+
+    /**
+     * Получение канали используемого для инициации шины очередей
+     *
+     * @return AMQPChannel
+     */
+    public function getChannelInitBuss()
+    {
+        if ($this->channelInitBuss) {
+            return $this->channelInitBuss;
+        }
+
+        $connection = $this->getConnection();
+        if (!$connection->isConnected()) {
+            $connection->connect();
+        }
+        $this->channelInitBuss = new AMQPChannel($connection);
+
+        return $this->channelInitBuss;
     }
 
     /**
@@ -138,16 +177,16 @@ class AmqpPhpExtension extends AbstractAdapter
      */
     public function initEventBuss(array $metadata = [])
     {
-        $chanel = $this->getChanel();
+        $channel = $this->getChannelInitBuss();
         try {
-            $chanel->startTransaction();
+            $channel->startTransaction();
             foreach ($metadata as $data) {
                 if (!$data instanceof Metadata) {
                     $errMsg = sprintf('Метаданные должны реализовывать класс %s', Metadata::class);
                     throw new Exception\RuntimeException($errMsg);
                 }
-                $exchange = $this->createExchangeByMetadata($data);
-                $queue = $this->createQueueByMetadata($data);
+                $exchange = $this->createExchangeByMetadata($data, $channel);
+                $queue = $this->createQueueByMetadata($data, $channel);
 
 
                 $bindKeys = $data->getBindingKeys();
@@ -156,9 +195,9 @@ class AmqpPhpExtension extends AbstractAdapter
                 }
             }
 
-            $chanel->commitTransaction();
+            $channel->commitTransaction();
         } catch (\Exception $e) {
-            $chanel->rollbackTransaction();
+            $channel->rollbackTransaction();
             throw $e;
         }
     }
@@ -166,13 +205,17 @@ class AmqpPhpExtension extends AbstractAdapter
     /**
      * Создает обменник на основе метаданных
      *
-     * @param Metadata $metadata
+     * @param MetadataInterface $metadata
+     * @param AMQPChannel $channel
      * @return AMQPExchange
      */
-    protected function createExchangeByMetadata(Metadata $metadata)
+    protected function createExchangeByMetadata(MetadataInterface $metadata, AMQPChannel $channel)
     {
-        $chanel = $this->getChanel();
-        $exchange = new AMQPExchange($chanel);
+        if (!$metadata instanceof Metadata) {
+            $errMsg = 'Неподдерживаемый тип метаданных';
+            throw new Exception\RuntimeException($errMsg);
+        }
+        $exchange = new AMQPExchange($channel);
         $exchange->setName($metadata->getExchangeName());
         $type = $this->getExchangeTypeByCode($metadata->getExchangeType());
         $exchange->setType($type);
@@ -189,13 +232,17 @@ class AmqpPhpExtension extends AbstractAdapter
     /**
      * Создает очередь на основе метаданных
      *
-     * @param Metadata $metadata
+     * @param MetadataInterface $metadata
+     * @param AMQPChannel $channel
      * @return AMQPQueue
      */
-    protected function createQueueByMetadata(Metadata $metadata)
+    protected function createQueueByMetadata(MetadataInterface $metadata, AMQPChannel $channel)
     {
-        $chanel = $this->getChanel();
-        $queue = new AMQPQueue($chanel);
+        if (!$metadata instanceof Metadata) {
+            $errMsg = 'Неподдерживаемый тип метаданных';
+            throw new Exception\RuntimeException($errMsg);
+        }
+        $queue = new AMQPQueue($channel);
         $queue->setName($metadata->getQueueName());
         $queue->declareQueue();
 
@@ -218,5 +265,22 @@ class AmqpPhpExtension extends AbstractAdapter
         $type = static::$exchangeTypeToCode[$code];
 
         return $type;
+    }
+
+
+    /**
+     * Публикация сообещния в очередь
+     *
+     * @param $eventName
+     * @param MessageInterface $message
+     * @param MetadataInterface $metadata
+     */
+    public function trigger($eventName, MessageInterface $message, MetadataInterface $metadata)
+    {
+        $channel = $this->getChannel();
+        $exchange = $this->createExchangeByMetadata($metadata, $channel);
+        $exchange->declareExchange();
+        $messageData = serialize($message);
+        $exchange->publish($messageData, $eventName);
     }
 }

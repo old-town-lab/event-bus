@@ -5,7 +5,8 @@
  */
 namespace OldTown\EventBuss\Driver\RabbitMqDriver\Adapter;
 
-use \OldTown\EventBuss\Driver\RabbitMqDriver\MetadataReader\Metadata;
+use OldTown\EventBuss\MetadataReader\MetadataInterface;
+use OldTown\EventBuss\Message\MessageInterface;
 
 /**
  * Interface AdapterInterface
@@ -17,7 +18,7 @@ interface AdapterInterface
     /**
      * Инициализация шины
      *
-     * @param Metadata[] $metadata
+     * @param MetadataInterface[] $metadata
      */
     public function initEventBuss(array $metadata = []);
 
@@ -28,4 +29,13 @@ interface AdapterInterface
      * @return array
      */
     public function getConnectionConfig();
+
+
+    /**
+     * @param $eventName
+     * @param MessageInterface $message
+     * @param MetadataInterface $metadata
+     * @return
+     */
+    public function trigger($eventName, MessageInterface $message, MetadataInterface $metadata);
 }

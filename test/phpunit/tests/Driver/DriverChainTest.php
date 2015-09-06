@@ -9,6 +9,7 @@ use OldTown\EventBuss\Driver\DriverConfig;
 use OldTown\EventBuss\Driver\EventBussDriverInterface;
 use OldTown\EventBuss\Driver\EventBussDriverPluginManager;
 use OldTown\EventBuss\Driver\RabbitMqDriver;
+use OldTown\EventBuss\PhpUnit\TestData\Messages\Foo;
 use Zend\Test\PHPUnit\Controller\AbstractHttpControllerTestCase;
 use OldTown\EventBuss\Driver\DriverChain;
 use PHPUnit_Framework_MockObject_MockObject;
@@ -164,6 +165,7 @@ class DriverChainTest extends AbstractHttpControllerTestCase
         /** @var DriverChain $driverChain */
         $driverChain = $eventBussDriverPluginManager->get('chain');
 
-        $driverChain->trigger('test_event');
+        $message = new Foo();
+        $driverChain->trigger('test_event', $message);
     }
 }

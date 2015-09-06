@@ -5,8 +5,7 @@
  */
 namespace OldTown\EventBuss\Driver;
 
-use Zend\EventManager\EventInterface;
-use Zend\EventManager\ResponseCollection;
+use OldTown\EventBuss\Message\MessageInterface;
 use SplObjectStorage;
 
 /**
@@ -40,24 +39,11 @@ class DriverChain extends  AbstractDriver
         parent::__construct($options);
     }
 
-
     /**
-     * Trigger an event
-     *
-     * Should allow handling the following scenarios:
-     * - Passing Event object only
-     * - Passing event name and Event object only
-     * - Passing event name, target, and Event object
-     * - Passing event name, target, and array|ArrayAccess of arguments
-     * - Passing event name, target, array|ArrayAccess of arguments, and callback
-     *
-     * @param  string|EventInterface $event
-     * @param  object|string $target
-     * @param  array|object $argv
-     * @param  null|callable $callback
-     * @return ResponseCollection
+     * @param $eventName
+     * @param MessageInterface $message
      */
-    public function trigger($event, $target = null, $argv = [], $callback = null)
+    public function trigger($eventName, MessageInterface $message)
     {
     }
 

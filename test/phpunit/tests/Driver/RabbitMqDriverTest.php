@@ -10,6 +10,7 @@ use OldTown\EventBuss\Driver\MetadataReaderInterface;
 use OldTown\EventBuss\Driver\RabbitMqDriver;
 use OldTown\EventBuss\EventBussManager\EventBussManagerFacade;
 use OldTown\EventBuss\Module;
+use OldTown\EventBuss\PhpUnit\TestData\Messages\Foo;
 use Zend\ServiceManager\ServiceLocatorInterface;
 use Zend\Stdlib\ArrayUtils;
 use Zend\Test\PHPUnit\Controller\AbstractHttpControllerTestCase;
@@ -431,29 +432,41 @@ class RabbitMqDriverTest extends AbstractHttpControllerTestCase implements Rabbi
         );
 
         $appServiceManager = $this->getApplicationServiceLocator();
-        /** @var Module $module */
-        $module = $appServiceManager->get(Module::class);
 
-        $managerConfig = ArrayUtils::merge($module->getModuleOptions()->getEventBussManager(), [
-            'example' => [
-                'driver' => 'example'
-            ]
-        ]);
-        $module->getModuleOptions()->setEventBussManager($managerConfig);
 
-        $driverConfig = ArrayUtils::merge($module->getModuleOptions()->getDriver(), [
-            'example' => [
-                'pluginName' => RabbitMqDriver::class,
-                'paths' => [
-                    __DIR__ . '/../../_files/Messages'
+        $connectionConfig = $this->getRabbitMqConnectionForTest();
+
+
+        $this->buildEventBussManager($appServiceManager, [
+            'event_buss_manager' => [
+                'example' => [
+                    'driver' => 'example'
+                ]
+            ],
+            'connection' => [
+                'example' => [
+                    'params' => $connectionConfig
+                ]
+            ],
+            'driver' => [
+                'example' => [
+                    'pluginName' => RabbitMqDriver::class,
+                    'connection' => 'example',
+                    'paths' => [
+                        __DIR__ . '/../../_files/Messages'
+                    ]
                 ]
             ]
         ]);
-        $module->getModuleOptions()->setDriver($driverConfig);
 
         /** @var EventBussManagerFacade $eventBussManager */
         $eventBussManager = $appServiceManager->get('event_buss.manager.example');
 
-        $eventBussManager->getDriver()->trigger('test');
+        /** @var EventBussDriverInterface|MetadataReaderInterface $driver */
+        $driver = $eventBussManager->getDriver();
+        $driver->initEventBuss();
+
+        $message = new Foo();
+        $driver->trigger('create.procedure.app1', $message);
     }
 }

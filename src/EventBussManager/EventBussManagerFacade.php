@@ -6,6 +6,8 @@
 namespace OldTown\EventBuss\EventBussManager;
 
 use OldTown\EventBuss\Driver\EventBussDriverInterface;
+use OldTown\EventBuss\Message\MessageInterface;
+
 
 /**
  * Class EventBussManagerFacade
@@ -45,5 +47,26 @@ class EventBussManagerFacade implements EventBussManagerInterface
         $this->driver = $driver;
 
         return $this;
+    }
+
+    /**
+     * Бросает событие
+     *
+     * @param string $eventName
+     * @param MessageInterface $message
+     */
+    public function trigger($eventName, MessageInterface $message)
+    {
+        $this->getDriver()->trigger($eventName, $message);
+    }
+
+    /**
+     * Принимает событие
+     *
+     * @param MessageInterface $message
+     * @param $callBack
+     */
+    public function listener(MessageInterface $message, $callBack)
+    {
     }
 }

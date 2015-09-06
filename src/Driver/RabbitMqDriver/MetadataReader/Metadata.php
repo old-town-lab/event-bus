@@ -5,12 +5,14 @@
  */
 namespace OldTown\EventBuss\Driver\RabbitMqDriver\MetadataReader;
 
+use OldTown\EventBuss\MetadataReader\MetadataInterface;
+
 /**
  * Class Metadata
  *
  * @package OldTown\EventBuss\Driver\RabbitMqDriver\MetadataReader
  */
-class Metadata
+class Metadata implements MetadataInterface
 {
     /**
      * Имя очереди

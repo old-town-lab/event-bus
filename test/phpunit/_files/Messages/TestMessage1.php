@@ -6,7 +6,7 @@
 namespace OldTown\EventBuss\PhpUnit\TestData\Messages;
 
 use OldTown\EventBuss\Driver\RabbitMqDriver\MetadataReader\Annotations as EventBuss;
-
+use \OldTown\EventBuss\Message\MessageInterface;
 
 /**
  * Class TestMessage1
@@ -28,7 +28,7 @@ use OldTown\EventBuss\Driver\RabbitMqDriver\MetadataReader\Annotations as EventB
  *
  *
  */
-class TestMessage1
+class TestMessage1 implements MessageInterface
 {
 
 }
