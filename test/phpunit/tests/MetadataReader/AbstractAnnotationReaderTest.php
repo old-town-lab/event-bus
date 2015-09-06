@@ -32,7 +32,7 @@ class AbstractAnnotationReaderTest extends PHPUnit_Framework_TestCase
         /** @var AbstractAnnotationReader|PHPUnit_Framework_MockObject_MockObject $abstractAnnotationReaderMock */
         $abstractAnnotationReaderMock = static::getMockForAbstractClass(AbstractAnnotationReader::class, [
             'paths' => [
-                TestPaths::PATH_TO_TEST_MESSAGES_DIR . '/Foo.php'
+                TestPaths::getPathToTestMessageDir() . '/Foo.php'
             ]
         ]);
         $abstractAnnotationReaderMock->getAllClassNames();
@@ -48,11 +48,11 @@ class AbstractAnnotationReaderTest extends PHPUnit_Framework_TestCase
         /** @var AbstractAnnotationReader|PHPUnit_Framework_MockObject_MockObject $abstractAnnotationReaderMock */
         $abstractAnnotationReaderMock = static::getMockForAbstractClass(AbstractAnnotationReader::class, [
             'paths' => [
-                TestPaths::PATH_TO_TEST_MESSAGES_DIR
+                TestPaths::getPathToTestMessageDir()
             ]
         ]);
         $abstractAnnotationReaderMock->addExcludePaths([
-            TestPaths::PATH_TO_TEST_DATA_DIR
+            TestPaths::getPathToTestDataDir()
         ]);
         $actual = $abstractAnnotationReaderMock->getAllClassNames();
         static::assertEquals([], $actual);
@@ -69,7 +69,7 @@ class AbstractAnnotationReaderTest extends PHPUnit_Framework_TestCase
         /** @var AbstractAnnotationReader|PHPUnit_Framework_MockObject_MockObject $abstractAnnotationReaderMock */
         $abstractAnnotationReaderMock = static::getMockForAbstractClass(AbstractAnnotationReader::class, [
             'paths' => [
-                TestPaths::PATH_TO_TEST_MESSAGES_DIR
+                TestPaths::getPathToTestMessageDir()
             ]
         ]);
 
@@ -144,7 +144,7 @@ class AbstractAnnotationReaderTest extends PHPUnit_Framework_TestCase
         /** @var AbstractAnnotationReader|PHPUnit_Framework_MockObject_MockObject $abstractAnnotationReaderMock */
         $abstractAnnotationReaderMock = static::getMockForAbstractClass(AbstractAnnotationReader::class, [
             'paths' => [
-                TestPaths::PATH_TO_TEST_MESSAGES_DIR
+                TestPaths::getPathToTestMessageDir()
             ]
         ]);
 

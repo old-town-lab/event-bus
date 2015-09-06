@@ -9,13 +9,19 @@ class TestPaths
 {
     /**
      * Пути до директории с тестовыми сообщениями
-     * @var string
+     * @return string
      */
-    const PATH_TO_TEST_MESSAGES_DIR = __DIR__ . '/Messages/';
-
+    public static function getPathToTestMessageDir()
+    {
+        return  __DIR__ . '/Messages/';
+    }
     /**
      * Пути до директории с тестовыми данными
-     * @var string
+     * @return string
      */
-    const PATH_TO_TEST_DATA_DIR = __DIR__;
+    public static function getPathToTestDataDir()
+    {
+        return  __DIR__;
+    }
+
 }
