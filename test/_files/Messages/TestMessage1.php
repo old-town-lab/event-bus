@@ -26,6 +26,7 @@ use OldTown\EventBuss\Driver\RabbitMqDriver\MetadataReader\Annotations as EventB
  *     }
  * )
  *
+ *
  */
 class TestMessage1
 {
