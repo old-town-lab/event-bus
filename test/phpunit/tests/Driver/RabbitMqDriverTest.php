@@ -10,7 +10,6 @@ use OldTown\EventBuss\Driver\MetadataReaderInterface;
 use OldTown\EventBuss\Driver\RabbitMqDriver;
 use OldTown\EventBuss\EventBussManager\EventBussManagerFacade;
 use OldTown\EventBuss\Module;
-use OldTown\EventBuss\PhpUnit\TestData\Messages\Foo;
 use Zend\ServiceManager\ServiceLocatorInterface;
 use Zend\Stdlib\ArrayUtils;
 use Zend\Test\PHPUnit\Controller\AbstractHttpControllerTestCase;
@@ -368,16 +367,30 @@ class RabbitMqDriverTest extends AbstractHttpControllerTestCase implements Rabbi
         $driver = $eventBussManager->getDriver();
         $driver->initEventBuss();
 
-        /** @var Metadata $metadata */
-        $metadata = $driver->getMetadataReader()->loadMetadataForClass(Foo::class);
+        $classes = $driver->getMetadataReader()->getAllClassNames();
+        foreach ($classes as $class) {
+            /** @var Metadata $metadata */
+            $metadata = $driver->getMetadataReader()->loadMetadataForClass($class);
 
-        $actualExchange = $this->getRabbitMqTestManager()->getExchange($metadata->getExchangeName());
+            $actualExchange = $this->getRabbitMqTestManager()->getExchange($metadata->getExchangeName());
 
-        $expected = [
-            'name' => $metadata->getExchangeName(),
-            'type' => 'topic'
-        ];
-        static::assertEquals($expected, $actualExchange);
+            $expected = [
+                'name' => $metadata->getExchangeName(),
+                'type' => 'topic'
+            ];
+            static::assertEquals($expected, $actualExchange);
+
+
+            $actualQueue = $this->getRabbitMqTestManager()->getQueue($metadata->getQueueName());
+            $expected = [
+                'name' => $metadata->getQueueName()
+            ];
+            static::assertEquals($expected, $actualQueue);
+
+            $actualBindings = $this->getRabbitMqTestManager()->getBindingsByExchangeAndQueue($metadata->getExchangeName(), $metadata->getQueueName());
+            $expected = $metadata->getBindingKeys();
+            static::assertEquals($expected, $actualBindings);
+        }
     }
 
     /**

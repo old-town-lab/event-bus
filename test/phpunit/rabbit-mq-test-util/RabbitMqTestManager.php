@@ -8,6 +8,8 @@ namespace OldTown\EventBuss\PhpUnit\RabbitMqTestUtils;
 use RabbitMQ\Management\APIClient;
 use RabbitMQ\Management\Entity\Exchange;
 use RabbitMQ\Management\Entity\Queue;
+use RabbitMQ\Management\Entity\Binding;
+
 
 /**
  * Class RabbitMqTestManager
@@ -203,12 +205,39 @@ class  RabbitMqTestManager
      * Получает информацию о обменнике
      *
      * @param $name
-     * @return \RabbitMQ\Management\Entity\EntityInterface
+     * @return Exchange
      */
     public function getExchange($name)
     {
         $exchange = $this->getClient()->getExchange($this->getTestVirtualHost(), $name);
 
         return $exchange;
+    }
+
+    /**
+     * Получает информацию о очереди
+     *
+     * @param $name
+     * @return Queue
+     */
+    public function getQueue($name)
+    {
+        $queue = $this->getClient()->getQueue($this->getTestVirtualHost(), $name);
+
+        return $queue;
+    }
+
+    /**
+     * Получаем информацию о связях обменника и очереди
+     *
+     * @param $exchangeName
+     * @param $queueName
+     * @return Binding[]
+     */
+    public function getBindingsByExchangeAndQueue($exchangeName, $queueName)
+    {
+        $bindings = $this->getClient()->listBindingsByExchangeAndQueue($this->getTestVirtualHost(), $exchangeName, $queueName);
+
+        return $bindings;
     }
 }

@@ -5,7 +5,9 @@
  */
 namespace OldTown\EventBuss\PhpUnit\RabbitMqTestUtils;
 
+use OldTown\EventBuss\PhpUnit\RabbitMqTestUtils\Comparator\BindingComparator;
 use OldTown\EventBuss\PhpUnit\RabbitMqTestUtils\Comparator\ExchangeComparator;
+use OldTown\EventBuss\PhpUnit\RabbitMqTestUtils\Comparator\QueueComparator;
 use PHPUnit_Framework_TestListener;
 use PHPUnit_Framework_Test;
 use Exception;
@@ -106,6 +108,11 @@ class  RabbitMqTestListener implements PHPUnit_Framework_TestListener
             $exchangeComparator = new ExchangeComparator();
             $factory->register($exchangeComparator);
 
+            $queueComparator = new QueueComparator();
+            $factory->register($queueComparator);
+
+            $bindingComparator = new BindingComparator();
+            $factory->register($bindingComparator);
 
             static::$flagInitComparator = true;
         }
