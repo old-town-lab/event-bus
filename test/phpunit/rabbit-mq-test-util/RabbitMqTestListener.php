@@ -5,11 +5,13 @@
  */
 namespace OldTown\EventBuss\PhpUnit\RabbitMqTestUtils;
 
+use OldTown\EventBuss\PhpUnit\RabbitMqTestUtils\Comparator\ExchangeComparator;
 use PHPUnit_Framework_TestListener;
 use PHPUnit_Framework_Test;
 use Exception;
 use PHPUnit_Framework_AssertionFailedError;
 use PHPUnit_Framework_TestSuite;
+use SebastianBergmann\Comparator\Factory as ComparatorFactory;
 
 /**
  * Class RabbitMqTestListener
@@ -77,11 +79,36 @@ class  RabbitMqTestListener implements PHPUnit_Framework_TestListener
     protected $options = [];
 
     /**
+     * Флаг определяющий был ли инциализированы Comparator
+     *
+     * @var boolean
+     */
+    protected static $flagInitComparator = false;
+
+    /**
      * @inheritDoc
      */
     public function __construct(array $options = [])
     {
         $this->options = $options;
+        $this->initComparator();
+    }
+
+    /**
+     * Иниициируем возможность работы с assert'ами
+     *
+     */
+    protected function initComparator()
+    {
+        if (false === static::$flagInitComparator) {
+            $factory = ComparatorFactory::getInstance();
+
+            $exchangeComparator = new ExchangeComparator();
+            $factory->register($exchangeComparator);
+
+
+            static::$flagInitComparator = true;
+        }
     }
 
     /**

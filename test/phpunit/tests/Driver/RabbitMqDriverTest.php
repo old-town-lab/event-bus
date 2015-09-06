@@ -5,9 +5,12 @@
  */
 namespace OldTown\EventBuss\PhpUnit\Test\Driver;
 
+use OldTown\EventBuss\Driver\EventBussDriverInterface;
+use OldTown\EventBuss\Driver\MetadataReaderInterface;
 use OldTown\EventBuss\Driver\RabbitMqDriver;
 use OldTown\EventBuss\EventBussManager\EventBussManagerFacade;
 use OldTown\EventBuss\Module;
+use OldTown\EventBuss\PhpUnit\TestData\Messages\Foo;
 use Zend\ServiceManager\ServiceLocatorInterface;
 use Zend\Stdlib\ArrayUtils;
 use Zend\Test\PHPUnit\Controller\AbstractHttpControllerTestCase;
@@ -15,6 +18,8 @@ use OldTown\EventBuss\Driver\RabbitMqDriver\Adapter\AmqpPhpExtension;
 use OldTown\EventBuss\Driver\RabbitMqDriver\Adapter\AdapterInterface;
 use OldTown\EventBuss\PhpUnit\RabbitMqTestUtils\RabbitMqTestCaseTrait;
 use OldTown\EventBuss\PhpUnit\RabbitMqTestUtils\RabbitMqTestCaseInterface;
+use OldTown\EventBuss\Driver\RabbitMqDriver\MetadataReader\Metadata;
+
 
 /**
  * Class DriverChainTest
@@ -359,7 +364,20 @@ class RabbitMqDriverTest extends AbstractHttpControllerTestCase implements Rabbi
         /** @var EventBussManagerFacade $eventBussManager */
         $eventBussManager = $appServiceManager->get('event_buss.manager.example');
 
-        $eventBussManager->getDriver()->initEventBuss();
+        /** @var EventBussDriverInterface|MetadataReaderInterface $driver */
+        $driver = $eventBussManager->getDriver();
+        $driver->initEventBuss();
+
+        /** @var Metadata $metadata */
+        $metadata = $driver->getMetadataReader()->loadMetadataForClass(Foo::class);
+
+        $actualExchange = $this->getRabbitMqTestManager()->getExchange($metadata->getExchangeName());
+
+        $expected = [
+            'name' => $metadata->getExchangeName(),
+            'type' => 'topic'
+        ];
+        static::assertEquals($expected, $actualExchange);
     }
 
     /**

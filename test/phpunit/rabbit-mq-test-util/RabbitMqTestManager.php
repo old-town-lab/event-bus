@@ -198,4 +198,17 @@ class  RabbitMqTestManager
             }
         }
     }
+
+    /**
+     * Получает информацию о обменнике
+     *
+     * @param $name
+     * @return \RabbitMQ\Management\Entity\EntityInterface
+     */
+    public function getExchange($name)
+    {
+        $exchange = $this->getClient()->getExchange($this->getTestVirtualHost(), $name);
+
+        return $exchange;
+    }
 }
