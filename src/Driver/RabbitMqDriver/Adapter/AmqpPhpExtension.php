@@ -130,6 +130,8 @@ class AmqpPhpExtension extends AbstractAdapter
      * инициации шины.
      *
      * @return AMQPChannel
+     *
+     * @throws \AMQPConnectionException
      */
     public function getChannel()
     {
@@ -151,6 +153,7 @@ class AmqpPhpExtension extends AbstractAdapter
      * Получение канали используемого для инициации шины очередей
      *
      * @return AMQPChannel
+     * @throws \AMQPConnectionException
      */
     public function getChannelInitBuss()
     {
@@ -174,6 +177,8 @@ class AmqpPhpExtension extends AbstractAdapter
      *
      * @throws Exception\RuntimeException
      * @throws \Exception
+     * @throws \AMQPChannelException
+     * @throws \AMQPConnectionException
      */
     public function initEventBuss(array $metadata = [])
     {
@@ -208,6 +213,11 @@ class AmqpPhpExtension extends AbstractAdapter
      * @param MetadataInterface $metadata
      * @param AMQPChannel $channel
      * @return AMQPExchange
+     *
+     * @throws Exception\RuntimeException
+     * @throws \AMQPExchangeException
+     * @throws \AMQPChannelException
+     * @throws \AMQPConnectionException
      */
     protected function createExchangeByMetadata(MetadataInterface $metadata, AMQPChannel $channel)
     {
@@ -235,6 +245,10 @@ class AmqpPhpExtension extends AbstractAdapter
      * @param MetadataInterface $metadata
      * @param AMQPChannel $channel
      * @return AMQPQueue
+     *
+     * @throws Exception\RuntimeException
+     * @throws \AMQPChannelException
+     * @throws \AMQPConnectionException
      */
     protected function createQueueByMetadata(MetadataInterface $metadata, AMQPChannel $channel)
     {
@@ -254,6 +268,8 @@ class AmqpPhpExtension extends AbstractAdapter
      *
      * @param string $code
      * @return string
+     *
+     * @throws Exception\RuntimeException
      */
     protected function getExchangeTypeByCode($code)
     {
@@ -274,6 +290,13 @@ class AmqpPhpExtension extends AbstractAdapter
      * @param $eventName
      * @param MessageInterface $message
      * @param MetadataInterface $metadata
+     *
+     * @throws \AMQPConnectionException
+     *
+     * @throws Exception\RuntimeException
+     * @throws \AMQPExchangeException
+     * @throws \AMQPChannelException
+     *
      */
     public function trigger($eventName, MessageInterface $message, MetadataInterface $metadata)
     {

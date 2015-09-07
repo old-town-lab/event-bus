@@ -5,12 +5,14 @@
  */
 namespace OldTown\EventBuss\Message;
 
-use \Zend\Stdlib\MessageInterface as BaseMessageInterface;
+use \Zend\Stdlib\Message;
+
 
 /**
- * Interface MessageInterface
+ * Class AbstractMessage
+ *
  * @package OldTown\EventBuss\Message
  */
-interface MessageInterface extends BaseMessageInterface
+abstract class AbstractMessage extends Message implements MessageInterface
 {
 }
