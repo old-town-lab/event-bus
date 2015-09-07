@@ -1,5 +1,5 @@
 {
-  "name": "old-town/event-buss",
+  "name": "old-town/event-bus",
   "description": "Bus for communication applications.",
   "type": "library",
   "keywords": [
