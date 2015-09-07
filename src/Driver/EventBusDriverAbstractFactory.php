@@ -30,7 +30,7 @@ class EventBusDriverAbstractFactory implements AbstractFactoryInterface
      * @param $name
      * @param $requestedName
      *
-*@return bool
+     *@return bool
      *
      * @throws \Zend\ServiceManager\Exception\ServiceNotFoundException
      * @throws \OldTown\EventBus\Driver\Exception\ErrorCreateEventBusDriverException

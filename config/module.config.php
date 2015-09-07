@@ -12,6 +12,7 @@ use OldTown\EventBus\EventBusManager\EventBusManagerAbstractFactory;
 use OldTown\EventBus\EventBusManager\EventBusManagerFactory;
 use OldTown\EventBus\EventBusManager\EventBusPluginManager;
 use OldTown\EventBus\EventBusManager\EventBusPluginManagerFactory;
+use OldTown\EventBus\Message\PluginMessageAbstractFactory;
 use OldTown\EventBus\MetadataReader\EventBusMetadataReaderPluginManager;
 use OldTown\EventBus\MetadataReader\EventBusMetadataReaderPluginManagerFactory;
 use OldTown\EventBus\Options\ModuleOptions;
@@ -68,9 +69,10 @@ return [
         ]
     ],
     'event_bus_message' => [
-
+        'abstract_factories' =>[
+            PluginMessageAbstractFactory::class => PluginMessageAbstractFactory::class
+        ],
     ],
-
     'event_bus' => [
         'connection' => [
             'default' => [
