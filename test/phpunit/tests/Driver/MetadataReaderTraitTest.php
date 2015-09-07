@@ -7,7 +7,7 @@ namespace OldTown\EventBus\PhpUnit\Test\Driver;
 
 use OldTown\EventBus\Driver\DriverConfig;
 use OldTown\EventBus\Driver\MetadataReaderTrait;
-use OldTown\EventBus\MetadataReader\EventBussMetadataReaderPluginManager;
+use OldTown\EventBus\MetadataReader\EventBusMetadataReaderPluginManager;
 use OldTown\EventBus\MetadataReader\ReaderInterface;
 use PHPUnit_Framework_TestCase;
 use PHPUnit_Framework_MockObject_MockObject;
@@ -102,8 +102,8 @@ class MetadataReaderTraitTest extends PHPUnit_Framework_TestCase
         /** @var PHPUnit_Framework_MockObject_MockObject|MetadataReaderTrait $metadataReaderTraitMock */
         $metadataReaderTraitMock = static::getMockForTrait(MetadataReaderTrait::class);
 
-        /** @var EventBussMetadataReaderPluginManager $metadataReaderPluginManager */
-        $expected = $metadataReaderPluginManager = static::getMock(EventBussMetadataReaderPluginManager::class);
+        /** @var EventBusMetadataReaderPluginManager $metadataReaderPluginManager */
+        $expected = $metadataReaderPluginManager = static::getMock(EventBusMetadataReaderPluginManager::class);
 
         $metadataReaderTraitMock->setMetadataReaderPluginManager($metadataReaderPluginManager);
         $actual = $metadataReaderTraitMock->getMetadataReaderPluginManager();
@@ -182,8 +182,8 @@ class MetadataReaderTraitTest extends PHPUnit_Framework_TestCase
     {
         $metadataReaderName = 'metadataReader';
 
-        /** @var EventBussMetadataReaderPluginManager $metadataReaderPluginManager */
-        $metadataReaderPluginManager = new EventBussMetadataReaderPluginManager();
+        /** @var EventBusMetadataReaderPluginManager $metadataReaderPluginManager */
+        $metadataReaderPluginManager = new EventBusMetadataReaderPluginManager();
         $expectedMetadataReader = static::getMock(ReaderInterface::class);
         $metadataReaderPluginManager->setService($metadataReaderName, $expectedMetadataReader);
 

@@ -7,7 +7,7 @@ namespace OldTown\EventBus\PhpUnit\Test\Driver\RabbitMqDriver\MetadataReader;
 
 use PHPUnit_Framework_TestCase;
 use OldTown\EventBus\Driver\RabbitMqDriver\MetadataReader\Metadata;
-use OldTown\EventBus\Driver\RabbitMqDriver\MetadataReader\Annotations\EventBussMessage;
+use OldTown\EventBus\Driver\RabbitMqDriver\MetadataReader\Annotations\EventBusMessage;
 use OldTown\EventBus\Driver\RabbitMqDriver\MetadataReader\Annotations\Queue;
 use OldTown\EventBus\Driver\RabbitMqDriver\MetadataReader\Annotations\Exchange;
 use OldTown\EventBus\Driver\RabbitMqDriver\MetadataReader\Annotations\BindingKey;
@@ -30,7 +30,7 @@ class MetadataTest extends PHPUnit_Framework_TestCase
      */
     protected function setUp()
     {
-        $message = new EventBussMessage();
+        $message = new EventBusMessage();
         $message->queue = new Queue();
         $message->exchange = new Exchange();
 
@@ -98,7 +98,7 @@ class MetadataTest extends PHPUnit_Framework_TestCase
         ];
 
 
-        $message = new EventBussMessage();
+        $message = new EventBusMessage();
         $message->queue = new Queue();
         $message->queue->name = $expectedQueueName;
         $message->exchange = new Exchange();

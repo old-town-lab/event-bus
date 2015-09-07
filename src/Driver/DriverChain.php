@@ -16,26 +16,26 @@ use SplObjectStorage;
 class DriverChain extends  AbstractDriver
 {
     /**
-     * @var EventBussDriverInterface[]|SplObjectStorage
+     * @var EventBusDriverInterface[]|SplObjectStorage
      */
     protected $drivers;
 
     /**
-     * @var EventBussDriverPluginManager
+     * @var EventBusDriverPluginManager
      */
-    protected $eventBussDriverPluginManager;
+    protected $eventBusDriverPluginManager;
 
     /**
      * @param array $options
-     * @param EventBussDriverPluginManager $eventBussDriverPluginManager
+     * @param EventBusDriverPluginManager $eventBusDriverPluginManager
      *
      * @throws \Zend\Stdlib\Exception\InvalidArgumentException
      * @throws \OldTown\EventBus\Driver\Exception\InvalidArgumentException
      */
-    public function __construct($options = null, EventBussDriverPluginManager $eventBussDriverPluginManager)
+    public function __construct($options = null, EventBusDriverPluginManager $eventBusDriverPluginManager)
     {
         $this->drivers = new \SplObjectStorage();
-        $this->setEventBussDriverPluginManager($eventBussDriverPluginManager);
+        $this->setEventBusDriverPluginManager($eventBusDriverPluginManager);
         parent::__construct($options);
     }
 
@@ -48,7 +48,7 @@ class DriverChain extends  AbstractDriver
     }
 
     /**
-     * @param EventBussDriverInterface $driver
+     * @param EventBusDriverInterface $driver
      *
      * @return $this
      */
@@ -60,7 +60,7 @@ class DriverChain extends  AbstractDriver
     }
 
     /**
-     * @return EventBussDriverInterface[]|SplObjectStorage
+     * @return EventBusDriverInterface[]|SplObjectStorage
      */
     public function getDrivers()
     {
@@ -68,21 +68,21 @@ class DriverChain extends  AbstractDriver
     }
 
     /**
-     * @return EventBussDriverPluginManager
+     * @return EventBusDriverPluginManager
      */
-    public function getEventBussDriverPluginManager()
+    public function getEventBusDriverPluginManager()
     {
-        return $this->eventBussDriverPluginManager;
+        return $this->eventBusDriverPluginManager;
     }
 
     /**
-     * @param EventBussDriverPluginManager $eventBussDriverPluginManager
+     * @param EventBusDriverPluginManager $eventBusDriverPluginManager
      *
      * @return $this
      */
-    public function setEventBussDriverPluginManager(EventBussDriverPluginManager $eventBussDriverPluginManager)
+    public function setEventBusDriverPluginManager(EventBusDriverPluginManager $eventBusDriverPluginManager)
     {
-        $this->eventBussDriverPluginManager = $eventBussDriverPluginManager;
+        $this->eventBusDriverPluginManager = $eventBusDriverPluginManager;
 
         return $this;
     }
@@ -93,7 +93,7 @@ class DriverChain extends  AbstractDriver
      *
      * @return $this
      *
-     * @throws \OldTown\EventBus\Driver\Exception\ErrorCreateEventBussDriverException
+     * @throws \OldTown\EventBus\Driver\Exception\ErrorCreateEventBusDriverException
      */
     public function setOptions(array $options = [])
     {
@@ -109,7 +109,7 @@ class DriverChain extends  AbstractDriver
      *
      * @return $this
      *
-     * @throws \OldTown\EventBus\Driver\Exception\ErrorCreateEventBussDriverException
+     * @throws \OldTown\EventBus\Driver\Exception\ErrorCreateEventBusDriverException
      */
     protected function buildDriversFromConfig(array $config = [])
     {
@@ -119,12 +119,12 @@ class DriverChain extends  AbstractDriver
             try {
                 $pluginName = $driverConfig->getPluginName();
                 $pluginConfig = $driverConfig->getPluginConfig();
-                /** @var EventBussDriverInterface $driver */
-                $driver = $this->getEventBussDriverPluginManager()->get($pluginName, $pluginConfig);
+                /** @var EventBusDriverInterface $driver */
+                $driver = $this->getEventBusDriverPluginManager()->get($pluginName, $pluginConfig);
 
                 $this->addDriver($driver);
             } catch (\Exception $e) {
-                throw new Exception\ErrorCreateEventBussDriverException($e->getMessage(), $e->getCode(), $e);
+                throw new Exception\ErrorCreateEventBusDriverException($e->getMessage(), $e->getCode(), $e);
             }
         }
     }
@@ -135,11 +135,11 @@ class DriverChain extends  AbstractDriver
      *
      * @return void
      */
-    public function initEventBuss()
+    public function initEventBus()
     {
         $drivers = $this->getDrivers();
         foreach ($drivers as $driver) {
-            $driver->initEventBuss();
+            $driver->initEventBus();
         }
     }
 }

@@ -84,7 +84,7 @@ class AmqpPhpExtension extends AbstractAdapter
      *
      * @var AMQPChannel
      */
-    protected $channelInitBuss;
+    protected $channelInitBus;
 
     /**
      * Имя расширения используемого для взаимодействия с сервером очередей
@@ -155,19 +155,19 @@ class AmqpPhpExtension extends AbstractAdapter
      * @return AMQPChannel
      * @throws \AMQPConnectionException
      */
-    public function getChannelInitBuss()
+    public function getChannelInitBus()
     {
-        if ($this->channelInitBuss) {
-            return $this->channelInitBuss;
+        if ($this->channelInitBus) {
+            return $this->channelInitBus;
         }
 
         $connection = $this->getConnection();
         if (!$connection->isConnected()) {
             $connection->connect();
         }
-        $this->channelInitBuss = new AMQPChannel($connection);
+        $this->channelInitBus = new AMQPChannel($connection);
 
-        return $this->channelInitBuss;
+        return $this->channelInitBus;
     }
 
     /**
@@ -180,9 +180,9 @@ class AmqpPhpExtension extends AbstractAdapter
      * @throws \AMQPChannelException
      * @throws \AMQPConnectionException
      */
-    public function initEventBuss(array $metadata = [])
+    public function initEventBus(array $metadata = [])
     {
-        $channel = $this->getChannelInitBuss();
+        $channel = $this->getChannelInitBus();
         try {
             $channel->startTransaction();
             foreach ($metadata as $data) {

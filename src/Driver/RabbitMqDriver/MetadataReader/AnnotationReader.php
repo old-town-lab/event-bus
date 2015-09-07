@@ -19,7 +19,7 @@ class AnnotationReader extends AbstractAnnotationReader
      * @var array
      */
     protected $messageAnnotationClasses = [
-        Annotations\EventBussMessage::class
+        Annotations\EventBusMessage::class
     ];
 
     /**
@@ -43,19 +43,19 @@ class AnnotationReader extends AbstractAnnotationReader
         }
         $annotations = $this->getClassAnnotation($className);
 
-        $eventBussMessageAnnotation = null;
+        $eventBusMessageAnnotation = null;
         foreach ($annotations as $annotation) {
-            if ($annotation instanceof Annotations\EventBussMessage) {
-                $eventBussMessageAnnotation = $annotation;
+            if ($annotation instanceof Annotations\EventBusMessage) {
+                $eventBusMessageAnnotation = $annotation;
                 break;
             }
         }
-        if (null === $eventBussMessageAnnotation) {
+        if (null === $eventBusMessageAnnotation) {
             $errMsg = sprintf('Класс не содержит необходимых метаданных : %s', $className);
             throw new Exception\InvalidClassException($errMsg);
         }
 
-        $metadata = new Metadata($eventBussMessageAnnotation);
+        $metadata = new Metadata($eventBusMessageAnnotation);
 
         $this->metadataForClass[$className] = $metadata;
 

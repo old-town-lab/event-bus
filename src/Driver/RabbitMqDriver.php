@@ -105,7 +105,7 @@ class RabbitMqDriver extends AbstractDriver implements ConnectionDriverInterface
      *
      * @return AdapterInterface
      *
-     * @throws \OldTown\EventBus\Driver\Exception\InvalidEventBussDriverConfigException
+     * @throws \OldTown\EventBus\Driver\Exception\InvalidEventBusDriverConfigException
      * @throws \OldTown\EventBus\Driver\Exception\InvalidAdapterNameException
      */
     public function getAdapter()
@@ -130,7 +130,7 @@ class RabbitMqDriver extends AbstractDriver implements ConnectionDriverInterface
      *
      * @return void
      *
-     * @throws \OldTown\EventBus\Driver\Exception\InvalidEventBussDriverConfigException
+     * @throws \OldTown\EventBus\Driver\Exception\InvalidEventBusDriverConfigException
      * @throws \OldTown\EventBus\Driver\Exception\InvalidAdapterNameException
      * @throws \Zend\ServiceManager\Exception\ServiceNotFoundException
      * @throws \Zend\ServiceManager\Exception\ServiceNotCreatedException
@@ -138,7 +138,7 @@ class RabbitMqDriver extends AbstractDriver implements ConnectionDriverInterface
      * @throws \OldTown\EventBus\Driver\Exception\InvalidMetadataReaderNameException
      * @throws \OldTown\EventBus\MetadataReader\Exception\InvalidPathException
      */
-    public function initEventBuss()
+    public function initEventBus()
     {
         $reader = $this->getMetadataReader();
         $allClassNames = $reader->getAllClassNames();
@@ -150,6 +150,6 @@ class RabbitMqDriver extends AbstractDriver implements ConnectionDriverInterface
             $metadataStorage[$classNames] = $metadata;
         }
 
-        $this->getAdapter()->initEventBuss($metadataStorage);
+        $this->getAdapter()->initEventBus($metadataStorage);
     }
 }

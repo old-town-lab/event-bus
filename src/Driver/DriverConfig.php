@@ -48,7 +48,7 @@ class DriverConfig
     const METADATA_READER = 'metadataReader';
 
     /**
-     * Имя плагина зарегестрированного в EventBussDriverManager
+     * Имя плагина зарегестрированного в EventBusDriverManager
      *
      * @var string
      */
@@ -62,7 +62,7 @@ class DriverConfig
     protected $drivers = [];
 
     /**
-     * Имя соедения используемое для драйвера (в конфиге приложения event_buss|connection)
+     * Имя соедения используемое для драйвера (в конфиге приложения event_bus|connection)
      *
      * @var string|null
      */
@@ -99,7 +99,7 @@ class DriverConfig
     /**
      * @param array $config
      *
-     * @throws \OldTown\EventBus\Driver\Exception\InvalidEventBussDriverConfigException
+     * @throws \OldTown\EventBus\Driver\Exception\InvalidEventBusDriverConfigException
      * @throws \OldTown\EventBus\Driver\Exception\InvalidArgumentException
      */
     public function __construct(array $config = [])
@@ -110,14 +110,14 @@ class DriverConfig
     /**
      * @param array $config
      *
-     * @throws \OldTown\EventBus\Driver\Exception\InvalidEventBussDriverConfigException
+     * @throws \OldTown\EventBus\Driver\Exception\InvalidEventBusDriverConfigException
      * @throws \OldTown\EventBus\Driver\Exception\InvalidArgumentException
      */
     protected function init(array $config = [])
     {
         if (!array_key_exists(static::PLUGIN_NAME, $config)) {
             $errMsg = sprintf('Отсутствует секция %s', static::PLUGIN_NAME);
-            throw new Exception\InvalidEventBussDriverConfigException($errMsg);
+            throw new Exception\InvalidEventBusDriverConfigException($errMsg);
         }
         $this->setPluginName($config[static::PLUGIN_NAME]);
         unset($config[static::PLUGIN_NAME]);

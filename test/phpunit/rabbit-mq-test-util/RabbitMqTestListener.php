@@ -32,7 +32,7 @@ class  RabbitMqTestListener implements PHPUnit_Framework_TestListener
      *
      * @var string
      */
-    protected $defaultTestVirtualHost = 'test_event_buss';
+    protected $defaultTestVirtualHost = 'test_event_bus';
 
     /**
      * Имя хоста используемого для тестирования
@@ -56,8 +56,8 @@ class  RabbitMqTestListener implements PHPUnit_Framework_TestListener
     protected $defaultConnection = [
         RabbitMqTestManager::HOST     => 'localhost',
         RabbitMqTestManager::PORT_API     => '15672',
-        RabbitMqTestManager::LOGIN    => 'test_event_buss',
-        RabbitMqTestManager::PASSWORD => 'test_event_buss'
+        RabbitMqTestManager::LOGIN    => 'test_event_bus',
+        RabbitMqTestManager::PASSWORD => 'test_event_bus'
     ];
 
     /**
@@ -68,9 +68,9 @@ class  RabbitMqTestListener implements PHPUnit_Framework_TestListener
     protected $defaultRabbitMqConnectionForTest = [
         RabbitMqTestManager::HOST     => 'localhost',
         RabbitMqTestManager::PORT     => '5672',
-        RabbitMqTestManager::LOGIN    => 'test_event_buss',
-        RabbitMqTestManager::PASSWORD => 'test_event_buss',
-        RabbitMqTestManager::VHOST => 'test_event_buss'
+        RabbitMqTestManager::LOGIN    => 'test_event_bus',
+        RabbitMqTestManager::PASSWORD => 'test_event_bus',
+        RabbitMqTestManager::VHOST => 'test_event_bus'
     ];
 
     /**

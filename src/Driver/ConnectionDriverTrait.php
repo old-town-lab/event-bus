@@ -25,7 +25,7 @@ trait ConnectionDriverTrait
     /**
      * @return array
      *
-     * @throws \OldTown\EventBus\Driver\Exception\InvalidEventBussDriverConfigException
+     * @throws \OldTown\EventBus\Driver\Exception\InvalidEventBusDriverConfigException
      */
     public function getConnectionConfig()
     {
@@ -35,7 +35,7 @@ trait ConnectionDriverTrait
         $driverOption = $this->getDriverOptions();
         if (!array_key_exists(DriverConfig::CONNECTION_CONFIG, $driverOption)) {
             $errMsg = sprintf('Отсутствует секция %s', DriverConfig::CONNECTION_CONFIG);
-            throw new Exception\InvalidEventBussDriverConfigException($errMsg);
+            throw new Exception\InvalidEventBusDriverConfigException($errMsg);
         }
         $this->connectionConfig = $driverOption[DriverConfig::CONNECTION_CONFIG];
 

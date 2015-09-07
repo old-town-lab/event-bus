@@ -3,67 +3,75 @@ namespace OldTown\EventBus;
 
 use OldTown\EventBus\Driver\DriverChain;
 use OldTown\EventBus\Driver\DriverChainFactory;
-use OldTown\EventBus\Driver\EventBussDriverAbstractFactory;
-use OldTown\EventBus\Driver\EventBussDriverPluginManager;
-use OldTown\EventBus\Driver\EventBussDriverPluginManagerFactory;
+use OldTown\EventBus\Driver\EventBusDriverAbstractFactory;
+use OldTown\EventBus\Driver\EventBusDriverPluginManager;
+use OldTown\EventBus\Driver\EventBusDriverPluginManagerFactory;
 use OldTown\EventBus\Driver\RabbitMqDriver;
-use OldTown\EventBus\EventBussManager\EventBussManagerFacade;
-use OldTown\EventBus\EventBussManager\EventBussManagerAbstractFactory;
-use OldTown\EventBus\EventBussManager\EventBussManagerFactory;
-use OldTown\EventBus\EventBussManager\EventBussPluginManager;
-use OldTown\EventBus\EventBussManager\EventBussPluginManagerFactory;
-use OldTown\EventBus\MetadataReader\EventBussMetadataReaderPluginManager;
-use OldTown\EventBus\MetadataReader\EventBussMetadataReaderPluginManagerFactory;
+use OldTown\EventBus\EventBusManager\EventBusManagerFacade;
+use OldTown\EventBus\EventBusManager\EventBusManagerAbstractFactory;
+use OldTown\EventBus\EventBusManager\EventBusManagerFactory;
+use OldTown\EventBus\EventBusManager\EventBusPluginManager;
+use OldTown\EventBus\EventBusManager\EventBusPluginManagerFactory;
+use OldTown\EventBus\MetadataReader\EventBusMetadataReaderPluginManager;
+use OldTown\EventBus\MetadataReader\EventBusMetadataReaderPluginManagerFactory;
 use OldTown\EventBus\Options\ModuleOptions;
 use OldTown\EventBus\Options\ModuleOptionsFactory;
-use OldTown\EventBus\Driver\EventBussPluginDriverAbstractFactory;
+use OldTown\EventBus\Driver\EventBusPluginDriverAbstractFactory;
 use OldTown\EventBus\Driver\RabbitMqDriver\MetadataReader\AnnotationReader;
+use OldTown\EventBus\Message\EventBusMessagePluginManager;
+use OldTown\EventBus\Message\EventBusMessagePluginManagerFactory;
+
 
 return [
     'service_manager' => [
         'abstract_factories' =>[
-            EventBussManagerAbstractFactory::class => EventBussManagerAbstractFactory::class,
-            EventBussDriverAbstractFactory::class => EventBussDriverAbstractFactory::class
+            EventBusManagerAbstractFactory::class => EventBusManagerAbstractFactory::class,
+            EventBusDriverAbstractFactory::class => EventBusDriverAbstractFactory::class
         ],
         'factories' => [
             ModuleOptions::class => ModuleOptionsFactory::class,
-            EventBussPluginManager::class => EventBussPluginManagerFactory::class,
-            EventBussDriverPluginManager::class => EventBussDriverPluginManagerFactory::class,
-            EventBussMetadataReaderPluginManager::class => EventBussMetadataReaderPluginManagerFactory::class
+            EventBusPluginManager::class => EventBusPluginManagerFactory::class,
+            EventBusDriverPluginManager::class => EventBusDriverPluginManagerFactory::class,
+            EventBusMetadataReaderPluginManager::class => EventBusMetadataReaderPluginManagerFactory::class,
+            EventBusMessagePluginManager::class => EventBusMessagePluginManagerFactory::class
         ],
         'aliases' => [
-            'eventBussPluginManager' => EventBussPluginManager::class,
-            'eventBussDriverManager' => EventBussDriverPluginManager::class,
-            'eventBussMetadataReaderManager' => EventBussMetadataReaderPluginManager::class
+            'eventBusPluginManager' => EventBusPluginManager::class,
+            'eventBusDriverManager' => EventBusDriverPluginManager::class,
+            'eventBusMetadataReaderManager' => EventBusMetadataReaderPluginManager::class,
+            'eventBusMessageManager' => EventBusMessagePluginManager::class
         ]
     ],
-    'event_buss_manager' => [
+    'event_bus_manager' => [
         'factories' => [
-            EventBussManagerFacade::class => EventBussManagerFactory::class,
+            EventBusManagerFacade::class => EventBusManagerFactory::class,
         ],
         'aliases' => [
-            'default' => EventBussManagerFacade::class
+            'default' => EventBusManagerFacade::class
         ]
     ],
-    'event_buss_driver' => [
+    'event_bus_driver' => [
         'factories' => [
             DriverChain::class => DriverChainFactory::class,
         ],
         'abstract_factories' =>[
-            EventBussPluginDriverAbstractFactory::class => EventBussPluginDriverAbstractFactory::class
+            EventBusPluginDriverAbstractFactory::class => EventBusPluginDriverAbstractFactory::class
         ],
         'aliases' => [
             'chain' => DriverChain::class,
             'rabbit' => RabbitMqDriver::class
         ]
     ],
-    'event_buss_metadata_reader' => [
+    'event_bus_metadata_reader' => [
         'invokables' => [
             AnnotationReader::class => AnnotationReader::class
         ]
     ],
+    'event_bus_message' => [
 
-    'event_buss' => [
+    ],
+
+    'event_bus' => [
         'connection' => [
             'default' => [
                 'params' => [
@@ -75,7 +83,7 @@ return [
                 ]
             ]
         ],
-        'event_buss_manager' => [
+        'event_bus_manager' => [
             'default' => [
                 'driver' => 'default'
             ]

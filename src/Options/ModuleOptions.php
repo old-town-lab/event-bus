@@ -22,11 +22,11 @@ class ModuleOptions extends AbstractOptions
     protected $connection;
 
     /**
-     * Конфигурация EventBussManagerFacade
+     * Конфигурация EventBusManagerFacade
      *
      * @var  array
      */
-    protected $eventBussManager;
+    protected $EventBusManager;
 
     /**
      * Конфигурация драйверов реализующих взаимодействие с шиной
@@ -58,19 +58,19 @@ class ModuleOptions extends AbstractOptions
     /**
      * @return array
      */
-    public function getEventBussManager()
+    public function getEventBusManager()
     {
-        return $this->eventBussManager;
+        return $this->EventBusManager;
     }
 
     /**
-     * @param array $eventBussManager
+     * @param array $EventBusManager
      *
      * @return $this
      */
-    public function setEventBussManager(array $eventBussManager)
+    public function setEventBusManager(array $EventBusManager)
     {
-        $this->eventBussManager = $eventBussManager;
+        $this->EventBusManager = $EventBusManager;
 
         return $this;
     }

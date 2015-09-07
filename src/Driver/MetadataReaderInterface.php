@@ -5,7 +5,7 @@
  */
 namespace OldTown\EventBus\Driver;
 
-use OldTown\EventBus\MetadataReader\EventBussMetadataReaderPluginManager;
+use OldTown\EventBus\MetadataReader\EventBusMetadataReaderPluginManager;
 use OldTown\EventBus\MetadataReader\ReaderInterface;
 
 /**
@@ -32,16 +32,16 @@ interface MetadataReaderInterface
     public function setPaths(array $paths = []);
 
     /**
-     * @return EventBussMetadataReaderPluginManager
+     * @return EventBusMetadataReaderPluginManager
      */
     public function getMetadataReaderPluginManager();
 
     /**
-     * @param EventBussMetadataReaderPluginManager $metadataReaderPluginManager
+     * @param EventBusMetadataReaderPluginManager $metadataReaderPluginManager
      *
      * @return $this
      */
-    public function setMetadataReaderPluginManager(EventBussMetadataReaderPluginManager $metadataReaderPluginManager);
+    public function setMetadataReaderPluginManager(EventBusMetadataReaderPluginManager $metadataReaderPluginManager);
 
 
     /**

@@ -5,10 +5,10 @@
  */
 namespace OldTown\EventBus\PhpUnit\Test\Driver;
 
-use OldTown\EventBus\Driver\EventBussDriverInterface;
+use OldTown\EventBus\Driver\EventBusDriverInterface;
 use OldTown\EventBus\Driver\MetadataReaderInterface;
 use OldTown\EventBus\Driver\RabbitMqDriver;
-use OldTown\EventBus\EventBussManager\EventBussManagerFacade;
+use OldTown\EventBus\EventBusManager\EventBusManagerFacade;
 use OldTown\EventBus\Module;
 use OldTown\EventBus\PhpUnit\TestData\Messages\Foo;
 use Zend\ServiceManager\ServiceLocatorInterface;
@@ -44,12 +44,12 @@ class RabbitMqDriverTest extends AbstractHttpControllerTestCase implements Rabbi
         /** @var Module $module */
         $module = $appServiceManager->get(Module::class);
 
-        $managerConfig = ArrayUtils::merge($module->getModuleOptions()->getEventBussManager(), [
+        $managerConfig = ArrayUtils::merge($module->getModuleOptions()->getEventBusManager(), [
             'example' => [
                 'driver' => 'example'
             ]
         ]);
-        $module->getModuleOptions()->setEventBussManager($managerConfig);
+        $module->getModuleOptions()->setEventBusManager($managerConfig);
 
         $driverConfig = ArrayUtils::merge($module->getModuleOptions()->getDriver(), [
             'example' => [
@@ -58,11 +58,11 @@ class RabbitMqDriverTest extends AbstractHttpControllerTestCase implements Rabbi
         ]);
         $module->getModuleOptions()->setDriver($driverConfig);
 
-        /** @var EventBussManagerFacade $eventBussManager */
-        $eventBussManager = $appServiceManager->get('event_buss.manager.example');
+        /** @var EventBusManagerFacade $eventBusManager */
+        $eventBusManager = $appServiceManager->get('event_bus.manager.example');
 
         /** @var RabbitMqDriver $driver */
-        $driver = $eventBussManager->getDriver();
+        $driver = $eventBusManager->getDriver();
 
         $actualAdapterName = $driver->getAdapterName();
 
@@ -87,12 +87,12 @@ class RabbitMqDriverTest extends AbstractHttpControllerTestCase implements Rabbi
         /** @var Module $module */
         $module = $appServiceManager->get(Module::class);
 
-        $managerConfig = ArrayUtils::merge($module->getModuleOptions()->getEventBussManager(), [
+        $managerConfig = ArrayUtils::merge($module->getModuleOptions()->getEventBusManager(), [
             'example' => [
                 'driver' => 'example'
             ]
         ]);
-        $module->getModuleOptions()->setEventBussManager($managerConfig);
+        $module->getModuleOptions()->setEventBusManager($managerConfig);
 
         $driverConfig = ArrayUtils::merge($module->getModuleOptions()->getDriver(), [
             'example' => [
@@ -102,11 +102,11 @@ class RabbitMqDriverTest extends AbstractHttpControllerTestCase implements Rabbi
         ]);
         $module->getModuleOptions()->setDriver($driverConfig);
 
-        /** @var EventBussManagerFacade $eventBussManager */
-        $eventBussManager = $appServiceManager->get('event_buss.manager.example');
+        /** @var EventBusManagerFacade $eventBusManager */
+        $eventBusManager = $appServiceManager->get('event_bus.manager.example');
 
         /** @var RabbitMqDriver $driver */
-        $driver = $eventBussManager->getDriver();
+        $driver = $eventBusManager->getDriver();
 
         $driver->getAdapterName();
     }
@@ -129,12 +129,12 @@ class RabbitMqDriverTest extends AbstractHttpControllerTestCase implements Rabbi
         /** @var Module $module */
         $module = $appServiceManager->get(Module::class);
 
-        $managerConfig = ArrayUtils::merge($module->getModuleOptions()->getEventBussManager(), [
+        $managerConfig = ArrayUtils::merge($module->getModuleOptions()->getEventBusManager(), [
             'example' => [
                 'driver' => 'example'
             ]
         ]);
-        $module->getModuleOptions()->setEventBussManager($managerConfig);
+        $module->getModuleOptions()->setEventBusManager($managerConfig);
 
         $driverConfig = ArrayUtils::merge($module->getModuleOptions()->getDriver(), [
             'example' => [
@@ -144,11 +144,11 @@ class RabbitMqDriverTest extends AbstractHttpControllerTestCase implements Rabbi
         ]);
         $module->getModuleOptions()->setDriver($driverConfig);
 
-        /** @var EventBussManagerFacade $eventBussManager */
-        $eventBussManager = $appServiceManager->get('event_buss.manager.example');
+        /** @var EventBusManagerFacade $eventBusManager */
+        $eventBusManager = $appServiceManager->get('event_bus.manager.example');
 
         /** @var RabbitMqDriver $driver */
-        $driver = $eventBussManager->getDriver();
+        $driver = $eventBusManager->getDriver();
 
         $driver->getAdapterName();
     }
@@ -168,12 +168,12 @@ class RabbitMqDriverTest extends AbstractHttpControllerTestCase implements Rabbi
         /** @var Module $module */
         $module = $appServiceManager->get(Module::class);
 
-        $managerConfig = ArrayUtils::merge($module->getModuleOptions()->getEventBussManager(), [
+        $managerConfig = ArrayUtils::merge($module->getModuleOptions()->getEventBusManager(), [
             'example' => [
                 'driver' => 'example'
             ]
         ]);
-        $module->getModuleOptions()->setEventBussManager($managerConfig);
+        $module->getModuleOptions()->setEventBusManager($managerConfig);
 
 
         $adapter = $this->getMock(AdapterInterface::class);
@@ -187,11 +187,11 @@ class RabbitMqDriverTest extends AbstractHttpControllerTestCase implements Rabbi
         ]);
         $module->getModuleOptions()->setDriver($driverConfig);
 
-        /** @var EventBussManagerFacade $eventBussManager */
-        $eventBussManager = $appServiceManager->get('event_buss.manager.example');
+        /** @var EventBusManagerFacade $eventBusManager */
+        $eventBusManager = $appServiceManager->get('event_bus.manager.example');
 
         /** @var RabbitMqDriver $driver */
-        $driver = $eventBussManager->getDriver();
+        $driver = $eventBusManager->getDriver();
 
         $actualAdapterName = $driver->getAdapterName();
 
@@ -212,12 +212,12 @@ class RabbitMqDriverTest extends AbstractHttpControllerTestCase implements Rabbi
         /** @var Module $module */
         $module = $appServiceManager->get(Module::class);
 
-        $managerConfig = ArrayUtils::merge($module->getModuleOptions()->getEventBussManager(), [
+        $managerConfig = ArrayUtils::merge($module->getModuleOptions()->getEventBusManager(), [
             'example' => [
                 'driver' => 'example'
             ]
         ]);
-        $module->getModuleOptions()->setEventBussManager($managerConfig);
+        $module->getModuleOptions()->setEventBusManager($managerConfig);
 
 
         $adapter = $this->getMock(AdapterInterface::class);
@@ -231,11 +231,11 @@ class RabbitMqDriverTest extends AbstractHttpControllerTestCase implements Rabbi
         ]);
         $module->getModuleOptions()->setDriver($driverConfig);
 
-        /** @var EventBussManagerFacade $eventBussManager */
-        $eventBussManager = $appServiceManager->get('event_buss.manager.example');
+        /** @var EventBusManagerFacade $eventBusManager */
+        $eventBusManager = $appServiceManager->get('event_bus.manager.example');
 
         /** @var RabbitMqDriver $driver */
-        $driver = $eventBussManager->getDriver();
+        $driver = $eventBusManager->getDriver();
 
         $expectedAdapterName = $driver->getAdapterName();
         $actualAdapterName = $driver->getAdapterName();
@@ -257,12 +257,12 @@ class RabbitMqDriverTest extends AbstractHttpControllerTestCase implements Rabbi
         /** @var Module $module */
         $module = $appServiceManager->get(Module::class);
 
-        $managerConfig = ArrayUtils::merge($module->getModuleOptions()->getEventBussManager(), [
+        $managerConfig = ArrayUtils::merge($module->getModuleOptions()->getEventBusManager(), [
             'example' => [
                 'driver' => 'example'
             ]
         ]);
-        $module->getModuleOptions()->setEventBussManager($managerConfig);
+        $module->getModuleOptions()->setEventBusManager($managerConfig);
 
 
         $adapterMock = $this->getMock(AdapterInterface::class);
@@ -276,11 +276,11 @@ class RabbitMqDriverTest extends AbstractHttpControllerTestCase implements Rabbi
         ]);
         $module->getModuleOptions()->setDriver($driverConfig);
 
-        /** @var EventBussManagerFacade $eventBussManager */
-        $eventBussManager = $appServiceManager->get('event_buss.manager.example');
+        /** @var EventBusManagerFacade $eventBusManager */
+        $eventBusManager = $appServiceManager->get('event_bus.manager.example');
 
         /** @var RabbitMqDriver $driver */
-        $driver = $eventBussManager->getDriver();
+        $driver = $eventBusManager->getDriver();
 
         $adapter = $driver->getAdapter();
 
@@ -327,7 +327,7 @@ class RabbitMqDriverTest extends AbstractHttpControllerTestCase implements Rabbi
      *
      *  @group RabbitMqTest
      */
-    public function testInitEventBuss()
+    public function testInitEventBus()
     {
         $this->setApplicationConfig(
             include __DIR__ . '/../../_files/application.config.php'
@@ -339,8 +339,8 @@ class RabbitMqDriverTest extends AbstractHttpControllerTestCase implements Rabbi
         $connectionConfig = $this->getRabbitMqConnectionForTest();
 
 
-        $this->buildEventBussManager($appServiceManager, [
-            'event_buss_manager' => [
+        $this->buildEventBusManager($appServiceManager, [
+            'event_bus_manager' => [
                 'example' => [
                     'driver' => 'example'
                 ]
@@ -361,12 +361,12 @@ class RabbitMqDriverTest extends AbstractHttpControllerTestCase implements Rabbi
             ]
         ]);
 
-        /** @var EventBussManagerFacade $eventBussManager */
-        $eventBussManager = $appServiceManager->get('event_buss.manager.example');
+        /** @var EventBusManagerFacade $eventBusManager */
+        $eventBusManager = $appServiceManager->get('event_bus.manager.example');
 
-        /** @var EventBussDriverInterface|MetadataReaderInterface $driver */
-        $driver = $eventBussManager->getDriver();
-        $driver->initEventBuss();
+        /** @var EventBusDriverInterface|MetadataReaderInterface $driver */
+        $driver = $eventBusManager->getDriver();
+        $driver->initEventBus();
 
         $classes = $driver->getMetadataReader()->getAllClassNames();
         foreach ($classes as $class) {
@@ -395,19 +395,19 @@ class RabbitMqDriverTest extends AbstractHttpControllerTestCase implements Rabbi
     }
 
     /**
-     * Настраивает event buss manager на оснвое конфига
+     * Настраивает event bus manager на оснвое конфига
      *
      * @param ServiceLocatorInterface $appServiceManager
      * @param array                   $config
      */
-    protected function buildEventBussManager(ServiceLocatorInterface $appServiceManager, array $config = [])
+    protected function buildEventBusManager(ServiceLocatorInterface $appServiceManager, array $config = [])
     {
         /** @var Module $module */
         $module = $appServiceManager->get(Module::class);
 
-        if (array_key_exists('event_buss_manager', $config)) {
-            $managerConfig = ArrayUtils::merge($module->getModuleOptions()->getEventBussManager(), $config['event_buss_manager']);
-            $module->getModuleOptions()->setEventBussManager($managerConfig);
+        if (array_key_exists('event_bus_manager', $config)) {
+            $managerConfig = ArrayUtils::merge($module->getModuleOptions()->getEventBusManager(), $config['event_bus_manager']);
+            $module->getModuleOptions()->setEventBusManager($managerConfig);
         }
 
         if (array_key_exists('driver', $config)) {
@@ -437,8 +437,8 @@ class RabbitMqDriverTest extends AbstractHttpControllerTestCase implements Rabbi
         $connectionConfig = $this->getRabbitMqConnectionForTest();
 
 
-        $this->buildEventBussManager($appServiceManager, [
-            'event_buss_manager' => [
+        $this->buildEventBusManager($appServiceManager, [
+            'event_bus_manager' => [
                 'example' => [
                     'driver' => 'example'
                 ]
@@ -459,12 +459,12 @@ class RabbitMqDriverTest extends AbstractHttpControllerTestCase implements Rabbi
             ]
         ]);
 
-        /** @var EventBussManagerFacade $eventBussManager */
-        $eventBussManager = $appServiceManager->get('event_buss.manager.example');
+        /** @var EventBusManagerFacade $eventBusManager */
+        $eventBusManager = $appServiceManager->get('event_bus.manager.example');
 
-        /** @var EventBussDriverInterface|MetadataReaderInterface $driver */
-        $driver = $eventBussManager->getDriver();
-        $driver->initEventBuss();
+        /** @var EventBusDriverInterface|MetadataReaderInterface $driver */
+        $driver = $eventBusManager->getDriver();
+        $driver->initEventBus();
 
         $message = new Foo();
         $driver->trigger('create.procedure.app1', $message);

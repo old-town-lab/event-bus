@@ -5,7 +5,7 @@
  */
 namespace OldTown\EventBus\PhpUnit\TestData\Messages;
 
-use OldTown\EventBus\Driver\RabbitMqDriver\MetadataReader\Annotations as EventBuss;
+use OldTown\EventBus\Driver\RabbitMqDriver\MetadataReader\Annotations as EventBus;
 use OldTown\EventBus\Message\AbstractMessage;
 
 /**
@@ -13,14 +13,14 @@ use OldTown\EventBus\Message\AbstractMessage;
  *
  * @package OldTown\EventBus\TestData\Messages
  *
- * @EventBuss\EventBussMessage(
- *     queue=@EventBuss\Queue(name="test_queue_name_foo"),
- *     exchange=@EventBuss\Exchange(name="test_exchange_name_foo", type="topic"),
+ * @EventBus\EventBusMessage(
+ *     queue=@EventBus\Queue(name="test_queue_name_foo"),
+ *     exchange=@EventBus\Exchange(name="test_exchange_name_foo", type="topic"),
  *     bindingKeys={
- *         @EventBuss\BindingKey(
+ *         @EventBus\BindingKey(
  *             name="*.procedure.*"
  *         ),
- *         @EventBuss\BindingKey(
+ *         @EventBus\BindingKey(
  *             name="create.procedure.*"
  *         )
  *     }

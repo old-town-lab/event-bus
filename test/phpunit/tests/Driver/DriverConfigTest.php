@@ -30,7 +30,7 @@ class DriverConfigTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * @expectedException \OldTown\EventBus\Driver\Exception\InvalidEventBussDriverConfigException
+     * @expectedException \OldTown\EventBus\Driver\Exception\InvalidEventBusDriverConfigException
      * @expectedExceptionMessage Отсутствует секция pluginName
      *
      * Создание DriverConfig. Не указан pluginNmae

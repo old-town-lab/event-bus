@@ -36,8 +36,8 @@ class AnnotationReaderFactory  implements FactoryInterface, MutableCreationOptio
             $errMsg = sprintf('Некорректная секция в конфиге: %s', DriverConfig::PATHS);
             throw new Exception\InvalidPathException($errMsg);
         }
-        $eventBussManager = new AnnotationReader($options);
+        $eventBusManager = new AnnotationReader($options);
 
-        return $eventBussManager;
+        return $eventBusManager;
     }
 }

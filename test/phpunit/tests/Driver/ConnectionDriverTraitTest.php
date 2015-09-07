@@ -43,7 +43,7 @@ class ConnectionDriverTraitTest extends PHPUnit_Framework_TestCase
     /**
      * Некорректные настройки драйвера. Отсутствует секция connectionConfig
      *
-     * @expectedException \OldTown\EventBus\Driver\Exception\InvalidEventBussDriverConfigException
+     * @expectedException \OldTown\EventBus\Driver\Exception\InvalidEventBusDriverConfigException
      * @expectedExceptionMessage Отсутствует секция connectionConfig
      *
      * @throws \PHPUnit_Framework_Exception

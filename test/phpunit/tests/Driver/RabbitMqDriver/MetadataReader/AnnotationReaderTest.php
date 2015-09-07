@@ -5,7 +5,7 @@
  */
 namespace OldTown\EventBus\PhpUnit\Test\Driver\RabbitMqDriver\MetadataReader;
 
-use OldTown\EventBus\MetadataReader\EventBussMetadataReaderPluginManager;
+use OldTown\EventBus\MetadataReader\EventBusMetadataReaderPluginManager;
 use Zend\Test\PHPUnit\Controller\AbstractHttpControllerTestCase;
 use OldTown\EventBus\Driver\RabbitMqDriver\MetadataReader\AnnotationReader;
 use \OldTown\EventBus\PhpUnit\TestData\Messages\Foo;
@@ -28,8 +28,8 @@ class AnnotationReaderTest extends AbstractHttpControllerTestCase
         $this->setApplicationConfig(
             include __DIR__ . '/../../../../_files/application.config.php'
         );
-        /** @var EventBussMetadataReaderPluginManager $metadataReaderPluginManager */
-        $metadataReaderPluginManager = $this->getApplicationServiceLocator()->get(EventBussMetadataReaderPluginManager::class);
+        /** @var EventBusMetadataReaderPluginManager $metadataReaderPluginManager */
+        $metadataReaderPluginManager = $this->getApplicationServiceLocator()->get(EventBusMetadataReaderPluginManager::class);
 
         /** @var AnnotationReader $annotationReader */
         $annotationReader = $metadataReaderPluginManager->get(AnnotationReader::class);
@@ -62,8 +62,8 @@ class AnnotationReaderTest extends AbstractHttpControllerTestCase
         $this->setApplicationConfig(
             include __DIR__ . '/../../../../_files/application.config.php'
         );
-        /** @var EventBussMetadataReaderPluginManager $metadataReaderPluginManager */
-        $metadataReaderPluginManager = $this->getApplicationServiceLocator()->get(EventBussMetadataReaderPluginManager::class);
+        /** @var EventBusMetadataReaderPluginManager $metadataReaderPluginManager */
+        $metadataReaderPluginManager = $this->getApplicationServiceLocator()->get(EventBusMetadataReaderPluginManager::class);
 
         /** @var AnnotationReader $annotationReader */
         $annotationReader = $metadataReaderPluginManager->get(AnnotationReader::class);

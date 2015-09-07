@@ -5,7 +5,7 @@
  */
 namespace OldTown\EventBus\Driver;
 
-use OldTown\EventBus\MetadataReader\EventBussMetadataReaderPluginManager;
+use OldTown\EventBus\MetadataReader\EventBusMetadataReaderPluginManager;
 use OldTown\EventBus\MetadataReader\ReaderInterface;
 
 /**
@@ -30,7 +30,7 @@ trait MetadataReaderTrait
 
 
     /**
-     * @var EventBussMetadataReaderPluginManager
+     * @var EventBusMetadataReaderPluginManager
      */
     protected $metadataReaderPluginManager;
 
@@ -87,7 +87,7 @@ trait MetadataReaderTrait
     }
 
     /**
-     * @return EventBussMetadataReaderPluginManager
+     * @return EventBusMetadataReaderPluginManager
      */
     public function getMetadataReaderPluginManager()
     {
@@ -95,11 +95,11 @@ trait MetadataReaderTrait
     }
 
     /**
-     * @param EventBussMetadataReaderPluginManager $metadataReaderPluginManager
+     * @param EventBusMetadataReaderPluginManager $metadataReaderPluginManager
      *
      * @return $this
      */
-    public function setMetadataReaderPluginManager(EventBussMetadataReaderPluginManager $metadataReaderPluginManager)
+    public function setMetadataReaderPluginManager(EventBusMetadataReaderPluginManager $metadataReaderPluginManager)
     {
         $this->metadataReaderPluginManager = $metadataReaderPluginManager;
 

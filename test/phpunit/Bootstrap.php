@@ -69,7 +69,7 @@ class Bootstrap
                 StandardAutoloader::class => [
                     'autoregister_zf' => true,
                     'namespaces' => [
-                        'OldTown\\EventBuss' => __DIR__ . '/../../src/',
+                        'OldTown\\EventBus' => __DIR__ . '/../../src/',
                         __NAMESPACE__ => __DIR__ . '/tests/',
                         'OldTown\\EventBus\\PhpUnit\\TestData' => __DIR__ . '/_files',
                         'OldTown\\EventBus\\PhpUnit\\RabbitMqTestUtils' => __DIR__ . '/rabbit-mq-test-util',

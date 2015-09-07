@@ -6,11 +6,11 @@
 namespace OldTown\EventBus;
 
 
-use OldTown\EventBus\Driver\EventBussDriverProviderInterface;
-use OldTown\EventBus\Message\EventBussMessageProviderInterface;
-use OldTown\EventBus\MetadataReader\EventBussMetadataReaderProviderInterface;
+use OldTown\EventBus\Driver\EventBusDriverProviderInterface;
+use OldTown\EventBus\Message\EventBusMessageProviderInterface;
+use OldTown\EventBus\MetadataReader\EventBusMetadataReaderProviderInterface;
 use OldTown\EventBus\Options\ModuleOptions;
-use OldTown\EventBus\EventBussManager\EventBussManagerProviderInterface;
+use OldTown\EventBus\EventBusManager\EventBusManagerProviderInterface;
 use Zend\Mvc\ModuleRouteListener;
 use Zend\Mvc\MvcEvent;
 use Zend\EventManager\EventInterface;
@@ -47,7 +47,7 @@ class Module implements
      *
      * @var string
      */
-    const CONFIG_KEY = 'event_buss';
+    const CONFIG_KEY = 'event_bus';
 
     /**
      * @param EventInterface $e
@@ -121,28 +121,28 @@ class Module implements
         /** @var ServiceListenerInterface $serviceListener */
         $serviceListener = $sm->get('ServiceListener');
         $serviceListener->addServiceManager(
-            'eventBussPluginManager',
-            'event_buss_manager',
-            EventBussManagerProviderInterface::class,
-            'getEventBussManagerConfig'
+            'eventBusPluginManager',
+            'event_bus_manager',
+            EventBusManagerProviderInterface::class,
+            'getEventBusManagerConfig'
         );
         $serviceListener->addServiceManager(
-            'eventBussDriverManager',
-            'event_buss_driver',
-            EventBussDriverProviderInterface::class,
-            'getEventBussDriverConfig'
+            'eventBusDriverManager',
+            'event_bus_driver',
+            EventBusDriverProviderInterface::class,
+            'getEventBusDriverConfig'
         );
         $serviceListener->addServiceManager(
-            'eventBussMetadataReaderManager',
-            'event_buss_metadata_reader',
-            EventBussMetadataReaderProviderInterface::class,
-            'getEventBussMetadataReaderConfig'
+            'eventBusMetadataReaderManager',
+            'event_bus_metadata_reader',
+            EventBusMetadataReaderProviderInterface::class,
+            'getEventBusMetadataReaderConfig'
         );
         $serviceListener->addServiceManager(
-            'eventBussMessageManager',
-            'event_buss_message',
-            EventBussMessageProviderInterface::class,
-            'getEventBussMessageConfig'
+            'eventBusMessageManager',
+            'event_bus_message',
+            EventBusMessageProviderInterface::class,
+            'getEventBusMessageConfig'
         );
     }
 } 

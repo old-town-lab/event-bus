@@ -48,9 +48,9 @@ class Metadata implements MetadataInterface
     protected $flagExchangeDurable;
 
     /**
-     * @param Annotations\EventBussMessage $metadata
+     * @param Annotations\EventBusMessage $metadata
      */
-    public function __construct(Annotations\EventBussMessage $metadata)
+    public function __construct(Annotations\EventBusMessage $metadata)
     {
         $this->init($metadata);
     }
@@ -98,9 +98,9 @@ class Metadata implements MetadataInterface
     /**
      * Инициализация метаданных на основе анотации
      *
-     * @param Annotations\EventBussMessage $metadata
+     * @param Annotations\EventBusMessage $metadata
      */
-    protected function init(Annotations\EventBussMessage $metadata)
+    protected function init(Annotations\EventBusMessage $metadata)
     {
         $this->setQueueName($metadata->queue->name);
         $this->setExchangeName($metadata->exchange->name);

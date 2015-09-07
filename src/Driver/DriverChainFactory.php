@@ -28,10 +28,10 @@ class DriverChainFactory  implements FactoryInterface, MutableCreationOptionsInt
      */
     public function createService(ServiceLocatorInterface $serviceLocator)
     {
-        /** @var EventBussDriverPluginManager $serviceLocator */
+        /** @var EventBusDriverPluginManager $serviceLocator */
         $options = $this->getCreationOptions();
-        $eventBussManager = new DriverChain($options, $serviceLocator);
+        $eventBusManager = new DriverChain($options, $serviceLocator);
 
-        return $eventBussManager;
+        return $eventBusManager;
     }
 }

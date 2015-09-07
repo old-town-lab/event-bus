@@ -20,7 +20,7 @@ interface AdapterInterface
      *
      * @param MetadataInterface[] $metadata
      */
-    public function initEventBuss(array $metadata = []);
+    public function initEventBus(array $metadata = []);
 
 
     /**

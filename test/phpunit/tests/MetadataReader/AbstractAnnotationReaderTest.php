@@ -10,12 +10,12 @@ use OldTown\EventBus\PhpUnit\TestData\Messages\TestMessage1;
 use PHPUnit_Framework_TestCase;
 use PHPUnit_Framework_MockObject_MockObject;
 use OldTown\EventBus\PhpUnit\TestData\Messages\Foo;
-use OldTown\EventBus\Driver\RabbitMqDriver\MetadataReader\Annotations\EventBussMessage;
+use OldTown\EventBus\Driver\RabbitMqDriver\MetadataReader\Annotations\EventBusMessage;
 use Doctrine\Common\Annotations\AnnotationReader as DoctrineAnnotationReader;
 use OldTown\EventBus\PhpUnit\TestData\TestPaths;
 
 /**
- * Class EventBussMetadataReaderPluginManagerTest
+ * Class EventBusMetadataReaderPluginManagerTest
  *
  * @package OldTown\EventBus\PhpUnit\Test\MetadataReader
  */
@@ -78,7 +78,7 @@ class AbstractAnnotationReaderTest extends PHPUnit_Framework_TestCase
         $property = $r->getProperty('messageAnnotationClasses');
         $property->setAccessible(true);
         $property->setValue($abstractAnnotationReaderMock, [
-            EventBussMessage::class
+            EventBusMessage::class
         ]);
 
 
@@ -113,7 +113,7 @@ class AbstractAnnotationReaderTest extends PHPUnit_Framework_TestCase
         $property = $r->getProperty('messageAnnotationClasses');
         $property->setAccessible(true);
         $property->setValue($abstractAnnotationReaderMock, [
-            EventBussMessage::class
+            EventBusMessage::class
         ]);
 
         $actual = $abstractAnnotationReaderMock->isTransient(Foo::class);
@@ -154,12 +154,12 @@ class AbstractAnnotationReaderTest extends PHPUnit_Framework_TestCase
         $property = $r->getProperty('messageAnnotationClasses');
         $property->setAccessible(true);
         $property->setValue($abstractAnnotationReaderMock, [
-            EventBussMessage::class
+            EventBusMessage::class
         ]);
 
 
         $actual = $abstractAnnotationReaderMock->getMessageAnnotationClasses();
-        static::assertEquals([EventBussMessage::class => EventBussMessage::class], $actual);
+        static::assertEquals([EventBusMessage::class => EventBusMessage::class], $actual);
 
         //Тест локального кеширования
         $expected = $abstractAnnotationReaderMock->getMessageAnnotationClasses();

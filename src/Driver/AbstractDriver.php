@@ -7,7 +7,7 @@ namespace OldTown\EventBus\Driver;
 
 use Traversable;
 use Zend\Stdlib\ArrayUtils;
-use OldTown\EventBus\MetadataReader\EventBussMetadataReaderPluginManager;
+use OldTown\EventBus\MetadataReader\EventBusMetadataReaderPluginManager;
 
 
 /**
@@ -15,7 +15,7 @@ use OldTown\EventBus\MetadataReader\EventBussMetadataReaderPluginManager;
  *
  * @package OldTown\EventBus\Driver
  */
-abstract class AbstractDriver implements EventBussDriverInterface
+abstract class AbstractDriver implements EventBusDriverInterface
 {
     /**
      * Опции переданные при создание драйвера
@@ -34,12 +34,12 @@ abstract class AbstractDriver implements EventBussDriverInterface
     /**
      * @param array|Traversable                    $options
      *
-     * @param EventBussMetadataReaderPluginManager $metadataReaderPluginManager
+     * @param EventBusMetadataReaderPluginManager $metadataReaderPluginManager
      *
      * @throws \OldTown\EventBus\Driver\Exception\InvalidArgumentException
      * @throws \Zend\Stdlib\Exception\InvalidArgumentException
      */
-    public function __construct($options = null, EventBussMetadataReaderPluginManager $metadataReaderPluginManager = null)
+    public function __construct($options = null, EventBusMetadataReaderPluginManager $metadataReaderPluginManager = null)
     {
         if (null === $options) {
             $options = [];
