@@ -26,7 +26,7 @@ use OldTown\EventBus\Driver\RabbitMqDriver\MetadataReader\Metadata;
  *
  * @package OldTown\EventBus\PhpUnit\Test\Driver
  */
-class RabbitMqDriverTest extends AbstractHttpControllerTestCase implements RabbitMqTestCaseInterface
+class _RabbitMqDriverTest extends AbstractHttpControllerTestCase implements RabbitMqTestCaseInterface
 {
     use RabbitMqTestCaseTrait;
 

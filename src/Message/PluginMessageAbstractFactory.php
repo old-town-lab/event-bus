@@ -9,7 +9,6 @@ use Zend\ServiceManager\AbstractFactoryInterface;
 use Zend\ServiceManager\MutableCreationOptionsInterface;
 use Zend\ServiceManager\MutableCreationOptionsTrait;
 use Zend\ServiceManager\ServiceLocatorInterface;
-use Zend\Stdlib\ArrayUtils;
 
 
 
@@ -47,6 +46,5 @@ class PluginMessageAbstractFactory implements AbstractFactoryInterface, MutableC
      */
     public function createServiceWithName(ServiceLocatorInterface $serviceLocator, $name, $requestedName)
     {
-
     }
 }

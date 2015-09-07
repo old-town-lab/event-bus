@@ -13,9 +13,4 @@ use \Zend\Stdlib\MessageInterface as BaseMessageInterface;
  */
 interface MessageInterface extends BaseMessageInterface
 {
-
-
-
 }
-
-

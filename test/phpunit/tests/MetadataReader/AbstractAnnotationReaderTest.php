@@ -5,8 +5,10 @@
  */
 namespace OldTown\EventBus\PhpUnit\Test\MetadataReader;
 
+use OldTown\EventBus\Driver\RabbitMqDriver\MetadataReader\Annotations\BindingKey;
 use OldTown\EventBus\MetadataReader\AbstractAnnotationReader;
 use OldTown\EventBus\PhpUnit\TestData\Messages\TestMessage1;
+use OldTown\EventBus\PhpUnit\TestData\MetadataReader\Example;
 use PHPUnit_Framework_TestCase;
 use PHPUnit_Framework_MockObject_MockObject;
 use OldTown\EventBus\PhpUnit\TestData\Messages\Foo;
@@ -234,5 +236,64 @@ class AbstractAnnotationReaderTest extends PHPUnit_Framework_TestCase
         $actual = $abstractAnnotationReaderMock->getExcludePaths();
 
         static::assertEquals($expected, $actual);
+    }
+
+
+
+    /**
+     *  Получение анотаций анотаций для класса
+     *
+     */
+    public function testGetClassAnnotation()
+    {
+        /** @var AbstractAnnotationReader|PHPUnit_Framework_MockObject_MockObject $abstractAnnotationReaderMock */
+        $abstractAnnotationReaderMock = static::getMockForAbstractClass(AbstractAnnotationReader::class);
+
+        $r = new \ReflectionObject($abstractAnnotationReaderMock);
+
+        $property = $r->getProperty('messageAnnotationClasses');
+        $property->setAccessible(true);
+        $property->setValue($abstractAnnotationReaderMock, [
+            EventBusMessage::class
+        ]);
+
+
+        $actualAnnotations = $abstractAnnotationReaderMock->getClassAnnotation(Example::class);
+
+        static::assertEquals(1, count($actualAnnotations));
+
+        /** @var EventBusMessage $actualAnnotation */
+        $actualAnnotation = $actualAnnotations[0];
+
+        static::assertEquals($actualAnnotation->exchange->name, 'test_exchange_name_foo');
+        static::assertEquals($actualAnnotation->exchange->durable, true);
+        static::assertEquals($actualAnnotation->exchange->type, 'topic');
+
+        static::assertEquals($actualAnnotation->queue->name, 'test_queue_name_foo');
+
+
+        $expectedBindingKeys = [
+            'test_binding_key_1',
+            'test_binding_key_2'
+        ];
+
+        static::assertEquals(count($expectedBindingKeys), count($actualAnnotation->bindingKeys));
+
+        $actualBindingKeys = [];
+        /** @var BindingKey[] $currentBindingKeys */
+        $currentBindingKeys = $actualAnnotation->bindingKeys;
+        foreach ($currentBindingKeys as $key) {
+            $actualBindingKeys[$key->name] = $actualBindingKeys;
+        }
+
+        foreach ($expectedBindingKeys as $expectedBindingKey) {
+            static::assertArrayHasKey($expectedBindingKey, $actualBindingKeys);
+        }
+
+        //Тестирование того что работает локальный кеш
+        $expectedAnnotations = $abstractAnnotationReaderMock->getClassAnnotation(Example::class);
+        $actualAnnotations = $abstractAnnotationReaderMock->getClassAnnotation(Example::class);
+
+        static::assertTrue($expectedAnnotations === $actualAnnotations);
     }
 }

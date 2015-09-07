@@ -6,7 +6,6 @@
 namespace OldTown\EventBus\Message;
 
 use \Zend\Stdlib\Message;
-
 use Zend\Serializer\Adapter\AdapterInterface as Serializer;
 use Zend\Serializer\Serializer as SerializerFactory;
 use Zend\Stdlib\Hydrator\HydratorAwareTrait;
@@ -126,7 +125,5 @@ abstract class AbstractMessage extends Message implements MessageInterface
      */
     public function getContent()
     {
-
     }
-
 }

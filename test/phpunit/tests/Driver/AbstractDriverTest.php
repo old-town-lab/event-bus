@@ -104,7 +104,7 @@ class AbstractDriverTest extends PHPUnit_Framework_TestCase
         $driver = $this->getMockForAbstractClass(AbstractDriver::class, $arg);
 
 
-        $driver->setExtraOptions($expected);
+
         $actual = $driver->getExtraOptions();
 
         static::assertEquals($expected, $actual);

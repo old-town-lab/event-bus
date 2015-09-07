@@ -92,6 +92,7 @@ class MetadataTest extends PHPUnit_Framework_TestCase
     {
         $expectedQueueName = 'test_queue_name';
         $expectedExchangeName = 'test_exchange_name';
+        $expectedExchangeDurable = true;
         $expectedBindingKeys = [
             'test_binding_key_1' => 'test_binding_key_1',
             'test_binding_key_2' => 'test_binding_key_2',
@@ -103,6 +104,7 @@ class MetadataTest extends PHPUnit_Framework_TestCase
         $message->queue->name = $expectedQueueName;
         $message->exchange = new Exchange();
         $message->exchange->name = $expectedExchangeName;
+        $message->exchange->durable = $expectedExchangeDurable;
 
         $bindingKey1 = new BindingKey();
         $bindingKey1->name = 'test_binding_key_1';
@@ -118,5 +120,6 @@ class MetadataTest extends PHPUnit_Framework_TestCase
         static::assertEquals($expectedQueueName, $metadata->getQueueName());
         static::assertEquals($expectedExchangeName, $metadata->getExchangeName());
         static::assertEquals($expectedBindingKeys, $metadata->getBindingKeys());
+        static::assertEquals($expectedExchangeDurable, $metadata->getFlagExchangeDurable());
     }
 }
