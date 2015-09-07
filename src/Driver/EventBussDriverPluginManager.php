@@ -3,7 +3,7 @@
  * @link https://github.com/old-town/event-buss
  * @author  Malofeykin Andrey  <and-rey2@yandex.ru>
  */
-namespace OldTown\EventBuss\Driver;
+namespace OldTown\EventBus\Driver;
 
 use Zend\ServiceManager\AbstractPluginManager;
 
@@ -11,7 +11,7 @@ use Zend\ServiceManager\AbstractPluginManager;
 /**
  * Class EventBussDriverPluginManager
  *
- * @package OldTown\EventBuss\EventBussManagerFacade
+ * @package OldTown\EventBus\EventBussManagerFacade
  */
 class EventBussDriverPluginManager extends AbstractPluginManager
 {

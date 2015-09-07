@@ -3,21 +3,21 @@
  * @link https://github.com/old-town/event-buss
  * @author  Malofeykin Andrey  <and-rey2@yandex.ru>
  */
-namespace OldTown\EventBuss\PhpUnit\Test\EventBussManager;
+namespace OldTown\EventBus\PhpUnit\Test\EventBussManager;
 
 use Zend\Test\PHPUnit\Controller\AbstractHttpControllerTestCase;
-use OldTown\EventBuss\EventBussManager\EventBussPluginManager;
-use OldTown\EventBuss\EventBussManager\EventBussManagerFacade;
+use OldTown\EventBus\EventBussManager\EventBussPluginManager;
+use OldTown\EventBus\EventBussManager\EventBussManagerFacade;
 use Zend\ServiceManager\Exception\ExceptionInterface as ServiceManagerException;
-use OldTown\EventBuss\EventBussManager\Exception\InvalidEventBussManagerConfigException;
-use OldTown\EventBuss\EventBussManager\EventBussManagerFactory;
+use OldTown\EventBus\EventBussManager\Exception\InvalidEventBussManagerConfigException;
+use OldTown\EventBus\EventBussManager\EventBussManagerFactory;
 use Zend\ServiceManager\ServiceLocatorInterface;
 
 
 /**
  * Class EventBussManagerFactoryTest
  *
- * @package OldTown\EventBuss\PhpUnit\Test\EventBussManagerFacade
+ * @package OldTown\EventBus\PhpUnit\Test\EventBussManagerFacade
  */
 class EventBussManagerFactoryTest extends AbstractHttpControllerTestCase
 {
@@ -72,7 +72,7 @@ class EventBussManagerFactoryTest extends AbstractHttpControllerTestCase
 
 
     /**
-     * @expectedException \OldTown\EventBuss\EventBussManager\Exception\RuntimeException
+     * @expectedException \OldTown\EventBus\EventBussManager\Exception\RuntimeException
      * @expectedExceptionMessage Не удалось получить ServiceLocator
      *
      *  Создаем стандартного EventBussManagerFacade. Отсуттсвует сервис локатор приложения

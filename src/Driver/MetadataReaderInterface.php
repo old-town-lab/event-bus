@@ -3,15 +3,15 @@
  * @link https://github.com/old-town/event-buss
  * @author  Malofeykin Andrey  <and-rey2@yandex.ru>
  */
-namespace OldTown\EventBuss\Driver;
+namespace OldTown\EventBus\Driver;
 
-use OldTown\EventBuss\MetadataReader\EventBussMetadataReaderPluginManager;
-use OldTown\EventBuss\MetadataReader\ReaderInterface;
+use OldTown\EventBus\MetadataReader\EventBussMetadataReaderPluginManager;
+use OldTown\EventBus\MetadataReader\ReaderInterface;
 
 /**
  * Interface PathsInterface
  *
- * @package OldTown\EventBuss\Driver
+ * @package OldTown\EventBus\Driver
  */
 interface MetadataReaderInterface
 {
@@ -49,7 +49,7 @@ interface MetadataReaderInterface
      *
      * @return string
      *
-     * @throws \OldTown\EventBuss\Driver\Exception\InvalidMetadataReaderNameException
+     * @throws \OldTown\EventBus\Driver\Exception\InvalidMetadataReaderNameException
      */
     public function getMetadataReaderName();
 
@@ -57,7 +57,7 @@ interface MetadataReaderInterface
      *
      * @return ReaderInterface
      *
-     * @throws \OldTown\EventBuss\Driver\Exception\InvalidMetadataReaderNameException
+     * @throws \OldTown\EventBus\Driver\Exception\InvalidMetadataReaderNameException
      */
     public function getMetadataReader();
 }

@@ -3,21 +3,21 @@
  * @link    https://github.com/old-town/event-buss
  * @author  Malofeykin Andrey  <and-rey2@yandex.ru>
  */
-namespace OldTown\EventBuss\PhpUnit\Test\Driver;
+namespace OldTown\EventBus\PhpUnit\Test\Driver;
 
-use OldTown\EventBuss\Driver\DriverConfig;
-use OldTown\EventBuss\Driver\EventBussDriverInterface;
-use OldTown\EventBuss\Driver\EventBussDriverPluginManager;
-use OldTown\EventBuss\Driver\RabbitMqDriver;
-use OldTown\EventBuss\PhpUnit\TestData\Messages\Foo;
+use OldTown\EventBus\Driver\DriverConfig;
+use OldTown\EventBus\Driver\EventBussDriverInterface;
+use OldTown\EventBus\Driver\EventBussDriverPluginManager;
+use OldTown\EventBus\Driver\RabbitMqDriver;
+use OldTown\EventBus\PhpUnit\TestData\Messages\Foo;
 use Zend\Test\PHPUnit\Controller\AbstractHttpControllerTestCase;
-use OldTown\EventBuss\Driver\DriverChain;
+use OldTown\EventBus\Driver\DriverChain;
 use PHPUnit_Framework_MockObject_MockObject;
 
 /**
  * Class DriverChainTest
  *
- * @package OldTown\EventBuss\PhpUnit\Test\Driver
+ * @package OldTown\EventBus\PhpUnit\Test\Driver
  */
 class DriverChainTest extends AbstractHttpControllerTestCase
 {
@@ -51,7 +51,7 @@ class DriverChainTest extends AbstractHttpControllerTestCase
     /**
      * Ошибка при создание драйверов на основе конфига
      *
-     * @expectedException \OldTown\EventBuss\Driver\Exception\ErrorCreateEventBussDriverException
+     * @expectedException \OldTown\EventBus\Driver\Exception\ErrorCreateEventBussDriverException
      */
     public function testErrorBuildDriversFromConfig()
     {
@@ -64,7 +64,7 @@ class DriverChainTest extends AbstractHttpControllerTestCase
         /** @var DriverChain $driverChain */
         $driverChain = $eventBussDriverPluginManager->get('chain');
 
-        /** @var PHPUnit_Framework_MockObject_MockObject|\OldTown\EventBuss\Driver\EventBussDriverPluginManager $eventBussDriverPluginManager */
+        /** @var PHPUnit_Framework_MockObject_MockObject|\OldTown\EventBus\Driver\EventBussDriverPluginManager $eventBussDriverPluginManager */
         $eventBussDriverPluginManager = $this->getMock(EventBussDriverPluginManager::class, [
            'get'
         ]);

@@ -3,7 +3,7 @@
  * @link https://github.com/old-town/event-buss
  * @author  Malofeykin Andrey  <and-rey2@yandex.ru>
  */
-namespace OldTown\EventBuss\PhpUnit\RabbitMqTestUtils;
+namespace OldTown\EventBus\PhpUnit\RabbitMqTestUtils;
 
 use RabbitMQ\Management\APIClient;
 use RabbitMQ\Management\Entity\Exchange;
@@ -13,7 +13,7 @@ use RabbitMQ\Management\Entity\Binding;
 
 /**
  * Class RabbitMqTestManager
- * @package OldTown\EventBuss\PhpUnit\RabbitMqTestUtils
+ * @package OldTown\EventBus\PhpUnit\RabbitMqTestUtils
  */
 class  RabbitMqTestManager
 {

@@ -3,14 +3,14 @@
  * @link https://github.com/old-town/event-buss
  * @author  Malofeykin Andrey  <and-rey2@yandex.ru>
  */
-namespace OldTown\EventBuss\EventBussManager\Exception;
+namespace OldTown\EventBus\EventBussManager\Exception;
 
-use OldTown\EventBuss\Exception\ExceptionInterface as ExceptionInterfaceModule;
+use OldTown\EventBus\Exception\ExceptionInterface as ExceptionInterfaceModule;
 
 /**
  * Interface ExceptionInterface
  *
- * @package OldTown\EventBuss\EventBussManager\Exception
+ * @package OldTown\EventBus\EventBussManager\Exception
  */
 interface ExceptionInterface extends ExceptionInterfaceModule
 {

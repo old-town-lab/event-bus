@@ -3,18 +3,18 @@
  * @link https://github.com/old-town/event-buss
  * @author  Malofeykin Andrey  <and-rey2@yandex.ru>
  */
-namespace OldTown\EventBuss\Driver;
+namespace OldTown\EventBus\Driver;
 
-use OldTown\EventBuss\Driver\RabbitMqDriver\Adapter\AmqpPhpExtension;
-use OldTown\EventBuss\Message\MessageInterface;
-use OldTown\EventBuss\Driver\RabbitMqDriver\Adapter\AdapterInterface;
-use OldTown\EventBuss\Driver\RabbitMqDriver\MetadataReader\AnnotationReader;
-use OldTown\EventBuss\Driver\RabbitMqDriver\MetadataReader\Metadata;
+use OldTown\EventBus\Driver\RabbitMqDriver\Adapter\AmqpPhpExtension;
+use OldTown\EventBus\Message\MessageInterface;
+use OldTown\EventBus\Driver\RabbitMqDriver\Adapter\AdapterInterface;
+use OldTown\EventBus\Driver\RabbitMqDriver\MetadataReader\AnnotationReader;
+use OldTown\EventBus\Driver\RabbitMqDriver\MetadataReader\Metadata;
 
 /**
  * Class RabbitMqDriver
  *
- * @package OldTown\EventBuss\Driver
+ * @package OldTown\EventBus\Driver
  */
 class RabbitMqDriver extends AbstractDriver implements ConnectionDriverInterface, MetadataReaderInterface
 {
@@ -73,7 +73,7 @@ class RabbitMqDriver extends AbstractDriver implements ConnectionDriverInterface
      *
      * @return string
      *
-     * @throws \OldTown\EventBuss\Driver\Exception\InvalidAdapterNameException
+     * @throws \OldTown\EventBus\Driver\Exception\InvalidAdapterNameException
      */
     public function getAdapterName()
     {
@@ -105,8 +105,8 @@ class RabbitMqDriver extends AbstractDriver implements ConnectionDriverInterface
      *
      * @return AdapterInterface
      *
-     * @throws \OldTown\EventBuss\Driver\Exception\InvalidEventBussDriverConfigException
-     * @throws \OldTown\EventBuss\Driver\Exception\InvalidAdapterNameException
+     * @throws \OldTown\EventBus\Driver\Exception\InvalidEventBussDriverConfigException
+     * @throws \OldTown\EventBus\Driver\Exception\InvalidAdapterNameException
      */
     public function getAdapter()
     {
@@ -130,13 +130,13 @@ class RabbitMqDriver extends AbstractDriver implements ConnectionDriverInterface
      *
      * @return void
      *
-     * @throws \OldTown\EventBuss\Driver\Exception\InvalidEventBussDriverConfigException
-     * @throws \OldTown\EventBuss\Driver\Exception\InvalidAdapterNameException
+     * @throws \OldTown\EventBus\Driver\Exception\InvalidEventBussDriverConfigException
+     * @throws \OldTown\EventBus\Driver\Exception\InvalidAdapterNameException
      * @throws \Zend\ServiceManager\Exception\ServiceNotFoundException
      * @throws \Zend\ServiceManager\Exception\ServiceNotCreatedException
      * @throws \Zend\ServiceManager\Exception\RuntimeException
-     * @throws \OldTown\EventBuss\Driver\Exception\InvalidMetadataReaderNameException
-     * @throws \OldTown\EventBuss\MetadataReader\Exception\InvalidPathException
+     * @throws \OldTown\EventBus\Driver\Exception\InvalidMetadataReaderNameException
+     * @throws \OldTown\EventBus\MetadataReader\Exception\InvalidPathException
      */
     public function initEventBuss()
     {

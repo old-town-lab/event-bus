@@ -3,12 +3,12 @@
  * @link https://github.com/old-town/event-buss
  * @author  Malofeykin Andrey  <and-rey2@yandex.ru>
  */
-namespace OldTown\EventBuss\EventBussManager;
+namespace OldTown\EventBus\EventBussManager;
 
 /**
  * Class EventBussPluginManager
  *
- * @package OldTown\EventBuss\EventBussManager
+ * @package OldTown\EventBus\EventBussManager
  */
 interface EventBussManagerProviderInterface
 {

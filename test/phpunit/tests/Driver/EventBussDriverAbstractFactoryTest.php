@@ -3,16 +3,16 @@
  * @link https://github.com/old-town/event-buss
  * @author  Malofeykin Andrey  <and-rey2@yandex.ru>
  */
-namespace OldTown\EventBuss\PhpUnit\Test\Driver;
+namespace OldTown\EventBus\PhpUnit\Test\Driver;
 
-use OldTown\EventBuss\Driver\EventBussDriverInterface;
+use OldTown\EventBus\Driver\EventBussDriverInterface;
 use Zend\Test\PHPUnit\Controller\AbstractHttpControllerTestCase;
 
 
 /**
  * Class EventBussDriverAbstractFactoryTest
  *
- * @package OldTown\EventBuss\PhpUnit\Test\EventBussManagerFacade
+ * @package OldTown\EventBus\PhpUnit\Test\EventBussManagerFacade
  */
 class EventBussDriverAbstractFactoryTest extends AbstractHttpControllerTestCase
 {
@@ -35,7 +35,7 @@ class EventBussDriverAbstractFactoryTest extends AbstractHttpControllerTestCase
     /**
      * Проверка указания некорректного имени
      *
-     * @expectedException \OldTown\EventBuss\Driver\Exception\ErrorCreateEventBussDriverException
+     * @expectedException \OldTown\EventBus\Driver\Exception\ErrorCreateEventBussDriverException
      * @expectedExceptionMessage Некорректный формат имени сервиса: eventbuss.driver.default.invalid
      *
      * @throws \Zend\Stdlib\Exception\LogicException

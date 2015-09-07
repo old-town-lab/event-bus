@@ -3,11 +3,11 @@
  * @link https://github.com/old-town/event-buss
  * @author  Malofeykin Andrey  <and-rey2@yandex.ru>
  */
-namespace OldTown\EventBuss\PhpUnit\RabbitMqTestUtils;
+namespace OldTown\EventBus\PhpUnit\RabbitMqTestUtils;
 
 /**
  * Interface RabbitMqTestCaseInterface
- * @package OldTown\EventBuss\PhpUnit\RabbitMqTestUtils
+ * @package OldTown\EventBus\PhpUnit\RabbitMqTestUtils
  */
 interface  RabbitMqTestCaseInterface
 {

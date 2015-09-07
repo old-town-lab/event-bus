@@ -26,7 +26,7 @@
 
 
     <listeners>
-        <listener class="\OldTown\EventBuss\PhpUnit\RabbitMqTestUtils\RabbitMqTestListener" file="./test/phpunit/rabbit-mq-test-util/RabbitMqTestListener.php">
+        <listener class="\OldTown\EventBus\PhpUnit\RabbitMqTestUtils\RabbitMqTestListener" file="./test/phpunit/rabbit-mq-test-util/RabbitMqTestListener.php">
             <arguments>
                 <array>
                     <!-- Имя хоста либо ip, сервера с RabbitMq используемого для проведения тестов-->

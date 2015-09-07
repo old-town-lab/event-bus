@@ -3,15 +3,15 @@
  * @link    https://github.com/old-town/event-buss
  * @author  Malofeykin Andrey  <and-rey2@yandex.ru>
  */
-namespace OldTown\EventBuss\PhpUnit\TestData\Messages;
+namespace OldTown\EventBus\PhpUnit\TestData\Messages;
 
-use OldTown\EventBuss\Driver\RabbitMqDriver\MetadataReader\Annotations as EventBuss;
-use OldTown\EventBuss\Message\AbstractMessage;
+use OldTown\EventBus\Driver\RabbitMqDriver\MetadataReader\Annotations as EventBuss;
+use OldTown\EventBus\Message\AbstractMessage;
 
 /**
  * Class TestMessage1
  *
- * @package OldTown\EventBuss\TestData\Messages
+ * @package OldTown\EventBus\TestData\Messages
  *
  * @EventBuss\EventBussMessage(
  *     queue=@EventBuss\Queue(name="test_queue_name_message1"),

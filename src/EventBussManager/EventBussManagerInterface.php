@@ -3,14 +3,14 @@
  * @link https://github.com/old-town/event-buss
  * @author  Malofeykin Andrey  <and-rey2@yandex.ru>
  */
-namespace OldTown\EventBuss\EventBussManager;
+namespace OldTown\EventBus\EventBussManager;
 
-use OldTown\EventBuss\Driver\EventBussDriverInterface;
+use OldTown\EventBus\Driver\EventBussDriverInterface;
 
 /**
  * Interface EventBussManagerInterface
  *
- * @package OldTown\EventBuss\EventBussManagerFacade
+ * @package OldTown\EventBus\EventBussManagerFacade
  */
 interface EventBussManagerInterface
 {

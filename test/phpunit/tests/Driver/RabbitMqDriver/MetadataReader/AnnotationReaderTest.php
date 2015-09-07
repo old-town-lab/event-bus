@@ -3,19 +3,19 @@
  * @link    https://github.com/old-town/event-buss
  * @author  Malofeykin Andrey  <and-rey2@yandex.ru>
  */
-namespace OldTown\EventBuss\PhpUnit\Test\Driver\RabbitMqDriver\MetadataReader;
+namespace OldTown\EventBus\PhpUnit\Test\Driver\RabbitMqDriver\MetadataReader;
 
-use OldTown\EventBuss\MetadataReader\EventBussMetadataReaderPluginManager;
+use OldTown\EventBus\MetadataReader\EventBussMetadataReaderPluginManager;
 use Zend\Test\PHPUnit\Controller\AbstractHttpControllerTestCase;
-use OldTown\EventBuss\Driver\RabbitMqDriver\MetadataReader\AnnotationReader;
-use \OldTown\EventBuss\PhpUnit\TestData\Messages\Foo;
-use OldTown\EventBuss\Driver\RabbitMqDriver\MetadataReader\Metadata;
+use OldTown\EventBus\Driver\RabbitMqDriver\MetadataReader\AnnotationReader;
+use \OldTown\EventBus\PhpUnit\TestData\Messages\Foo;
+use OldTown\EventBus\Driver\RabbitMqDriver\MetadataReader\Metadata;
 
 
 /**
  * Class DriverChainTest
  *
- * @package OldTown\EventBuss\PhpUnit\Test\Driver
+ * @package OldTown\EventBus\PhpUnit\Test\Driver
  */
 class AnnotationReaderTest extends AbstractHttpControllerTestCase
 {
@@ -34,7 +34,7 @@ class AnnotationReaderTest extends AbstractHttpControllerTestCase
         /** @var AnnotationReader $annotationReader */
         $annotationReader = $metadataReaderPluginManager->get(AnnotationReader::class);
 
-        /** @var \OldTown\EventBuss\Driver\RabbitMqDriver\MetadataReader\Metadata $metadata */
+        /** @var \OldTown\EventBus\Driver\RabbitMqDriver\MetadataReader\Metadata $metadata */
         $metadata = $annotationReader->loadMetadataForClass(Foo::class);
 
         static::assertInstanceOf(Metadata::class, $metadata);
@@ -54,7 +54,7 @@ class AnnotationReaderTest extends AbstractHttpControllerTestCase
     /**
      * Проверка поведения, для случая когда отсутствуют метаданные
      *
-     * @expectedException \OldTown\EventBuss\Driver\RabbitMqDriver\MetadataReader\Exception\InvalidClassException
+     * @expectedException \OldTown\EventBus\Driver\RabbitMqDriver\MetadataReader\Exception\InvalidClassException
      * @expectedExceptionMessage Класс не содержит необходимых метаданных : stdClass
      */
     public function testLoadMetadataForInvalidClass()

@@ -1,23 +1,23 @@
 <?php
-namespace OldTown\EventBuss;
+namespace OldTown\EventBus;
 
-use OldTown\EventBuss\Driver\DriverChain;
-use OldTown\EventBuss\Driver\DriverChainFactory;
-use OldTown\EventBuss\Driver\EventBussDriverAbstractFactory;
-use OldTown\EventBuss\Driver\EventBussDriverPluginManager;
-use OldTown\EventBuss\Driver\EventBussDriverPluginManagerFactory;
-use OldTown\EventBuss\Driver\RabbitMqDriver;
-use OldTown\EventBuss\EventBussManager\EventBussManagerFacade;
-use OldTown\EventBuss\EventBussManager\EventBussManagerAbstractFactory;
-use OldTown\EventBuss\EventBussManager\EventBussManagerFactory;
-use OldTown\EventBuss\EventBussManager\EventBussPluginManager;
-use OldTown\EventBuss\EventBussManager\EventBussPluginManagerFactory;
-use OldTown\EventBuss\MetadataReader\EventBussMetadataReaderPluginManager;
-use OldTown\EventBuss\MetadataReader\EventBussMetadataReaderPluginManagerFactory;
-use OldTown\EventBuss\Options\ModuleOptions;
-use OldTown\EventBuss\Options\ModuleOptionsFactory;
-use OldTown\EventBuss\Driver\EventBussPluginDriverAbstractFactory;
-use OldTown\EventBuss\Driver\RabbitMqDriver\MetadataReader\AnnotationReader;
+use OldTown\EventBus\Driver\DriverChain;
+use OldTown\EventBus\Driver\DriverChainFactory;
+use OldTown\EventBus\Driver\EventBussDriverAbstractFactory;
+use OldTown\EventBus\Driver\EventBussDriverPluginManager;
+use OldTown\EventBus\Driver\EventBussDriverPluginManagerFactory;
+use OldTown\EventBus\Driver\RabbitMqDriver;
+use OldTown\EventBus\EventBussManager\EventBussManagerFacade;
+use OldTown\EventBus\EventBussManager\EventBussManagerAbstractFactory;
+use OldTown\EventBus\EventBussManager\EventBussManagerFactory;
+use OldTown\EventBus\EventBussManager\EventBussPluginManager;
+use OldTown\EventBus\EventBussManager\EventBussPluginManagerFactory;
+use OldTown\EventBus\MetadataReader\EventBussMetadataReaderPluginManager;
+use OldTown\EventBus\MetadataReader\EventBussMetadataReaderPluginManagerFactory;
+use OldTown\EventBus\Options\ModuleOptions;
+use OldTown\EventBus\Options\ModuleOptionsFactory;
+use OldTown\EventBus\Driver\EventBussPluginDriverAbstractFactory;
+use OldTown\EventBus\Driver\RabbitMqDriver\MetadataReader\AnnotationReader;
 
 return [
     'service_manager' => [

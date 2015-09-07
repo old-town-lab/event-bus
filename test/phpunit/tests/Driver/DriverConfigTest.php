@@ -3,16 +3,16 @@
  * @link    https://github.com/old-town/event-buss
  * @author  Malofeykin Andrey  <and-rey2@yandex.ru>
  */
-namespace OldTown\EventBuss\PhpUnit\Test\Driver;
+namespace OldTown\EventBus\PhpUnit\Test\Driver;
 
-use OldTown\EventBuss\Driver\DriverConfig;
+use OldTown\EventBus\Driver\DriverConfig;
 use PHPUnit_Framework_TestCase;
 
 
 /**
  * Class DriverConfigTest
  *
- * @package OldTown\EventBuss\PhpUnit\Test\Driver
+ * @package OldTown\EventBus\PhpUnit\Test\Driver
  */
 class DriverConfigTest extends PHPUnit_Framework_TestCase
 {
@@ -30,7 +30,7 @@ class DriverConfigTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * @expectedException \OldTown\EventBuss\Driver\Exception\InvalidEventBussDriverConfigException
+     * @expectedException \OldTown\EventBus\Driver\Exception\InvalidEventBussDriverConfigException
      * @expectedExceptionMessage Отсутствует секция pluginName
      *
      * Создание DriverConfig. Не указан pluginNmae
@@ -113,7 +113,7 @@ class DriverConfigTest extends PHPUnit_Framework_TestCase
     /**
      * Проверка генерации конфига
      *
-     * @expectedException \OldTown\EventBuss\Driver\Exception\InvalidArgumentException
+     * @expectedException \OldTown\EventBus\Driver\Exception\InvalidArgumentException
      * @expectedExceptionMessage Имя соеденения должно быть строкой
      */
     public function testSetConnectionNotString()

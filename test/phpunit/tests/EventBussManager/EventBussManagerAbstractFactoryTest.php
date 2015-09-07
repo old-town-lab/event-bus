@@ -3,16 +3,16 @@
  * @link https://github.com/old-town/event-buss
  * @author  Malofeykin Andrey  <and-rey2@yandex.ru>
  */
-namespace OldTown\EventBuss\PhpUnit\Test\EventBussManager;
+namespace OldTown\EventBus\PhpUnit\Test\EventBussManager;
 
 use Zend\Test\PHPUnit\Controller\AbstractHttpControllerTestCase;
-use OldTown\EventBuss\EventBussManager\EventBussManagerFacade;
+use OldTown\EventBus\EventBussManager\EventBussManagerFacade;
 
 
 /**
  * Class EventBussManagerAbstractFactory
  *
- * @package OldTown\EventBuss\PhpUnit\Test\EventBussManagerFacade
+ * @package OldTown\EventBus\PhpUnit\Test\EventBussManagerFacade
  */
 class EventBussManagerAbstractFactoryTest extends AbstractHttpControllerTestCase
 {
@@ -35,7 +35,7 @@ class EventBussManagerAbstractFactoryTest extends AbstractHttpControllerTestCase
     /**
      * Проверка указания некорректного имени фабрики
      *
-     * @expectedException \OldTown\EventBuss\EventBussManager\Exception\ErrorCreateEventBussManagerException
+     * @expectedException \OldTown\EventBus\EventBussManager\Exception\ErrorCreateEventBussManagerException
      * @expectedExceptionMessage eventbuss.manager.default.invalid
      *
      * @throws \Zend\Stdlib\Exception\LogicException

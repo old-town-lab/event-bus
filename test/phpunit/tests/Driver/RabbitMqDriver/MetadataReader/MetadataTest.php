@@ -3,19 +3,19 @@
  * @link    https://github.com/old-town/event-buss
  * @author  Malofeykin Andrey  <and-rey2@yandex.ru>
  */
-namespace OldTown\EventBuss\PhpUnit\Test\Driver\RabbitMqDriver\MetadataReader;
+namespace OldTown\EventBus\PhpUnit\Test\Driver\RabbitMqDriver\MetadataReader;
 
 use PHPUnit_Framework_TestCase;
-use OldTown\EventBuss\Driver\RabbitMqDriver\MetadataReader\Metadata;
-use OldTown\EventBuss\Driver\RabbitMqDriver\MetadataReader\Annotations\EventBussMessage;
-use OldTown\EventBuss\Driver\RabbitMqDriver\MetadataReader\Annotations\Queue;
-use OldTown\EventBuss\Driver\RabbitMqDriver\MetadataReader\Annotations\Exchange;
-use OldTown\EventBuss\Driver\RabbitMqDriver\MetadataReader\Annotations\BindingKey;
+use OldTown\EventBus\Driver\RabbitMqDriver\MetadataReader\Metadata;
+use OldTown\EventBus\Driver\RabbitMqDriver\MetadataReader\Annotations\EventBussMessage;
+use OldTown\EventBus\Driver\RabbitMqDriver\MetadataReader\Annotations\Queue;
+use OldTown\EventBus\Driver\RabbitMqDriver\MetadataReader\Annotations\Exchange;
+use OldTown\EventBus\Driver\RabbitMqDriver\MetadataReader\Annotations\BindingKey;
 
 /**
  * Class DriverChainTest
  *
- * @package OldTown\EventBuss\PhpUnit\Test\Driver
+ * @package OldTown\EventBus\PhpUnit\Test\Driver
  */
 class MetadataTest extends PHPUnit_Framework_TestCase
 {

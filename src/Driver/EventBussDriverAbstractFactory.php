@@ -3,16 +3,16 @@
  * @link https://github.com/old-town/event-buss
  * @author  Malofeykin Andrey  <and-rey2@yandex.ru>
  */
-namespace OldTown\EventBuss\Driver;
+namespace OldTown\EventBus\Driver;
 
 use Zend\ServiceManager\AbstractFactoryInterface;
 use Zend\ServiceManager\ServiceLocatorInterface;
-use OldTown\EventBuss\Module;
+use OldTown\EventBus\Module;
 
 /**
  * Class ServiceAbstractFactory
  *
- * @package OldTown\EventBuss\Factory
+ * @package OldTown\EventBus\Factory
  */
 class EventBussDriverAbstractFactory implements AbstractFactoryInterface
 {
@@ -32,7 +32,7 @@ class EventBussDriverAbstractFactory implements AbstractFactoryInterface
      * @return bool
      *
      * @throws \Zend\ServiceManager\Exception\ServiceNotFoundException
-     * @throws \OldTown\EventBuss\Driver\Exception\ErrorCreateEventBussDriverException
+     * @throws \OldTown\EventBus\Driver\Exception\ErrorCreateEventBussDriverException
      */
     public function canCreateServiceWithName(ServiceLocatorInterface $serviceLocator, $name, $requestedName)
     {
@@ -56,10 +56,10 @@ class EventBussDriverAbstractFactory implements AbstractFactoryInterface
      * @return EventBussDriverInterface
      *
      * @throws \Zend\ServiceManager\Exception\ServiceNotCreatedException
-     * @throws \OldTown\EventBuss\EventBussManager\Exception\RuntimeException
+     * @throws \OldTown\EventBus\EventBussManager\Exception\RuntimeException
      * @throws \Zend\ServiceManager\Exception\ServiceNotFoundException
      * @throws \Zend\ServiceManager\Exception\RuntimeException
-     * @throws \OldTown\EventBuss\Driver\Exception\ErrorCreateEventBussDriverException
+     * @throws \OldTown\EventBus\Driver\Exception\ErrorCreateEventBussDriverException
      */
     public function createServiceWithName(ServiceLocatorInterface $serviceLocator, $name, $requestedName)
     {
@@ -85,7 +85,7 @@ class EventBussDriverAbstractFactory implements AbstractFactoryInterface
      *
      * @return DriverConfig|null
      * @throws \Zend\ServiceManager\Exception\ServiceNotFoundException
-     * @throws \OldTown\EventBuss\Driver\Exception\ErrorCreateEventBussDriverException
+     * @throws \OldTown\EventBus\Driver\Exception\ErrorCreateEventBussDriverException
      */
     protected function getDriverConfigs($name, ServiceLocatorInterface $serviceLocator)
     {

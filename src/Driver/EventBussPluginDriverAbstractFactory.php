@@ -3,22 +3,22 @@
  * @link https://github.com/old-town/event-buss
  * @author  Malofeykin Andrey  <and-rey2@yandex.ru>
  */
-namespace OldTown\EventBuss\Driver;
+namespace OldTown\EventBus\Driver;
 
 use Zend\ServiceManager\AbstractFactoryInterface;
 use Zend\ServiceManager\AbstractPluginManager;
 use Zend\ServiceManager\MutableCreationOptionsInterface;
 use Zend\ServiceManager\MutableCreationOptionsTrait;
 use Zend\ServiceManager\ServiceLocatorInterface;
-use OldTown\EventBuss\Module;
+use OldTown\EventBus\Module;
 use Zend\Stdlib\ArrayUtils;
-use OldTown\EventBuss\MetadataReader\EventBussMetadataReaderPluginManager;
+use OldTown\EventBus\MetadataReader\EventBussMetadataReaderPluginManager;
 
 
 /**
  * Class ServiceAbstractFactory
  *
- * @package OldTown\EventBuss\Factory
+ * @package OldTown\EventBus\Factory
  */
 class EventBussPluginDriverAbstractFactory implements AbstractFactoryInterface, MutableCreationOptionsInterface
 {
@@ -33,7 +33,7 @@ class EventBussPluginDriverAbstractFactory implements AbstractFactoryInterface, 
      * @return bool
      *
      * @throws \Zend\ServiceManager\Exception\ServiceNotFoundException
-     * @throws \OldTown\EventBuss\Driver\Exception\ErrorCreateEventBussDriverException
+     * @throws \OldTown\EventBus\Driver\Exception\ErrorCreateEventBussDriverException
      */
     public function canCreateServiceWithName(ServiceLocatorInterface $serviceLocator, $name, $requestedName)
     {
@@ -50,9 +50,9 @@ class EventBussPluginDriverAbstractFactory implements AbstractFactoryInterface, 
      *
      * @return EventBussDriverInterface
      *
-     * @throws \OldTown\EventBuss\Driver\Exception\RuntimeException
+     * @throws \OldTown\EventBus\Driver\Exception\RuntimeException
      * @throws \Zend\ServiceManager\Exception\ServiceNotFoundException
-     * @throws \OldTown\EventBuss\Driver\Exception\ConnectionNotFoundException
+     * @throws \OldTown\EventBus\Driver\Exception\ConnectionNotFoundException
      */
     public function createServiceWithName(ServiceLocatorInterface $serviceLocator, $name, $requestedName)
     {

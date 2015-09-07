@@ -3,16 +3,16 @@
  * @link https://github.com/old-town/event-buss
  * @author  Malofeykin Andrey  <and-rey2@yandex.ru>
  */
-namespace OldTown\EventBuss\EventBussManager;
+namespace OldTown\EventBus\EventBussManager;
 
 use Zend\ServiceManager\AbstractFactoryInterface;
 use Zend\ServiceManager\ServiceLocatorInterface;
-use OldTown\EventBuss\Module;
+use OldTown\EventBus\Module;
 
 /**
  * Class ServiceAbstractFactory
  *
- * @package OldTown\EventBuss\Factory
+ * @package OldTown\EventBus\Factory
  */
 class EventBussManagerAbstractFactory implements AbstractFactoryInterface
 {
@@ -32,7 +32,7 @@ class EventBussManagerAbstractFactory implements AbstractFactoryInterface
      * @return bool
      *
      * @throws \Zend\ServiceManager\Exception\ServiceNotFoundException
-     * @throws \OldTown\EventBuss\EventBussManager\Exception\ErrorCreateEventBussManagerException
+     * @throws \OldTown\EventBus\EventBussManager\Exception\ErrorCreateEventBussManagerException
      */
     public function canCreateServiceWithName(ServiceLocatorInterface $serviceLocator, $name, $requestedName)
     {
@@ -56,11 +56,11 @@ class EventBussManagerAbstractFactory implements AbstractFactoryInterface
      * @return EventBussManagerInterface
      *
      * @throws \Zend\ServiceManager\Exception\ServiceNotCreatedException
-     * @throws \OldTown\EventBuss\EventBussManager\Exception\RuntimeException
+     * @throws \OldTown\EventBus\EventBussManager\Exception\RuntimeException
      * @throws \Zend\ServiceManager\Exception\RuntimeException
-     * @throws \OldTown\EventBuss\EventBussManager\Exception\ErrorCreateEventBussManagerException
+     * @throws \OldTown\EventBus\EventBussManager\Exception\ErrorCreateEventBussManagerException
      * @throws \Zend\ServiceManager\Exception\ServiceNotFoundException
-     * @throws \OldTown\EventBuss\EventBussManager\Exception\ErrorCreateEventBussManagerException
+     * @throws \OldTown\EventBus\EventBussManager\Exception\ErrorCreateEventBussManagerException
      */
     public function createServiceWithName(ServiceLocatorInterface $serviceLocator, $name, $requestedName)
     {
@@ -86,7 +86,7 @@ class EventBussManagerAbstractFactory implements AbstractFactoryInterface
      *
      * @return ManagerInfoContainer|null
      * @throws \Zend\ServiceManager\Exception\ServiceNotFoundException
-     * @throws \OldTown\EventBuss\EventBussManager\Exception\ErrorCreateEventBussManagerException
+     * @throws \OldTown\EventBus\EventBussManager\Exception\ErrorCreateEventBussManagerException
      */
     protected function getManagerInfoContainer($name, ServiceLocatorInterface $serviceLocator)
     {

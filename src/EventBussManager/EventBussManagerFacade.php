@@ -3,16 +3,16 @@
  * @link https://github.com/old-town/event-buss
  * @author  Malofeykin Andrey  <and-rey2@yandex.ru>
  */
-namespace OldTown\EventBuss\EventBussManager;
+namespace OldTown\EventBus\EventBussManager;
 
-use OldTown\EventBuss\Driver\EventBussDriverInterface;
-use OldTown\EventBuss\Message\MessageInterface;
+use OldTown\EventBus\Driver\EventBussDriverInterface;
+use OldTown\EventBus\Message\MessageInterface;
 
 
 /**
  * Class EventBussManagerFacade
  *
- * @package OldTown\EventBuss\EventBussManagerFacade
+ * @package OldTown\EventBus\EventBussManagerFacade
  */
 class EventBussManagerFacade implements EventBussManagerInterface
 {

@@ -3,10 +3,10 @@
  * @link    https://github.com/old-town/event-buss
  * @author  Malofeykin Andrey  <and-rey2@yandex.ru>
  */
-namespace OldTown\EventBuss\PhpUnit\Test\Driver;
+namespace OldTown\EventBus\PhpUnit\Test\Driver;
 
-use OldTown\EventBuss\Driver\ConnectionDriverTrait;
-use OldTown\EventBuss\Driver\DriverConfig;
+use OldTown\EventBus\Driver\ConnectionDriverTrait;
+use OldTown\EventBus\Driver\DriverConfig;
 use PHPUnit_Framework_TestCase;
 use PHPUnit_Framework_MockObject_MockObject;
 
@@ -14,7 +14,7 @@ use PHPUnit_Framework_MockObject_MockObject;
 /**
  * Class DriverChainTest
  *
- * @package OldTown\EventBuss\PhpUnit\Test\Driver
+ * @package OldTown\EventBus\PhpUnit\Test\Driver
  */
 class ConnectionDriverTraitTest extends PHPUnit_Framework_TestCase
 {
@@ -43,7 +43,7 @@ class ConnectionDriverTraitTest extends PHPUnit_Framework_TestCase
     /**
      * Некорректные настройки драйвера. Отсутствует секция connectionConfig
      *
-     * @expectedException \OldTown\EventBuss\Driver\Exception\InvalidEventBussDriverConfigException
+     * @expectedException \OldTown\EventBus\Driver\Exception\InvalidEventBussDriverConfigException
      * @expectedExceptionMessage Отсутствует секция connectionConfig
      *
      * @throws \PHPUnit_Framework_Exception

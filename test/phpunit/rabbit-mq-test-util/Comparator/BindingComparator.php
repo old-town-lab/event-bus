@@ -3,7 +3,7 @@
  * @link https://github.com/old-town/event-buss
  * @author  Malofeykin Andrey  <and-rey2@yandex.ru>
  */
-namespace OldTown\EventBuss\PhpUnit\RabbitMqTestUtils\Comparator;
+namespace OldTown\EventBus\PhpUnit\RabbitMqTestUtils\Comparator;
 
 use Doctrine\Common\Collections\Collection;
 use RabbitMQ\Management\Entity\Binding;
@@ -12,7 +12,7 @@ use SebastianBergmann\Comparator\ComparisonFailure;
 
 /**
  * Class BindingComparator
- * @package OldTown\EventBuss\PhpUnit\RabbitMqTestUtils\Comparator
+ * @package OldTown\EventBus\PhpUnit\RabbitMqTestUtils\Comparator
  */
 class  BindingComparator extends Comparator
 {

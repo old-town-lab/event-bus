@@ -3,7 +3,7 @@
  * @link https://github.com/old-town/event-buss
  * @author  Malofeykin Andrey  <and-rey2@yandex.ru>
  */
-namespace OldTown\EventBuss\MetadataReader;
+namespace OldTown\EventBus\MetadataReader;
 
 use Doctrine\Common\Annotations\AnnotationReader as DoctrineAnnotationReader;
 use Doctrine\Common\Annotations\AnnotationRegistry;
@@ -12,7 +12,7 @@ use Doctrine\Common\Annotations\AnnotationRegistry;
 /**
  * Class AbstractAnnotationReader
  *
- * @package OldTown\EventBuss\MetadataReader
+ * @package OldTown\EventBus\MetadataReader
  */
 abstract class  AbstractAnnotationReader implements ReaderInterface
 {
@@ -227,7 +227,7 @@ abstract class  AbstractAnnotationReader implements ReaderInterface
      *
      * @return array
      *
-     * @throws \OldTown\EventBuss\MetadataReader\Exception\InvalidPathException
+     * @throws \OldTown\EventBus\MetadataReader\Exception\InvalidPathException
      */
     public function getAllClassNames()
     {

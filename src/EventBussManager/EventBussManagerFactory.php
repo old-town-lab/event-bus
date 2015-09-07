@@ -3,9 +3,9 @@
  * @link https://github.com/old-town/event-buss
  * @author  Malofeykin Andrey  <and-rey2@yandex.ru>
  */
-namespace OldTown\EventBuss\EventBussManager;
+namespace OldTown\EventBus\EventBussManager;
 
-use OldTown\EventBuss\Driver\EventBussDriverInterface;
+use OldTown\EventBus\Driver\EventBussDriverInterface;
 use Zend\ServiceManager\AbstractPluginManager;
 use Zend\ServiceManager\FactoryInterface;
 use Zend\ServiceManager\MutableCreationOptionsInterface;
@@ -15,7 +15,7 @@ use Zend\ServiceManager\ServiceLocatorInterface;
 /**
  * Class EventBussManagerFacade
  *
- * @package OldTown\EventBuss\EventBussManagerFacade
+ * @package OldTown\EventBus\EventBussManagerFacade
  */
 class EventBussManagerFactory implements FactoryInterface, MutableCreationOptionsInterface
 {
@@ -28,9 +28,9 @@ class EventBussManagerFactory implements FactoryInterface, MutableCreationOption
      *
 *@return EventBussManagerFacade
      *
-     * @throws \OldTown\EventBuss\EventBussManager\Exception\InvalidEventBussManagerConfigException
+     * @throws \OldTown\EventBus\EventBussManager\Exception\InvalidEventBussManagerConfigException
      * @throws \Zend\ServiceManager\Exception\ServiceNotFoundException
-     * @throws \OldTown\EventBuss\EventBussManager\Exception\RuntimeException
+     * @throws \OldTown\EventBus\EventBussManager\Exception\RuntimeException
      */
     public function createService(ServiceLocatorInterface $serviceLocator)
     {

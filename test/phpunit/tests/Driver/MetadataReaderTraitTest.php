@@ -3,19 +3,19 @@
  * @link    https://github.com/old-town/event-buss
  * @author  Malofeykin Andrey  <and-rey2@yandex.ru>
  */
-namespace OldTown\EventBuss\PhpUnit\Test\Driver;
+namespace OldTown\EventBus\PhpUnit\Test\Driver;
 
-use OldTown\EventBuss\Driver\DriverConfig;
-use OldTown\EventBuss\Driver\MetadataReaderTrait;
-use OldTown\EventBuss\MetadataReader\EventBussMetadataReaderPluginManager;
-use OldTown\EventBuss\MetadataReader\ReaderInterface;
+use OldTown\EventBus\Driver\DriverConfig;
+use OldTown\EventBus\Driver\MetadataReaderTrait;
+use OldTown\EventBus\MetadataReader\EventBussMetadataReaderPluginManager;
+use OldTown\EventBus\MetadataReader\ReaderInterface;
 use PHPUnit_Framework_TestCase;
 use PHPUnit_Framework_MockObject_MockObject;
 
 /**
  * Class MetadataReaderTraitTest
  *
- * @package OldTown\EventBuss\PhpUnit\Test\Driver
+ * @package OldTown\EventBus\PhpUnit\Test\Driver
  */
 class MetadataReaderTraitTest extends PHPUnit_Framework_TestCase
 {
@@ -163,7 +163,7 @@ class MetadataReaderTraitTest extends PHPUnit_Framework_TestCase
     /**
      * Получаем имя  MetadataReader из настроек драйвера
      *
-     * @expectedException \OldTown\EventBuss\Driver\Exception\InvalidMetadataReaderNameException
+     * @expectedException \OldTown\EventBus\Driver\Exception\InvalidMetadataReaderNameException
      * @expectedExceptionMessage Некорректное значение опций
      */
     public function testGetDefaultMetadataReaderNameInvalid()

@@ -3,29 +3,29 @@
  * @link    https://github.com/old-town/event-buss
  * @author  Malofeykin Andrey  <and-rey2@yandex.ru>
  */
-namespace OldTown\EventBuss\PhpUnit\Test\Driver;
+namespace OldTown\EventBus\PhpUnit\Test\Driver;
 
-use OldTown\EventBuss\Driver\ConnectionDriverInterface;
-use OldTown\EventBuss\Driver\DriverConfig;
-use OldTown\EventBuss\Driver\EventBussPluginDriverAbstractFactory;
+use OldTown\EventBus\Driver\ConnectionDriverInterface;
+use OldTown\EventBus\Driver\DriverConfig;
+use OldTown\EventBus\Driver\EventBussPluginDriverAbstractFactory;
 use Zend\ServiceManager\ServiceManager;
 use Zend\Test\PHPUnit\Controller\AbstractHttpControllerTestCase;
-use OldTown\EventBuss\Driver\RabbitMqDriver;
+use OldTown\EventBus\Driver\RabbitMqDriver;
 use Zend\ServiceManager\Exception\ServiceNotCreatedException;
-use OldTown\EventBuss\Driver\EventBussDriverPluginManager;
-use OldTown\EventBuss\Module;
+use OldTown\EventBus\Driver\EventBussDriverPluginManager;
+use OldTown\EventBus\Module;
 
 /**
  * Class EventBussPluginDriverAbstractFactoryTest
  *
- * @package OldTown\EventBuss\PhpUnit\Test\Driver
+ * @package OldTown\EventBus\PhpUnit\Test\Driver
  */
 class EventBussPluginDriverAbstractFactoryTest extends AbstractHttpControllerTestCase
 {
     /**
      * Отсутствует сервис менеджер приложения
      *
-     * @expectedException \OldTown\EventBuss\Driver\Exception\RuntimeException
+     * @expectedException \OldTown\EventBus\Driver\Exception\RuntimeException
      * @expectedExceptionMessage Не удалось получить ServiceLocator
      */
     public function testNoAppServiceLocator()
@@ -53,8 +53,8 @@ class EventBussPluginDriverAbstractFactoryTest extends AbstractHttpControllerTes
     /**
      * Некорректный модуль
      *
-     * @expectedException \OldTown\EventBuss\Driver\Exception\RuntimeException
-     * @expectedExceptionMessage Не удалось получить модуль: OldTown\EventBuss\Module
+     * @expectedException \OldTown\EventBus\Driver\Exception\RuntimeException
+     * @expectedExceptionMessage Не удалось получить модуль: OldTown\EventBus\Module
      */
     public function testNoModuleServiceLocator()
     {
@@ -87,7 +87,7 @@ class EventBussPluginDriverAbstractFactoryTest extends AbstractHttpControllerTes
     /**
      * Некорректное имя соеденения
      *
-     * @expectedException \OldTown\EventBuss\Driver\Exception\ConnectionNotFoundException
+     * @expectedException \OldTown\EventBus\Driver\Exception\ConnectionNotFoundException
      * @expectedExceptionMessage Отсутствует соеденение с именем: example
      */
     public function testInvalidConnectionName()

@@ -3,17 +3,17 @@
  * @link https://github.com/old-town/event-buss
  * @author  Malofeykin Andrey  <and-rey2@yandex.ru>
  */
-namespace OldTown\EventBuss\Driver;
+namespace OldTown\EventBus\Driver;
 
 use Traversable;
 use Zend\Stdlib\ArrayUtils;
-use OldTown\EventBuss\MetadataReader\EventBussMetadataReaderPluginManager;
+use OldTown\EventBus\MetadataReader\EventBussMetadataReaderPluginManager;
 
 
 /**
  * Class AbstractDriver
  *
- * @package OldTown\EventBuss\Driver
+ * @package OldTown\EventBus\Driver
  */
 abstract class AbstractDriver implements EventBussDriverInterface
 {
@@ -36,7 +36,7 @@ abstract class AbstractDriver implements EventBussDriverInterface
      *
      * @param EventBussMetadataReaderPluginManager $metadataReaderPluginManager
      *
-     * @throws \OldTown\EventBuss\Driver\Exception\InvalidArgumentException
+     * @throws \OldTown\EventBus\Driver\Exception\InvalidArgumentException
      * @throws \Zend\Stdlib\Exception\InvalidArgumentException
      */
     public function __construct($options = null, EventBussMetadataReaderPluginManager $metadataReaderPluginManager = null)

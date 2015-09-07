@@ -3,9 +3,9 @@
  * @link https://github.com/old-town/event-buss
  * @author  Malofeykin Andrey  <and-rey2@yandex.ru>
  */
-namespace OldTown\EventBuss\PhpUnit\Test\EventBussManager;
+namespace OldTown\EventBus\PhpUnit\Test\EventBussManager;
 
-use OldTown\EventBuss\EventBussManager\EventBussPluginManager;
+use OldTown\EventBus\EventBussManager\EventBussPluginManager;
 use Zend\Test\PHPUnit\Controller\AbstractHttpControllerTestCase;
 
 
@@ -13,15 +13,15 @@ use Zend\Test\PHPUnit\Controller\AbstractHttpControllerTestCase;
 /**
  * Class EventBussPluginManagerTest
  *
- * @package OldTown\EventBuss\PhpUnit\Test\EventBussManagerFacade
+ * @package OldTown\EventBus\PhpUnit\Test\EventBussManagerFacade
  */
 class EventBussPluginManagerTest extends AbstractHttpControllerTestCase
 {
     /**
      * Проверка создания не валидного EventBussManagerFacade
      *
-     * @expectedException \OldTown\EventBuss\EventBussManager\Exception\InvalidEventBussManagerException
-     * @expectedExceptionMessage EventBussManager должен реализовывать OldTown\EventBuss\EventBussManager\EventBussManagerInterface
+     * @expectedException \OldTown\EventBus\EventBussManager\Exception\InvalidEventBussManagerException
+     * @expectedExceptionMessage EventBussManager должен реализовывать OldTown\EventBus\EventBussManager\EventBussManagerInterface
      *
      * @throws \Zend\Stdlib\Exception\LogicException
      * @throws \Zend\ServiceManager\Exception\ServiceNotFoundException

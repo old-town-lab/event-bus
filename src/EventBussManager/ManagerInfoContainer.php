@@ -3,12 +3,12 @@
  * @link https://github.com/old-town/event-buss
  * @author  Malofeykin Andrey  <and-rey2@yandex.ru>
  */
-namespace OldTown\EventBuss\EventBussManager;
+namespace OldTown\EventBus\EventBussManager;
 
 /**
  * Class EventBussManagerFacade
  *
- * @package OldTown\EventBuss\EventBussManagerFacade
+ * @package OldTown\EventBus\EventBussManagerFacade
  */
 class ManagerInfoContainer
 {
@@ -39,7 +39,7 @@ class ManagerInfoContainer
     /**
      * @param array $config
      *
-     * @throws \OldTown\EventBuss\EventBussManager\Exception\InvalidEventBussManagerConfigException
+     * @throws \OldTown\EventBus\EventBussManager\Exception\InvalidEventBussManagerConfigException
      */
     public function __construct(array $config = [])
     {
@@ -49,7 +49,7 @@ class ManagerInfoContainer
     /**
      * @param array $config
      *
-     * @throws \OldTown\EventBuss\EventBussManager\Exception\InvalidEventBussManagerConfigException
+     * @throws \OldTown\EventBus\EventBussManager\Exception\InvalidEventBussManagerConfigException
      */
     protected function init(array $config = [])
     {

@@ -3,15 +3,15 @@
  * @link https://github.com/old-town/event-buss
  * @author  Malofeykin Andrey  <and-rey2@yandex.ru>
  */
-namespace OldTown\EventBuss\Driver;
+namespace OldTown\EventBus\Driver;
 
-use OldTown\EventBuss\Message\MessageInterface;
+use OldTown\EventBus\Message\MessageInterface;
 use SplObjectStorage;
 
 /**
  * Class DriverChain
  *
- * @package OldTown\EventBuss\Driver
+ * @package OldTown\EventBus\Driver
  */
 class DriverChain extends  AbstractDriver
 {
@@ -30,7 +30,7 @@ class DriverChain extends  AbstractDriver
      * @param EventBussDriverPluginManager $eventBussDriverPluginManager
      *
      * @throws \Zend\Stdlib\Exception\InvalidArgumentException
-     * @throws \OldTown\EventBuss\Driver\Exception\InvalidArgumentException
+     * @throws \OldTown\EventBus\Driver\Exception\InvalidArgumentException
      */
     public function __construct($options = null, EventBussDriverPluginManager $eventBussDriverPluginManager)
     {
@@ -93,7 +93,7 @@ class DriverChain extends  AbstractDriver
      *
      * @return $this
      *
-     * @throws \OldTown\EventBuss\Driver\Exception\ErrorCreateEventBussDriverException
+     * @throws \OldTown\EventBus\Driver\Exception\ErrorCreateEventBussDriverException
      */
     public function setOptions(array $options = [])
     {
@@ -109,7 +109,7 @@ class DriverChain extends  AbstractDriver
      *
      * @return $this
      *
-     * @throws \OldTown\EventBuss\Driver\Exception\ErrorCreateEventBussDriverException
+     * @throws \OldTown\EventBus\Driver\Exception\ErrorCreateEventBussDriverException
      */
     protected function buildDriversFromConfig(array $config = [])
     {

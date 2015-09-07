@@ -3,21 +3,21 @@
  * @link https://github.com/old-town/event-buss
  * @author  Malofeykin Andrey  <and-rey2@yandex.ru>
  */
-namespace OldTown\EventBuss\PhpUnit\Test\MetadataReader;
+namespace OldTown\EventBus\PhpUnit\Test\MetadataReader;
 
-use OldTown\EventBuss\MetadataReader\AbstractAnnotationReader;
-use OldTown\EventBuss\PhpUnit\TestData\Messages\TestMessage1;
+use OldTown\EventBus\MetadataReader\AbstractAnnotationReader;
+use OldTown\EventBus\PhpUnit\TestData\Messages\TestMessage1;
 use PHPUnit_Framework_TestCase;
 use PHPUnit_Framework_MockObject_MockObject;
-use OldTown\EventBuss\PhpUnit\TestData\Messages\Foo;
-use OldTown\EventBuss\Driver\RabbitMqDriver\MetadataReader\Annotations\EventBussMessage;
+use OldTown\EventBus\PhpUnit\TestData\Messages\Foo;
+use OldTown\EventBus\Driver\RabbitMqDriver\MetadataReader\Annotations\EventBussMessage;
 use Doctrine\Common\Annotations\AnnotationReader as DoctrineAnnotationReader;
-use OldTown\EventBuss\PhpUnit\TestData\TestPaths;
+use OldTown\EventBus\PhpUnit\TestData\TestPaths;
 
 /**
  * Class EventBussMetadataReaderPluginManagerTest
  *
- * @package OldTown\EventBuss\PhpUnit\Test\MetadataReader
+ * @package OldTown\EventBus\PhpUnit\Test\MetadataReader
  */
 class AbstractAnnotationReaderTest extends PHPUnit_Framework_TestCase
 {
@@ -25,7 +25,7 @@ class AbstractAnnotationReaderTest extends PHPUnit_Framework_TestCase
      * Проверяем поведения метода возвращающего список классов которые содержат анотации поддерживаемые данным
      * AnnotationReader, в ситуации когда указали невалидный путь до директории с классами
      *
-     * @expectedException \OldTown\EventBuss\MetadataReader\Exception\InvalidPathException
+     * @expectedException \OldTown\EventBus\MetadataReader\Exception\InvalidPathException
      */
     public function testGetAllClassNamesPathNotDir()
     {
@@ -85,7 +85,8 @@ class AbstractAnnotationReaderTest extends PHPUnit_Framework_TestCase
         $actual = $abstractAnnotationReaderMock->getAllClassNames();
         $expected = [Foo::class, TestMessage1::class];
         foreach ($expected as $className) {
-            static::assertTrue(in_array($className, $actual));
+            $flag = in_array($className, $actual, true);
+            static::assertTrue($flag);
         }
         static::assertEquals(count($actual), count($expected));
 

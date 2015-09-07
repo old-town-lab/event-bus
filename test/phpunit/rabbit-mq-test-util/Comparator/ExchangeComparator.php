@@ -3,7 +3,7 @@
  * @link https://github.com/old-town/event-buss
  * @author  Malofeykin Andrey  <and-rey2@yandex.ru>
  */
-namespace OldTown\EventBuss\PhpUnit\RabbitMqTestUtils\Comparator;
+namespace OldTown\EventBus\PhpUnit\RabbitMqTestUtils\Comparator;
 
 use RabbitMQ\Management\Entity\Exchange;
 use SebastianBergmann\Comparator\Comparator;
@@ -11,7 +11,7 @@ use SebastianBergmann\Comparator\ComparisonFailure;
 
 /**
  * Class ExchangeComparator
- * @package OldTown\EventBuss\PhpUnit\RabbitMqTestUtils\Comparator
+ * @package OldTown\EventBus\PhpUnit\RabbitMqTestUtils\Comparator
  */
 class  ExchangeComparator extends Comparator
 {

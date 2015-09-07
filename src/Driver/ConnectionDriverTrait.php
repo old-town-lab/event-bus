@@ -3,12 +3,12 @@
  * @link https://github.com/old-town/event-buss
  * @author  Malofeykin Andrey  <and-rey2@yandex.ru>
  */
-namespace OldTown\EventBuss\Driver;
+namespace OldTown\EventBus\Driver;
 
 /**
  * Class ConnectionDriverTrait
  *
- * @package OldTown\EventBuss\Driver
+ * @package OldTown\EventBus\Driver
  */
 trait ConnectionDriverTrait
 {
@@ -25,7 +25,7 @@ trait ConnectionDriverTrait
     /**
      * @return array
      *
-     * @throws \OldTown\EventBuss\Driver\Exception\InvalidEventBussDriverConfigException
+     * @throws \OldTown\EventBus\Driver\Exception\InvalidEventBussDriverConfigException
      */
     public function getConnectionConfig()
     {

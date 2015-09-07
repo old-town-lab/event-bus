@@ -3,11 +3,11 @@
  * @link https://github.com/old-town/event-buss
  * @author  Malofeykin Andrey  <and-rey2@yandex.ru>
  */
-namespace OldTown\EventBuss\Options;
+namespace OldTown\EventBus\Options;
 
 use Zend\ServiceManager\FactoryInterface;
 use Zend\ServiceManager\ServiceLocatorInterface;
-use OldTown\EventBuss\Module;
+use OldTown\EventBus\Module;
 
 /**
  * Class ModuleOptions

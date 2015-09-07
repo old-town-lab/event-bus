@@ -3,20 +3,20 @@
  * @link https://github.com/old-town/event-buss
  * @author  Malofeykin Andrey  <and-rey2@yandex.ru>
  */
-namespace OldTown\EventBuss\PhpUnit\Test;
+namespace OldTown\EventBus\PhpUnit\Test;
 
-use OldTown\EventBuss\Driver\EventBussDriverPluginManager;
-use OldTown\EventBuss\EventBussManager\EventBussPluginManager;
+use OldTown\EventBus\Driver\EventBussDriverPluginManager;
+use OldTown\EventBus\EventBussManager\EventBussPluginManager;
 use Zend\ModuleManager\ModuleManagerInterface;
 use Zend\Test\PHPUnit\Controller\AbstractHttpControllerTestCase;
-use OldTown\EventBuss\Module;
-use OldTown\EventBuss\Options\ModuleOptions;
+use OldTown\EventBus\Module;
+use OldTown\EventBus\Options\ModuleOptions;
 
 
 /**
  * Class ModuleTest
  *
- * @package OldTown\EventBuss\PhpUnit\Test
+ * @package OldTown\EventBus\PhpUnit\Test
  */
 class ModuleTest extends AbstractHttpControllerTestCase
 {
@@ -29,7 +29,7 @@ class ModuleTest extends AbstractHttpControllerTestCase
         $this->setApplicationConfig(
             include __DIR__ . '/../_files/application.config.php'
         );
-        $this->assertModulesLoaded(['OldTown\EventBuss']);
+        $this->assertModulesLoaded(['OldTown\EventBus']);
     }
 
     /**
@@ -82,7 +82,7 @@ class ModuleTest extends AbstractHttpControllerTestCase
     }
 
     /**
-     * @expectedException \OldTown\EventBuss\Exception\ErrorInitModuleException
+     * @expectedException \OldTown\EventBus\Exception\ErrorInitModuleException
      * @expectedExceptionMessage Менеджер модулей должен реализовывать Zend\ModuleManager\ModuleManager
      *
      * @return void

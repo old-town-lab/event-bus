@@ -3,28 +3,28 @@
  * @link    https://github.com/old-town/event-buss
  * @author  Malofeykin Andrey  <and-rey2@yandex.ru>
  */
-namespace OldTown\EventBuss\PhpUnit\Test\Driver;
+namespace OldTown\EventBus\PhpUnit\Test\Driver;
 
-use OldTown\EventBuss\Driver\EventBussDriverInterface;
-use OldTown\EventBuss\Driver\MetadataReaderInterface;
-use OldTown\EventBuss\Driver\RabbitMqDriver;
-use OldTown\EventBuss\EventBussManager\EventBussManagerFacade;
-use OldTown\EventBuss\Module;
-use OldTown\EventBuss\PhpUnit\TestData\Messages\Foo;
+use OldTown\EventBus\Driver\EventBussDriverInterface;
+use OldTown\EventBus\Driver\MetadataReaderInterface;
+use OldTown\EventBus\Driver\RabbitMqDriver;
+use OldTown\EventBus\EventBussManager\EventBussManagerFacade;
+use OldTown\EventBus\Module;
+use OldTown\EventBus\PhpUnit\TestData\Messages\Foo;
 use Zend\ServiceManager\ServiceLocatorInterface;
 use Zend\Stdlib\ArrayUtils;
 use Zend\Test\PHPUnit\Controller\AbstractHttpControllerTestCase;
-use OldTown\EventBuss\Driver\RabbitMqDriver\Adapter\AmqpPhpExtension;
-use OldTown\EventBuss\Driver\RabbitMqDriver\Adapter\AdapterInterface;
-use OldTown\EventBuss\PhpUnit\RabbitMqTestUtils\RabbitMqTestCaseTrait;
-use OldTown\EventBuss\PhpUnit\RabbitMqTestUtils\RabbitMqTestCaseInterface;
-use OldTown\EventBuss\Driver\RabbitMqDriver\MetadataReader\Metadata;
+use OldTown\EventBus\Driver\RabbitMqDriver\Adapter\AmqpPhpExtension;
+use OldTown\EventBus\Driver\RabbitMqDriver\Adapter\AdapterInterface;
+use OldTown\EventBus\PhpUnit\RabbitMqTestUtils\RabbitMqTestCaseTrait;
+use OldTown\EventBus\PhpUnit\RabbitMqTestUtils\RabbitMqTestCaseInterface;
+use OldTown\EventBus\Driver\RabbitMqDriver\MetadataReader\Metadata;
 
 
 /**
  * Class DriverChainTest
  *
- * @package OldTown\EventBuss\PhpUnit\Test\Driver
+ * @package OldTown\EventBus\PhpUnit\Test\Driver
  */
 class RabbitMqDriverTest extends AbstractHttpControllerTestCase implements RabbitMqTestCaseInterface
 {
@@ -74,7 +74,7 @@ class RabbitMqDriverTest extends AbstractHttpControllerTestCase implements Rabbi
      * Получение имени адаптера используемого для работы с сервером очередей. Имя адаптера задается через конфиг.
      * Указан несуществующий класс
      *
-     * @expectedException \OldTown\EventBuss\Driver\Exception\InvalidAdapterNameException
+     * @expectedException \OldTown\EventBus\Driver\Exception\InvalidAdapterNameException
      * @expectedExceptionMessage Отсутствует класс адаптера invalid-adapter
      */
     public function testGetInvalidAdapterNameFromExtraOptions()
@@ -116,8 +116,8 @@ class RabbitMqDriverTest extends AbstractHttpControllerTestCase implements Rabbi
      * Получение имени адаптера используемого для работы с сервером очередей. Имя адаптера задается через конфиг.
      * Указан класс который не реализует интерфейс адаптера
      *
-     * @expectedException \OldTown\EventBuss\Driver\Exception\InvalidAdapterNameException
-     * @expectedExceptionMessage Адаптер должен реализовывать OldTown\EventBuss\Driver\RabbitMqDriver\Adapter\AdapterInterface
+     * @expectedException \OldTown\EventBus\Driver\Exception\InvalidAdapterNameException
+     * @expectedExceptionMessage Адаптер должен реализовывать OldTown\EventBus\Driver\RabbitMqDriver\Adapter\AdapterInterface
      */
     public function testGetInvalidAdapterFromExtraOptions()
     {
@@ -297,7 +297,7 @@ class RabbitMqDriverTest extends AbstractHttpControllerTestCase implements Rabbi
     /**
      * Проверка поведения драйвера, когда не установлено расширение для работы с сервером очередей
      *
-     * @expectedException \OldTown\EventBuss\Driver\RabbitMqDriver\Adapter\Exception\AmqpPhpExtensionNotInstalledException
+     * @expectedException \OldTown\EventBus\Driver\RabbitMqDriver\Adapter\Exception\AmqpPhpExtensionNotInstalledException
      * @expectedExceptionMessage Для работы драйвера необходимо php расширение amqp_extension_not_found
      */
     public function testAmqpPhpExtensionNotFound()

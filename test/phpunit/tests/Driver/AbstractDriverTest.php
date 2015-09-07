@@ -3,17 +3,17 @@
  * @link    https://github.com/old-town/event-buss
  * @author  Malofeykin Andrey  <and-rey2@yandex.ru>
  */
-namespace OldTown\EventBuss\PhpUnit\Test\Driver;
+namespace OldTown\EventBus\PhpUnit\Test\Driver;
 
-use OldTown\EventBuss\Driver\AbstractDriver;
-use OldTown\EventBuss\Driver\DriverConfig;
+use OldTown\EventBus\Driver\AbstractDriver;
+use OldTown\EventBus\Driver\DriverConfig;
 use PHPUnit_Framework_TestCase;
 use Zend\Stdlib\Parameters;
 
 /**
  * Class DriverChainTest
  *
- * @package OldTown\EventBuss\PhpUnit\Test\Driver
+ * @package OldTown\EventBus\PhpUnit\Test\Driver
  */
 class AbstractDriverTest extends PHPUnit_Framework_TestCase
 {
@@ -56,7 +56,7 @@ class AbstractDriverTest extends PHPUnit_Framework_TestCase
 
     /**
      * Создание драйвера, с пустыми опциями
-     * @expectedException \OldTown\EventBuss\Driver\Exception\InvalidArgumentException
+     * @expectedException \OldTown\EventBus\Driver\Exception\InvalidArgumentException
      * @expectedExceptionMessage Некорректное значение опций
      *
      */

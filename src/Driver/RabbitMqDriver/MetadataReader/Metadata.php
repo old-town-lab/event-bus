@@ -3,14 +3,14 @@
  * @link https://github.com/old-town/event-buss
  * @author  Malofeykin Andrey  <and-rey2@yandex.ru>
  */
-namespace OldTown\EventBuss\Driver\RabbitMqDriver\MetadataReader;
+namespace OldTown\EventBus\Driver\RabbitMqDriver\MetadataReader;
 
-use OldTown\EventBuss\MetadataReader\MetadataInterface;
+use OldTown\EventBus\MetadataReader\MetadataInterface;
 
 /**
  * Class Metadata
  *
- * @package OldTown\EventBuss\Driver\RabbitMqDriver\MetadataReader
+ * @package OldTown\EventBus\Driver\RabbitMqDriver\MetadataReader
  */
 class Metadata implements MetadataInterface
 {

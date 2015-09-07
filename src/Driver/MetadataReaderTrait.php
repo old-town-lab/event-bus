@@ -3,15 +3,15 @@
  * @link https://github.com/old-town/event-buss
  * @author  Malofeykin Andrey  <and-rey2@yandex.ru>
  */
-namespace OldTown\EventBuss\Driver;
+namespace OldTown\EventBus\Driver;
 
-use OldTown\EventBuss\MetadataReader\EventBussMetadataReaderPluginManager;
-use OldTown\EventBuss\MetadataReader\ReaderInterface;
+use OldTown\EventBus\MetadataReader\EventBussMetadataReaderPluginManager;
+use OldTown\EventBus\MetadataReader\ReaderInterface;
 
 /**
  * Class PathsTrait
  *
- * @package OldTown\EventBuss\Driver
+ * @package OldTown\EventBus\Driver
  */
 trait MetadataReaderTrait
 {
@@ -112,7 +112,7 @@ trait MetadataReaderTrait
      *
      * @return string
      *
-     * @throws \OldTown\EventBuss\Driver\Exception\InvalidMetadataReaderNameException
+     * @throws \OldTown\EventBus\Driver\Exception\InvalidMetadataReaderNameException
      */
     public function getMetadataReaderName()
     {
@@ -145,7 +145,7 @@ trait MetadataReaderTrait
      * @throws \Zend\ServiceManager\Exception\ServiceNotFoundException
      * @throws \Zend\ServiceManager\Exception\ServiceNotCreatedException
      * @throws \Zend\ServiceManager\Exception\RuntimeException
-     * @throws \OldTown\EventBuss\Driver\Exception\InvalidMetadataReaderNameException
+     * @throws \OldTown\EventBus\Driver\Exception\InvalidMetadataReaderNameException
      */
     public function getMetadataReader()
     {

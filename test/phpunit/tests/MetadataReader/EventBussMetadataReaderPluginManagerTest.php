@@ -3,16 +3,16 @@
  * @link https://github.com/old-town/event-buss
  * @author  Malofeykin Andrey  <and-rey2@yandex.ru>
  */
-namespace OldTown\EventBuss\PhpUnit\Test\MetadataReader;
+namespace OldTown\EventBus\PhpUnit\Test\MetadataReader;
 
 use Zend\Test\PHPUnit\Controller\AbstractHttpControllerTestCase;
-use OldTown\EventBuss\MetadataReader\EventBussMetadataReaderPluginManager;
+use OldTown\EventBus\MetadataReader\EventBussMetadataReaderPluginManager;
 
 
 /**
  * Class EventBussMetadataReaderPluginManagerTest
  *
- * @package OldTown\EventBuss\PhpUnit\Test\MetadataReader
+ * @package OldTown\EventBus\PhpUnit\Test\MetadataReader
  */
 class EventBussMetadataReaderPluginManagerTest extends AbstractHttpControllerTestCase
 {
@@ -34,8 +34,8 @@ class EventBussMetadataReaderPluginManagerTest extends AbstractHttpControllerTes
     /**
      * Проверка создания менеджера шины событий через абстрактную фабрику
      *
-     * @expectedException \OldTown\EventBuss\MetadataReader\Exception\InvalidEventBussMetadataReaderException
-     * @expectedExceptionMessage MetadataReader должен реализовывать OldTown\EventBuss\MetadataReader\ReaderInterface
+     * @expectedException \OldTown\EventBus\MetadataReader\Exception\InvalidEventBussMetadataReaderException
+     * @expectedExceptionMessage MetadataReader должен реализовывать OldTown\EventBus\MetadataReader\ReaderInterface
      */
     public function testCreateNotValidMetadataReader()
     {

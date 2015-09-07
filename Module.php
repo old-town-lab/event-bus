@@ -3,13 +3,13 @@
  * @link https://github.com/old-town/event-buss
  * @author  Malofeykin Andrey  <and-rey2@yandex.ru>
  */
-namespace OldTown\EventBuss;
+namespace OldTown\EventBus;
 
 
-use OldTown\EventBuss\Driver\EventBussDriverProviderInterface;
-use OldTown\EventBuss\MetadataReader\EventBussMetadataReaderProviderInterface;
-use OldTown\EventBuss\Options\ModuleOptions;
-use OldTown\EventBuss\EventBussManager\EventBussManagerProviderInterface;
+use OldTown\EventBus\Driver\EventBussDriverProviderInterface;
+use OldTown\EventBus\MetadataReader\EventBussMetadataReaderProviderInterface;
+use OldTown\EventBus\Options\ModuleOptions;
+use OldTown\EventBus\EventBussManager\EventBussManagerProviderInterface;
 use Zend\Mvc\ModuleRouteListener;
 use Zend\Mvc\MvcEvent;
 use Zend\EventManager\EventInterface;
@@ -29,7 +29,7 @@ use Zend\ModuleManager\Feature\InitProviderInterface;
 /**
  * Class Module
  *
- * @package OldTown\EventBuss
+ * @package OldTown\EventBus
  */
 class Module implements
     LocatorRegisteredInterface,
@@ -104,7 +104,7 @@ class Module implements
      *
      * @param ModuleManagerInterface $manager
      * @throws \Zend\ServiceManager\Exception\ServiceNotFoundException
-     * @throws \OldTown\EventBuss\Exception\ErrorInitModuleException
+     * @throws \OldTown\EventBus\Exception\ErrorInitModuleException
      */
     public function init(ModuleManagerInterface $manager)
     {

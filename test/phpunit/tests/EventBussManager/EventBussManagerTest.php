@@ -3,18 +3,18 @@
  * @link https://github.com/old-town/event-buss
  * @author  Malofeykin Andrey  <and-rey2@yandex.ru>
  */
-namespace OldTown\EventBuss\PhpUnit\Test\EventBussManager;
+namespace OldTown\EventBus\PhpUnit\Test\EventBussManager;
 
-use OldTown\EventBuss\EventBussManager\EventBussManagerInterface;
+use OldTown\EventBus\EventBussManager\EventBussManagerInterface;
 use Zend\Test\PHPUnit\Controller\AbstractHttpControllerTestCase;
-use OldTown\EventBuss\EventBussManager\EventBussPluginManager;
-use OldTown\EventBuss\EventBussManager\EventBussManagerFacade;
-use OldTown\EventBuss\Driver\EventBussDriverInterface;
+use OldTown\EventBus\EventBussManager\EventBussPluginManager;
+use OldTown\EventBus\EventBussManager\EventBussManagerFacade;
+use OldTown\EventBus\Driver\EventBussDriverInterface;
 
 /**
  * Class EventBussManagerTest
  *
- * @package OldTown\EventBuss\PhpUnit\Test\EventBussManagerFacade
+ * @package OldTown\EventBus\PhpUnit\Test\EventBussManagerFacade
  */
 class EventBussManagerTest extends AbstractHttpControllerTestCase
 {

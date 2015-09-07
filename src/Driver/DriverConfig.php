@@ -3,12 +3,12 @@
  * @link https://github.com/old-town/event-buss
  * @author  Malofeykin Andrey  <and-rey2@yandex.ru>
  */
-namespace OldTown\EventBuss\Driver;
+namespace OldTown\EventBus\Driver;
 
 /**
  * Class DriverConfig
  *
- * @package OldTown\EventBuss\Driver
+ * @package OldTown\EventBus\Driver
  */
 class DriverConfig
 {
@@ -99,8 +99,8 @@ class DriverConfig
     /**
      * @param array $config
      *
-     * @throws \OldTown\EventBuss\Driver\Exception\InvalidEventBussDriverConfigException
-     * @throws \OldTown\EventBuss\Driver\Exception\InvalidArgumentException
+     * @throws \OldTown\EventBus\Driver\Exception\InvalidEventBussDriverConfigException
+     * @throws \OldTown\EventBus\Driver\Exception\InvalidArgumentException
      */
     public function __construct(array $config = [])
     {
@@ -110,8 +110,8 @@ class DriverConfig
     /**
      * @param array $config
      *
-     * @throws \OldTown\EventBuss\Driver\Exception\InvalidEventBussDriverConfigException
-     * @throws \OldTown\EventBuss\Driver\Exception\InvalidArgumentException
+     * @throws \OldTown\EventBus\Driver\Exception\InvalidEventBussDriverConfigException
+     * @throws \OldTown\EventBus\Driver\Exception\InvalidArgumentException
      */
     protected function init(array $config = [])
     {
@@ -282,7 +282,7 @@ class DriverConfig
      * @param null|string $connection
      *
      * @return $this
-     * @throws \OldTown\EventBuss\Driver\Exception\InvalidArgumentException
+     * @throws \OldTown\EventBus\Driver\Exception\InvalidArgumentException
      */
     public function setConnection($connection)
     {
