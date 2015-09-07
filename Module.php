@@ -7,6 +7,7 @@ namespace OldTown\EventBus;
 
 
 use OldTown\EventBus\Driver\EventBussDriverProviderInterface;
+use OldTown\EventBus\Message\EventBussMessageProviderInterface;
 use OldTown\EventBus\MetadataReader\EventBussMetadataReaderProviderInterface;
 use OldTown\EventBus\Options\ModuleOptions;
 use OldTown\EventBus\EventBussManager\EventBussManagerProviderInterface;
@@ -136,6 +137,12 @@ class Module implements
             'event_buss_metadata_reader',
             EventBussMetadataReaderProviderInterface::class,
             'getEventBussMetadataReaderConfig'
+        );
+        $serviceListener->addServiceManager(
+            'eventBussMessageManager',
+            'event_buss_message',
+            EventBussMessageProviderInterface::class,
+            'getEventBussMessageConfig'
         );
     }
 } 

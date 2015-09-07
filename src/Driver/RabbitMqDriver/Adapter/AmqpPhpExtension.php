@@ -302,7 +302,7 @@ class AmqpPhpExtension extends AbstractAdapter
     {
         $channel = $this->getChannel();
         $exchange = $this->createExchangeByMetadata($metadata, $channel);
-        $exchange->declareExchange();
+        //$exchange->declareExchange();
         $messageData = serialize($message);
         $exchange->publish($messageData, $eventName);
     }

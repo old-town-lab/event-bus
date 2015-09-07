@@ -5,17 +5,15 @@
  */
 namespace OldTown\EventBus\Message;
 
-use \Zend\Stdlib\MessageInterface as BaseMessageInterface;
-
 /**
- * Interface MessageInterface
+ * Interface EventBussMessageProviderInterface
+ *
  * @package OldTown\EventBus\Message
  */
-interface MessageInterface extends BaseMessageInterface
+interface EventBussMessageProviderInterface
 {
-
-
-
+    /**
+     * @return array
+     */
+    public function getEventBussMessageConfig();
 }
-
-
