@@ -15,4 +15,5 @@ use \Zend\Stdlib\Message;
  */
 abstract class AbstractMessage extends Message implements MessageInterface
 {
+    
 }
