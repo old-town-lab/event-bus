@@ -40,8 +40,8 @@
   },
   "autoload": {
     "psr-4": {
-      "OldTown\\EventBuss\\": "src/",
-      "OldTown\\EventBuss\\Test\\": "test/"
+      "OldTown\\EventBus\\": "src/",
+      "OldTown\\EventBus\\Test\\": "test/"
     },
     "classmap": [
       "./Module.php"
