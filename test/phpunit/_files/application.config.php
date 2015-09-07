@@ -2,11 +2,11 @@
 
 return [
     'modules' => [
-        'OldTown\\EventBuss'
+        'OldTown\\EventBus'
     ],
     'module_listener_options' => [
         'module_paths' => [
-            'OldTown\\EventBuss' => __DIR__ . '/../../'
+            'OldTown\\EventBus' => __DIR__ . '/../../'
         ]
     ]
 ];

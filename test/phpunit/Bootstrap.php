@@ -71,8 +71,8 @@ class Bootstrap
                     'namespaces' => [
                         'OldTown\\EventBuss' => __DIR__ . '/../../src/',
                         __NAMESPACE__ => __DIR__ . '/tests/',
-                        'OldTown\\EventBuss\\PhpUnit\\TestData' => __DIR__ . '/_files',
-                        'OldTown\\EventBuss\\PhpUnit\\RabbitMqTestUtils' => __DIR__ . '/rabbit-mq-test-util',
+                        'OldTown\\EventBus\\PhpUnit\\TestData' => __DIR__ . '/_files',
+                        'OldTown\\EventBus\\PhpUnit\\RabbitMqTestUtils' => __DIR__ . '/rabbit-mq-test-util',
                     ]
                 ]
             ]);
