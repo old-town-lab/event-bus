@@ -16,21 +16,40 @@ interface MessageInterface extends BaseMessageInterface
     /**
      * Подготовка данных для отправки
      *
+     * @param mixed $messageData
+     *
      * @return string
      */
-    public function serialize();
+    public function serialize($messageData);
 
     /**
      * Подготовка данных для заполения объекта сообещния
      *
      * @param $string
      *
-     * @return Object
+     * @return mixed
      */
     public function unserialize($string);
 
     /**
+     * @param mixed $data
+     *
      * @return bool
      */
-    public function validate();
+    public function validate($data);
+
+    /**
+     * @return mixed
+     */
+    public function hydrate();
+
+    /**
+     * @param array $data
+     *
+     * @return mixed
+     */
+    public function populateValues(array $data = []);
+
 }
+
+
