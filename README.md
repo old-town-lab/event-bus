@@ -1,6 +1,6 @@
 # event-buss
 
-[![Build Status](https://secure.travis-ci.org/old-town/event-buss.svg?branch=master)](https://secure.travis-ci.org/old-town/event-buss)
+[![Build Status](https://secure.travis-ci.org/old-town/event-bus.svg?branch=master)](https://secure.travis-ci.org/old-town/event-bus)
 [![Coverage Status](https://coveralls.io/repos/old-town/event-buss/badge.svg?branch=master&service=github)](https://coveralls.io/github/old-town/event-buss?branch=master)
 [![License](https://poser.pugx.org/old-town/event-bus/license)](https://packagist.org/packages/old-town/event-bus)
 [![Latest Unstable Version](https://poser.pugx.org/old-town/event-bus/v/unstable)](https://packagist.org/packages/old-town/event-bus)
