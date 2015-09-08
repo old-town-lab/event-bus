@@ -5,13 +5,13 @@
  */
 namespace OldTown\EventBus\Driver\RabbitMqDriver\Adapter;
 
-use OldTown\EventBus\Driver\RabbitMqDriver\MetadataReader\Metadata;
 use AMQPConnection;
 use AMQPChannel;
 use AMQPExchange;
 use AMQPQueue;
+use OldTown\EventBus\Driver\RabbitMqDriver\MetadataReader\MetadataInterface;
 use OldTown\EventBus\Message\MessageInterface;
-use OldTown\EventBus\MetadataReader\MetadataInterface;
+
 
 /**
  * Class AmqpPhpExtension
@@ -173,9 +173,9 @@ class AmqpPhpExtension extends AbstractAdapter
     /**
      * Инициализация шины
      *
-     * @param Metadata[] $metadata
+     * @param MetadataInterface[] $metadata
      *
-     * @throws Exception\RuntimeException
+     * @throws Exception\InvalidMetadataException
      * @throws \Exception
      * @throws \AMQPChannelException
      * @throws \AMQPConnectionException
@@ -186,9 +186,9 @@ class AmqpPhpExtension extends AbstractAdapter
         try {
             $channel->startTransaction();
             foreach ($metadata as $data) {
-                if (!$data instanceof Metadata) {
-                    $errMsg = sprintf('Метаданные должны реализовывать класс %s', Metadata::class);
-                    throw new Exception\RuntimeException($errMsg);
+                if (!$data instanceof MetadataInterface) {
+                    $errMsg = sprintf('Метаданные должны реализовывать класс %s', MetadataInterface::class);
+                    throw new Exception\InvalidMetadataException($errMsg);
                 }
                 $exchange = $this->createExchangeByMetadata($data, $channel);
                 $queue = $this->createQueueByMetadata($data, $channel);
@@ -218,13 +218,10 @@ class AmqpPhpExtension extends AbstractAdapter
      * @throws \AMQPExchangeException
      * @throws \AMQPChannelException
      * @throws \AMQPConnectionException
+     * @throws Exception\InvalidExchangeTypeException
      */
     protected function createExchangeByMetadata(MetadataInterface $metadata, AMQPChannel $channel)
     {
-        if (!$metadata instanceof Metadata) {
-            $errMsg = 'Неподдерживаемый тип метаданных';
-            throw new Exception\RuntimeException($errMsg);
-        }
         $exchange = new AMQPExchange($channel);
         $exchange->setName($metadata->getExchangeName());
         $type = $this->getExchangeTypeByCode($metadata->getExchangeType());
@@ -246,16 +243,12 @@ class AmqpPhpExtension extends AbstractAdapter
      * @param AMQPChannel $channel
      * @return AMQPQueue
      *
-     * @throws Exception\RuntimeException
+     * @throws \AMQPQueueException
      * @throws \AMQPChannelException
      * @throws \AMQPConnectionException
      */
     protected function createQueueByMetadata(MetadataInterface $metadata, AMQPChannel $channel)
     {
-        if (!$metadata instanceof Metadata) {
-            $errMsg = 'Неподдерживаемый тип метаданных';
-            throw new Exception\RuntimeException($errMsg);
-        }
         $queue = new AMQPQueue($channel);
         $queue->setName($metadata->getQueueName());
         $queue->declareQueue();
@@ -269,13 +262,13 @@ class AmqpPhpExtension extends AbstractAdapter
      * @param string $code
      * @return string
      *
-     * @throws Exception\RuntimeException
+     * @throws Exception\InvalidExchangeTypeException
      */
     protected function getExchangeTypeByCode($code)
     {
         if (!array_key_exists($code, static::$exchangeTypeToCode)) {
             $errMsg = sprintf('Некорректный тип обменника %s', $code);
-            throw new Exception\RuntimeException($errMsg);
+            throw new Exception\InvalidExchangeTypeException($errMsg);
         }
 
         $type = static::$exchangeTypeToCode[$code];
@@ -296,14 +289,15 @@ class AmqpPhpExtension extends AbstractAdapter
      * @throws Exception\RuntimeException
      * @throws \AMQPExchangeException
      * @throws \AMQPChannelException
+     * @throws Exception\InvalidExchangeTypeException
      *
      */
     public function trigger($eventName, MessageInterface $message, MetadataInterface $metadata)
     {
         $channel = $this->getChannel();
         $exchange = $this->createExchangeByMetadata($metadata, $channel);
-        //$exchange->declareExchange();
-        $messageData = serialize($message);
+
+        $messageData = $message->getContent();
         $exchange->publish($messageData, $eventName);
     }
 }

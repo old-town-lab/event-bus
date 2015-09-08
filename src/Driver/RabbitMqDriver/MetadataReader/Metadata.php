@@ -5,8 +5,6 @@
  */
 namespace OldTown\EventBus\Driver\RabbitMqDriver\MetadataReader;
 
-use OldTown\EventBus\MetadataReader\MetadataInterface;
-
 /**
  * Class Metadata
  *

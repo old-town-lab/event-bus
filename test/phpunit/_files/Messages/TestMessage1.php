@@ -6,7 +6,7 @@
 namespace OldTown\EventBus\PhpUnit\TestData\Messages;
 
 use OldTown\EventBus\Driver\RabbitMqDriver\MetadataReader\Annotations as EventBus;
-use OldTown\EventBus\Message\AbstractMessage;
+use OldTown\EventBus\Message\SimplyMessage;
 
 /**
  * Class TestMessage1
@@ -28,7 +28,7 @@ use OldTown\EventBus\Message\AbstractMessage;
  *
  *
  */
-class TestMessage1 extends AbstractMessage
+class TestMessage1 extends SimplyMessage
 {
 
 }

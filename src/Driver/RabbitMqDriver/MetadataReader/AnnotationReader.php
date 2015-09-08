@@ -6,7 +6,7 @@
 namespace OldTown\EventBus\Driver\RabbitMqDriver\MetadataReader;
 
 use OldTown\EventBus\MetadataReader\AbstractAnnotationReader;
-use OldTown\EventBus\MetadataReader\MetadataInterface;
+
 
 /**
  * Class AnnotationReader
@@ -25,7 +25,7 @@ class AnnotationReader extends AbstractAnnotationReader
     /**
      * Хранилище метаданных для класса
      *
-     * @var Metadata[]
+     * @var MetadataInterface[]
      */
     protected $metadataForClass = [];
 

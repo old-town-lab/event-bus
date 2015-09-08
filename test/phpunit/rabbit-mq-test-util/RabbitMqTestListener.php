@@ -53,7 +53,7 @@ class  RabbitMqTestListener implements PHPUnit_Framework_TestListener
      *
      * @var array
      */
-    protected $defaultConnection = [
+    protected static $defaultConnection = [
         RabbitMqTestManager::HOST     => 'localhost',
         RabbitMqTestManager::PORT_API     => '15672',
         RabbitMqTestManager::LOGIN    => 'test_event_bus',
@@ -65,7 +65,7 @@ class  RabbitMqTestListener implements PHPUnit_Framework_TestListener
      *
      * @var array
      */
-    protected $defaultRabbitMqConnectionForTest = [
+    protected static $defaultRabbitMqConnectionForTest = [
         RabbitMqTestManager::HOST     => 'localhost',
         RabbitMqTestManager::PORT     => '5672',
         RabbitMqTestManager::LOGIN    => 'test_event_bus',
@@ -184,6 +184,8 @@ class  RabbitMqTestListener implements PHPUnit_Framework_TestListener
 
     /**
      * @inheritDoc
+     *
+     * @throws \InvalidArgumentException
      */
     public function startTest(PHPUnit_Framework_Test $test)
     {
@@ -229,6 +231,8 @@ class  RabbitMqTestListener implements PHPUnit_Framework_TestListener
     /**
      *
      * @return RabbitMqTestManager
+     *
+     * @throws \InvalidArgumentException
      */
     public function getRabbitMqTestManager()
     {
@@ -254,7 +258,7 @@ class  RabbitMqTestListener implements PHPUnit_Framework_TestListener
         $connection = [];
         $options = $this->getOptions();
 
-        foreach ($this->defaultConnection as $key => $value) {
+        foreach (static::$defaultConnection as $key => $value) {
             $connection[$key] = array_key_exists($key, $options) ? $options[$key] : $value;
         }
         $this->connection = $connection;
@@ -273,7 +277,7 @@ class  RabbitMqTestListener implements PHPUnit_Framework_TestListener
         $connection = [];
         $options = $this->getOptions();
 
-        foreach ($this->defaultRabbitMqConnectionForTest as $key => $value) {
+        foreach (static::$defaultRabbitMqConnectionForTest as $key => $value) {
             $connection[$key] = array_key_exists($key, $options) ? $options[$key] : $value;
         }
         $this->rabbitMqConnectionForTest = $connection;
@@ -284,12 +288,16 @@ class  RabbitMqTestListener implements PHPUnit_Framework_TestListener
      *
      *
      * @return RabbitMqTestManager
+     *
+     * @throws \InvalidArgumentException
      */
     protected function createTestManager()
     {
         $connectionConfig = $this->getConnection();
         $virtualHost = $this->getTestVirtualHost();
-        $manager = new RabbitMqTestManager($connectionConfig, $virtualHost);
+        $connectionForTest = $this->getRabbitMqConnectionForTest();
+
+        $manager = new RabbitMqTestManager($connectionConfig, $connectionForTest, $virtualHost);
 
         return $manager;
     }

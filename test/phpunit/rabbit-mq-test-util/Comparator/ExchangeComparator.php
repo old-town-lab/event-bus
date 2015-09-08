@@ -21,6 +21,7 @@ class  ExchangeComparator extends Comparator
     protected static $map = [
         'name' => 'name',
         'type' => 'type',
+        'durable' => 'durable'
     ];
 
     /**
@@ -39,6 +40,9 @@ class  ExchangeComparator extends Comparator
      * @param float $delta
      * @param bool|false $canonicalize
      * @param bool|false $ignoreCase
+     *
+     * @throws \SebastianBergmann\Comparator\ComparisonFailure
+     * @throws \InvalidArgumentException
      */
     public function assertEquals($expected, $actual, $delta = 0.0, $canonicalize = false, $ignoreCase = false)
     {

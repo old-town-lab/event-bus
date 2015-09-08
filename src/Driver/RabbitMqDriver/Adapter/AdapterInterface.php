@@ -5,7 +5,7 @@
  */
 namespace OldTown\EventBus\Driver\RabbitMqDriver\Adapter;
 
-use OldTown\EventBus\MetadataReader\MetadataInterface;
+use OldTown\EventBus\Driver\RabbitMqDriver\MetadataReader\MetadataInterface;
 use OldTown\EventBus\Message\MessageInterface;
 
 /**

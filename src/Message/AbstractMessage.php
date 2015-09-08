@@ -8,7 +8,6 @@ namespace OldTown\EventBus\Message;
 use \Zend\Stdlib\Message;
 use Zend\Serializer\Adapter\AdapterInterface as Serializer;
 use Zend\Serializer\Serializer as SerializerFactory;
-use Zend\Stdlib\Hydrator\HydratorAwareTrait;
 
 
 /**
@@ -18,8 +17,6 @@ use Zend\Stdlib\Hydrator\HydratorAwareTrait;
  */
 abstract class AbstractMessage extends Message implements MessageInterface
 {
-    use HydratorAwareTrait;
-
     /**
      * Имя Serializer используемого для упаковки/распаковки тела сообщения
      *
@@ -40,6 +37,7 @@ abstract class AbstractMessage extends Message implements MessageInterface
      * @var Serializer
      */
     protected $serializer;
+
 
     /**
      * Получает Serializer используемый для упаковки распаковки сообщений
@@ -122,8 +120,36 @@ abstract class AbstractMessage extends Message implements MessageInterface
      * Получить контент для отправки сообещния
      *
      * @return string
+     *
+     * @throws \Zend\Serializer\Exception\ExceptionInterface
      */
     public function getContent()
     {
+        $data = $this->getHydrator()->extract($this);
+        $stringMessage = $this->getSerializer()->serialize($data);
+
+        return $stringMessage;
+    }
+
+
+    /**
+     * @param $serializedData
+     *
+     * @throws \OldTown\EventBus\Message\Exception\DataForMessageNotValidException
+     * @throws \Zend\Validator\Exception\RuntimeException
+     * @throws \Zend\Serializer\Exception\ExceptionInterface
+     *
+     * @return $this
+     */
+    public function fromString($serializedData)
+    {
+        $data = $this->getSerializer()->unserialize($serializedData);
+        $validator = $this->getValidator();
+        if (!$validator->isValid($data)) {
+            throw new Exception\DataForMessageNotValidException($validator->getMessages());
+        }
+        $this->getHydrator()->hydrate($data, $this);
+
+        return $this;
     }
 }

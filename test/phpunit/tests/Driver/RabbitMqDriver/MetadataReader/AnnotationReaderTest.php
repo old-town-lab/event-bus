@@ -34,7 +34,7 @@ class AnnotationReaderTest extends AbstractHttpControllerTestCase
         /** @var AnnotationReader $annotationReader */
         $annotationReader = $metadataReaderPluginManager->get(AnnotationReader::class);
 
-        /** @var \OldTown\EventBus\Driver\RabbitMqDriver\MetadataReader\Metadata $metadata */
+        /** @var \OldTown\EventBus\Driver\RabbitMqDriver\MetadataReader\MetadataInterface $metadata */
         $metadata = $annotationReader->loadMetadataForClass(Foo::class);
 
         static::assertInstanceOf(Metadata::class, $metadata);

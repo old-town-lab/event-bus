@@ -9,6 +9,9 @@ use RabbitMQ\Management\APIClient;
 use RabbitMQ\Management\Entity\Exchange;
 use RabbitMQ\Management\Entity\Queue;
 use RabbitMQ\Management\Entity\Binding;
+use AMQPConnection;
+use AMQPChannel;
+use AMQPEnvelope;
 
 
 /**
@@ -55,18 +58,40 @@ class  RabbitMqTestManager
     protected $testVirtualHost;
 
     /**
-     * Конфиг соеденения с кроликом
+     * Конфиг соеденения с Api кролика
      *
      * @var array
      */
     protected $connection;
 
     /**
+     * Конфиг соеденения с кроликом
+     *
+     * @var array
+     */
+    protected $connectionForTest;
+
+    /**
+     * @var AMQPChannel
+     */
+    protected $testChanel;
+
+    /**
+     * @var AMQPConnection
+     */
+    protected $testConnection;
+
+    /**
+     * @var APIClient
+     */
+    protected $client;
+
+    /**
      * Очереди которые не удалюятся при очистки.
      *
      * @var array
      */
-    protected $notDeleteExchange = [
+    protected static $notDeleteExchange = [
         'amq.rabbitmq.trace' => 'amq.rabbitmq.trace',
         '' => '',
         'amq.rabbitmq.log' => 'amq.rabbitmq.log'
@@ -93,27 +118,28 @@ class  RabbitMqTestManager
     /**
      * @param array $connection
      * @param $testVirtualHost
+     * @param array $connectionForTest
      *
      * @throws \InvalidArgumentException
      */
-    public function __construct(array $connection = [], $testVirtualHost)
+    public function __construct(array $connection = [], array $connectionForTest = [], $testVirtualHost)
     {
         $this->connection = $connection;
+        $this->connectionForTest = $connectionForTest;
+
         if (!(is_string($testVirtualHost) && strlen(trim($testVirtualHost)) > 0)) {
             $errMsg = 'Некорректный форма виртуального хоста для тестирования';
             throw new \InvalidArgumentException($errMsg);
         }
         $this->testVirtualHost = $testVirtualHost;
     }
-    /**
-     * @var APIClient
-     */
-    protected $client;
+
 
     /**
      * Инициализация клиента для работы с кролем
      *
      * @return APIClient
+     * @throws \InvalidArgumentException
      */
     protected function getClient()
     {
@@ -148,6 +174,8 @@ class  RabbitMqTestManager
      * Выводит список очередей для заданого виртуалхоста
      *
      * @return Queue[]
+     *
+     * @throws \InvalidArgumentException
      */
     public function getListQueues()
     {
@@ -165,6 +193,8 @@ class  RabbitMqTestManager
      * Выводит список всех обменников
      *
      * @return Exchange[]
+     *
+     * @throws \InvalidArgumentException
      */
     public function getListExchanges()
     {
@@ -181,6 +211,7 @@ class  RabbitMqTestManager
     /**
      * Очистка виртуального хоста
      *
+     * @throws \InvalidArgumentException
      */
     public function clearRabbitMqVirtualHost()
     {
@@ -195,7 +226,7 @@ class  RabbitMqTestManager
         $listExchange = $this->getListExchanges();
 
         foreach ($listExchange as $exchange) {
-            if (!array_key_exists($exchange->name, $this->notDeleteExchange)) {
+            if (!array_key_exists($exchange->name, static::$notDeleteExchange)) {
                 $this->getClient()->deleteExchange($this->getTestVirtualHost(), $exchange->name);
             }
         }
@@ -206,6 +237,8 @@ class  RabbitMqTestManager
      *
      * @param $name
      * @return Exchange
+     *
+     * @throws \InvalidArgumentException
      */
     public function getExchange($name)
     {
@@ -219,6 +252,8 @@ class  RabbitMqTestManager
      *
      * @param $name
      * @return Queue
+     *
+     * @throws \InvalidArgumentException
      */
     public function getQueue($name)
     {
@@ -233,11 +268,78 @@ class  RabbitMqTestManager
      * @param $exchangeName
      * @param $queueName
      * @return Binding[]
+     *
+     * @throws \InvalidArgumentException
      */
     public function getBindingsByExchangeAndQueue($exchangeName, $queueName)
     {
         $bindings = $this->getClient()->listBindingsByExchangeAndQueue($this->getTestVirtualHost(), $exchangeName, $queueName);
 
         return $bindings;
+    }
+
+    /**
+     * @return AMQPChannel
+     *
+     * @throws \AMQPConnectionException
+     */
+    public function getTestChanel()
+    {
+        if ($this->testChanel) {
+            return $this->testChanel;
+        }
+
+        $connection = $this->getTestConnection();
+        if (!$connection->isConnected()) {
+            $connection->connect();
+        }
+        $this->testChanel = new AMQPChannel($connection);
+
+        return $this->testChanel;
+    }
+
+    /**
+     * Получение соеденения для работы с сервером очередей
+     *
+     * @return AMQPConnection
+     */
+    public function getTestConnection()
+    {
+        if ($this->testConnection) {
+            return $this->testConnection;
+        }
+
+        $this->testConnection = new AMQPConnection($this->connectionForTest);
+        return $this->testConnection;
+    }
+
+    /**
+     * Читает сообщения из очереди
+     *
+     * @param $queue
+     * @throws \InvalidArgumentException
+     * @throws \AMQPConnectionException
+     * @throws \AMQPQueueException
+     * @throws \AMQPChannelException
+     *
+     * @return AMQPEnvelope[]
+     */
+    public function readMessagesFromQueue($queue)
+    {
+        $queueInfo = $this->getQueue($queue);
+
+        $chanel = $this->getTestChanel();
+
+        $queue = new \AMQPQueue($chanel);
+        $queue->setName($queueInfo->name);
+        $queue->declareQueue();
+
+        $messages = [];
+        while ($message = $queue->get()) {
+            $messages[] = $message;
+        }
+
+
+        return $messages;
     }
 }

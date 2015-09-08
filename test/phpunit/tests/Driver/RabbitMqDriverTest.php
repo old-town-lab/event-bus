@@ -8,7 +8,6 @@ namespace OldTown\EventBus\PhpUnit\Test\Driver;
 use OldTown\EventBus\Driver\DriverConfig;
 use OldTown\EventBus\Message\MessageInterface;
 use OldTown\EventBus\MetadataReader\EventBusMetadataReaderPluginManager;
-use OldTown\EventBus\MetadataReader\MetadataInterface;
 use OldTown\EventBus\PhpUnit\RabbitMqTestUtils\RabbitMqTestCaseInterface;
 use OldTown\EventBus\PhpUnit\RabbitMqTestUtils\RabbitMqTestCaseTrait;
 use PHPUnit_Framework_TestCase;
@@ -17,6 +16,7 @@ use OldTown\EventBus\Driver\RabbitMqDriver\Adapter\AdapterInterface;
 use OldTown\EventBus\Driver\RabbitMqDriver\Adapter\AmqpPhpExtension;
 use PHPUnit_Framework_MockObject_MockObject;
 use OldTown\EventBus\MetadataReader\ReaderInterface;
+use OldTown\EventBus\Driver\RabbitMqDriver\MetadataReader\MetadataInterface;
 
 
 /**

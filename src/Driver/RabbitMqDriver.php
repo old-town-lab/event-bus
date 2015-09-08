@@ -6,10 +6,11 @@
 namespace OldTown\EventBus\Driver;
 
 use OldTown\EventBus\Driver\RabbitMqDriver\Adapter\AmqpPhpExtension;
+use OldTown\EventBus\Driver\RabbitMqDriver\MetadataReader\MetadataInterface;
 use OldTown\EventBus\Message\MessageInterface;
 use OldTown\EventBus\Driver\RabbitMqDriver\Adapter\AdapterInterface;
 use OldTown\EventBus\Driver\RabbitMqDriver\MetadataReader\AnnotationReader;
-use OldTown\EventBus\Driver\RabbitMqDriver\MetadataReader\Metadata;
+
 
 /**
  * Class RabbitMqDriver
@@ -59,10 +60,18 @@ class RabbitMqDriver extends AbstractDriver implements ConnectionDriverInterface
     /**
      * @param $eventName
      * @param MessageInterface $message
+     *
+     * @throws \OldTown\EventBus\Driver\Exception\InvalidAdapterNameException
+     * @throws \OldTown\EventBus\Driver\Exception\InvalidEventBusDriverConfigException
+     * @throws \Zend\ServiceManager\Exception\ServiceNotFoundException
+     * @throws \Zend\ServiceManager\Exception\ServiceNotCreatedException
+     * @throws \Zend\ServiceManager\Exception\RuntimeException
+     * @throws \OldTown\EventBus\Driver\Exception\InvalidMetadataReaderNameException
      */
     public function trigger($eventName, MessageInterface $message)
     {
         $messageClass = get_class($message);
+        /** @var MetadataInterface $metadata */
         $metadata = $this->getMetadataReader()->loadMetadataForClass($messageClass);
 
         $this->getAdapter()->trigger($eventName, $message, $metadata);
@@ -145,7 +154,7 @@ class RabbitMqDriver extends AbstractDriver implements ConnectionDriverInterface
 
         $metadataStorage = [];
         foreach ($allClassNames as $classNames) {
-            /** @var Metadata $metadata */
+            /** @var MetadataInterface $metadata */
             $metadata = $reader->loadMetadataForClass($classNames);
             $metadataStorage[$classNames] = $metadata;
         }
