@@ -51,7 +51,7 @@ trait SelfHydratorTrait
         }
 
         if (!$this instanceof HydratorInterface) {
-            $errMsg = sprintf('Сообщение должно имлементировать %s', HydratorInterface::class);
+            $errMsg = sprintf('Сообщение должно имплементировать %s', HydratorInterface::class);
             throw new Exception\InvalidHydratorException($errMsg);
         }
 

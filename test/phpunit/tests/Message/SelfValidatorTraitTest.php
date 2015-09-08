@@ -31,4 +31,19 @@ class SelfValidatorTraitTest extends PHPUnit_Framework_TestCase
 
         static::assertTrue($mockValidator === $mockMessage->getValidator());
     }
+
+    /**
+     * Проверка ситуации когда сообщение не реализует интерфейс валидатора
+     *
+     * @expectedException \OldTown\EventBus\Message\Exception\InvalidValidatorException
+     * @expectedExceptionMessage Сообщение должно имплементировать Zend\Validator\ValidatorInterface
+     *
+     */
+    public function testMessageNotImplementsValidatorInterface()
+    {
+        /** @var SelfValidatorTrait $mockMessage */
+        $mockMessage = $this->getMockForTrait(SelfValidatorTrait::class);
+
+        $mockMessage->getValidator();
+    }
 }
