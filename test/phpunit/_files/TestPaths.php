@@ -23,5 +23,13 @@ class TestPaths
     {
         return  __DIR__;
     }
-
+    /**
+     * Путь до файла приложения
+     *
+     * @return string
+     */
+    public static function getApplicationConfig()
+    {
+        return  __DIR__ . '/application.config.php';
+    }
 }

@@ -6,6 +6,7 @@
 namespace OldTown\EventBus\PhpUnit\Test\Driver;
 
 use OldTown\EventBus\Driver\DriverConfig;
+use OldTown\EventBus\Message\MessageInterface;
 use OldTown\EventBus\MetadataReader\EventBusMetadataReaderPluginManager;
 use OldTown\EventBus\MetadataReader\MetadataInterface;
 use OldTown\EventBus\PhpUnit\RabbitMqTestUtils\RabbitMqTestCaseInterface;
@@ -201,5 +202,56 @@ class RabbitMqDriverTest extends PHPUnit_Framework_TestCase implements RabbitMqT
 
 
         $mockDriver->initEventBus();
+    }
+
+
+
+    /**
+     * Тест публикации события
+     *
+     */
+    public function testTrigger()
+    {
+        $expectedEventName = 'test.event';
+
+
+        /** @var PHPUnit_Framework_MockObject_MockObject|MessageInterface $messageMock */
+        $messageMock = $this->getMock(MessageInterface::class);
+
+        $metadataMock = $this->getMock(MetadataInterface::class);
+
+
+        /** @var PHPUnit_Framework_MockObject_MockObject|ReaderInterface  $metadataReaderMock */
+        $metadataReaderMock = $this->getMock(ReaderInterface::class, get_class_methods(ReaderInterface::class));
+        $metadataReaderMock->expects(static::once())
+            ->method('loadMetadataForClass')
+            ->with(static::equalTo(get_class($messageMock)))
+            ->will(static::returnValue($metadataMock));
+
+        $mockAdapter = $this->getMock(AdapterInterface::class, get_class_methods(AdapterInterface::class));
+        $mockAdapter->expects(static::once())
+                     ->method('trigger')
+                     ->with(static::equalTo($expectedEventName), static::equalTo($messageMock), static::equalTo($metadataMock));
+
+
+        $mockManager = $this->getMock(EventBusMetadataReaderPluginManager::class);
+
+        /** @var RabbitMqDriver|PHPUnit_Framework_MockObject_MockObject $mockDriver */
+        $mockDriver = $this->getMock(RabbitMqDriver::class, [
+            'getMetadataReader',
+            'getAdapter'
+        ], [
+            'options' => [
+                DriverConfig::CONNECTION_CONFIG => []
+            ],
+            'metadataReaderPluginManager' => $mockManager
+        ]);
+
+
+        $mockDriver->expects(static::once())->method('getMetadataReader')->will(static::returnValue($metadataReaderMock));
+        $mockDriver->expects(static::once())->method('getAdapter')->will(static::returnValue($mockAdapter));
+
+
+        $mockDriver->trigger($expectedEventName, $messageMock);
     }
 }
