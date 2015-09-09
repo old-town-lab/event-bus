@@ -7,6 +7,7 @@ namespace OldTown\EventBus\PhpUnit\Test;
 
 use OldTown\EventBus\Driver\EventBusDriverPluginManager;
 use OldTown\EventBus\EventBusManager\EventBusPluginManager;
+use OldTown\EventBus\Message\EventBusMessagePluginManager;
 use Zend\ModuleManager\ModuleManagerInterface;
 use Zend\Test\PHPUnit\Controller\AbstractHttpControllerTestCase;
 use OldTown\EventBus\Module;
@@ -133,5 +134,21 @@ class ModuleTest extends AbstractHttpControllerTestCase
         $pluginManager = $this->getApplicationServiceLocator()->get('eventBusPluginManager');
 
         static::assertInstanceOf(EventBusPluginManager::class, $pluginManager);
+    }
+
+    /**
+     * Проверяем что инициируется плагин менеджер для работы с сообщениями
+     *
+     * @return void
+     */
+    public function testInitEventMessagePluginManager()
+    {
+        $this->setApplicationConfig(
+            include __DIR__ . '/../_files/application.config.php'
+        );
+
+        $pluginManager = $this->getApplicationServiceLocator()->get('eventBusMessageManager');
+
+        static::assertInstanceOf(EventBusMessagePluginManager::class, $pluginManager);
     }
 }
