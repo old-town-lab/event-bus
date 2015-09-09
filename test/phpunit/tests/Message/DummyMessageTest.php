@@ -7,7 +7,10 @@ namespace OldTown\EventBus\PhpUnit\Test\Message;
 
 use PHPUnit_Framework_TestCase;
 use OldTown\EventBus\Message\DummyMessage;
-
+use Zend\Stdlib\Hydrator\DelegatingHydrator;
+use Zend\Stdlib\Hydrator\HydratorPluginManager;
+use Zend\Validator\ValidatorPluginManager;
+use OldTown\EventBus\Validator\DelegatingValidator;
 
 /**
  * Class DummyMessageTest
@@ -27,7 +30,10 @@ class DummyMessageTest extends PHPUnit_Framework_TestCase
      */
     protected function setUp()
     {
-        $this->dummy = new DummyMessage();
+        $hydratorPluginManager = new HydratorPluginManager();
+        $validatorPluginManager = new ValidatorPluginManager();
+
+        $this->dummy = new DummyMessage($hydratorPluginManager, $validatorPluginManager);
     }
 
 
@@ -37,7 +43,7 @@ class DummyMessageTest extends PHPUnit_Framework_TestCase
      */
     public function testGetHydrator()
     {
-        static::assertTrue($this->dummy === $this->dummy->getHydrator());
+        static::assertInstanceOf(DelegatingHydrator::class, $this->dummy->getHydrator());
     }
 
 
@@ -47,7 +53,7 @@ class DummyMessageTest extends PHPUnit_Framework_TestCase
      */
     public function testGetValidator()
     {
-        static::assertTrue($this->dummy === $this->dummy->getValidator());
+        static::assertInstanceOf(DelegatingValidator::class, $this->dummy->getValidator());
     }
 
     /**
@@ -66,32 +72,6 @@ class DummyMessageTest extends PHPUnit_Framework_TestCase
         static::assertEquals($expected, $this->dummy->getData());
     }
 
-
-    /**
-     * Проверка ситуации когда гердируется некорректный объект
-     *
-     * @expectedException \OldTown\EventBus\Message\Exception\InvalidArgumentException
-     * @expectedExceptionMessage Некорректный объект
-     */
-    public function testInvalidHydrateObject()
-    {
-        $invalidObject = new DummyMessage();
-        $this->dummy->hydrate([], $invalidObject);
-    }
-
-
-
-    /**
-     * Проверка ситуации когда екстрактиться некорректный объект
-     *
-     * @expectedException \OldTown\EventBus\Message\Exception\InvalidArgumentException
-     * @expectedExceptionMessage Некорректный объект
-     */
-    public function testInvalidExtractObject()
-    {
-        $invalidObject = new DummyMessage();
-        $this->dummy->extract($invalidObject);
-    }
 
 
     /**
@@ -145,5 +125,35 @@ class DummyMessageTest extends PHPUnit_Framework_TestCase
     public function testGetMessages()
     {
         static::assertEmpty($this->dummy->getMessages());
+    }
+
+
+
+    /**
+     * Проверка ситуации когда гердируется некорректный объект
+     *
+     * @expectedException \OldTown\EventBus\Message\Exception\InvalidArgumentException
+     * @expectedExceptionMessage Некорректный объект
+     */
+    public function testInvalidHydrateObject()
+    {
+        /** @var DummyMessage $invalidObject */
+        $invalidObject = new \stdClass();
+        $this->dummy->hydrate([], $invalidObject);
+    }
+
+
+
+    /**
+     * Проверка ситуации когда екстрактиться некорректный объект
+     *
+     * @expectedException \OldTown\EventBus\Message\Exception\InvalidArgumentException
+     * @expectedExceptionMessage Некорректный объект
+     */
+    public function testInvalidExtractObject()
+    {
+        /** @var DummyMessage $invalidObject */
+        $invalidObject = new \stdClass();
+        $this->dummy->extract($invalidObject);
     }
 }

@@ -21,6 +21,8 @@ use OldTown\EventBus\Driver\EventBusPluginDriverAbstractFactory;
 use OldTown\EventBus\Driver\RabbitMqDriver\MetadataReader\AnnotationReader;
 use OldTown\EventBus\Message\EventBusMessagePluginManager;
 use OldTown\EventBus\Message\EventBusMessagePluginManagerFactory;
+use OldTown\EventBus\Validator\DelegatingValidatorFactory;
+use OldTown\EventBus\Validator\DelegatingValidator;
 
 
 return [
@@ -42,6 +44,11 @@ return [
             'eventBusMetadataReaderManager' => EventBusMetadataReaderPluginManager::class,
             'eventBusMessageManager' => EventBusMessagePluginManager::class
         ]
+    ],
+    'validators' => [
+        'factories' => [
+            DelegatingValidator::class => DelegatingValidatorFactory::class,
+        ],
     ],
     'event_bus_manager' => [
         'factories' => [

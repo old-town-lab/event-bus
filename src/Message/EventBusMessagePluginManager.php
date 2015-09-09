@@ -16,6 +16,11 @@ use Zend\ServiceManager\AbstractPluginManager;
 class EventBusMessagePluginManager extends AbstractPluginManager
 {
     /**
+     * @var bool
+     */
+    protected $autoAddInvokableClass = false;
+
+    /**
      * @param mixed $plugin
      *
      * @throws Exception\InvalidEventBusMessageException

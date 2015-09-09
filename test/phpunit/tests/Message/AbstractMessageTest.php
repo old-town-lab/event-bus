@@ -5,6 +5,8 @@
  */
 namespace OldTown\EventBus\PhpUnit\Test\Message;
 
+use OldTown\EventBus\Validator\DelegatingValidator;
+use OldTown\EventBus\Validator\DelegatingValidatorFactory;
 use PHPUnit_Framework_TestCase;
 use OldTown\EventBus\Message\AbstractMessage;
 use PHPUnit_Framework_MockObject_MockObject;
@@ -12,7 +14,9 @@ use Zend\Serializer\Adapter\AdapterInterface as Serializer;
 use Zend\Serializer\Adapter\Json as JsonSerializer;
 use Zend\Stdlib\Hydrator\HydratorInterface;
 use Zend\Json\Json;
+use Zend\Stdlib\Hydrator\HydratorPluginManager;
 use Zend\Validator\ValidatorInterface;
+use Zend\Validator\ValidatorPluginManager;
 
 /**
  * Class AbstractMessageTest
@@ -22,23 +26,81 @@ use Zend\Validator\ValidatorInterface;
 class AbstractMessageTest extends PHPUnit_Framework_TestCase
 {
     /**
+     * @var PHPUnit_Framework_MockObject_MockObject|AbstractMessage
+     */
+    protected $message;
+
+    /**
+     * @return void
+     */
+    protected function setUp()
+    {
+        $hydratorPluginManager = new HydratorPluginManager();
+        $validatorPluginManager = new ValidatorPluginManager();
+        $validatorPluginManager->setFactory(DelegatingValidator::class, new DelegatingValidatorFactory());
+
+        /** @var PHPUnit_Framework_MockObject_MockObject|AbstractMessage  $message */
+        $message = $this->getMockForAbstractClass(AbstractMessage::class, [
+            'hydratorPluginManager' => $hydratorPluginManager,
+            'validatorPluginManager' => $validatorPluginManager
+        ]);
+
+        $this->message = $message;
+    }
+
+
+
+    /**
      * Проверка получения/установки опций сериалайзера
      *
      */
     public function testGetterSetterSerializerOptions()
     {
-        /** @var PHPUnit_Framework_MockObject_MockObject|AbstractMessage  $message */
-        $message = $this->getMockForAbstractClass(AbstractMessage::class);
-
         $expected = [
             'test_key_1' => 'test_value_1',
             'test_key_2' => 'test_value_2',
             'test_key_3' => 'test_value_3'
         ];
 
-        static::assertTrue($message->setSerializerOptions($expected) === $message);
+        static::assertTrue($this->message->setSerializerOptions($expected) === $this->message);
 
-        $actual = $message->getSerializerOptions();
+        $actual = $this->message->getSerializerOptions();
+
+        static::assertEquals($expected, $actual);
+    }
+
+
+    /**
+     * Проверка получения/установки опций гидратора
+     *
+     */
+    public function testGetterSetterHydratorOptions()
+    {
+        $expected = [
+            'test_key_1' => 'test_value_1',
+            'test_key_2' => 'test_value_2',
+            'test_key_3' => 'test_value_3'
+        ];
+
+        static::assertTrue($this->message->setHydratorOptions($expected) === $this->message);
+
+        $actual = $this->message->getHydratorOptions();
+
+        static::assertEquals($expected, $actual);
+    }
+
+
+    /**
+     * Проверка получения/установки имени гидратора
+     *
+     */
+    public function testGetterSetterHydratorName()
+    {
+        $expected = 'test_hydrator_name';
+
+        static::assertTrue($this->message->setHydratorName($expected) === $this->message);
+
+        $actual = $this->message->getHydratorName();
 
         static::assertEquals($expected, $actual);
     }
@@ -49,14 +111,11 @@ class AbstractMessageTest extends PHPUnit_Framework_TestCase
      */
     public function testGetterSetterSerializerName()
     {
-        /** @var PHPUnit_Framework_MockObject_MockObject|AbstractMessage  $message */
-        $message = $this->getMockForAbstractClass(AbstractMessage::class);
-
         $expected = 'test_serializer_name';
 
-        static::assertTrue($message->setSerializerName($expected) === $message);
+        static::assertTrue($this->message->setSerializerName($expected) === $this->message);
 
-        $actual = $message->getSerializerName();
+        $actual = $this->message->getSerializerName();
 
         static::assertEquals($expected, $actual);
     }
@@ -68,15 +127,13 @@ class AbstractMessageTest extends PHPUnit_Framework_TestCase
      */
     public function testGetterSetterSerializer()
     {
-        /** @var PHPUnit_Framework_MockObject_MockObject|AbstractMessage  $message */
-        $message = $this->getMockForAbstractClass(AbstractMessage::class);
 
         /** @var PHPUnit_Framework_MockObject_MockObject|Serializer $expected */
         $expected = $this->getMock(Serializer::class);
 
-        static::assertTrue($message->setSerializer($expected) === $message);
+        static::assertTrue($this->message->setSerializer($expected) === $this->message);
 
-        $actual = $message->getSerializer();
+        $actual = $this->message->getSerializer();
 
         static::assertEquals($expected, $actual);
     }
@@ -87,9 +144,7 @@ class AbstractMessageTest extends PHPUnit_Framework_TestCase
      */
     public function testGetDefaultSerializer()
     {
-        /** @var PHPUnit_Framework_MockObject_MockObject|AbstractMessage  $message */
-        $message = $this->getMockForAbstractClass(AbstractMessage::class);
-        $actual = $message->getSerializer();
+        $actual = $this->message->getSerializer();
 
         static::assertInstanceOf(JsonSerializer::class, $actual);
     }
@@ -102,9 +157,6 @@ class AbstractMessageTest extends PHPUnit_Framework_TestCase
      */
     public function testGetContent()
     {
-        /** @var PHPUnit_Framework_MockObject_MockObject|AbstractMessage  $message */
-        $message = $this->getMockForAbstractClass(AbstractMessage::class);
-
         $extractResult = [
             'key_1' => 'value_1',
             'key_2' => 'value_2',
@@ -112,12 +164,13 @@ class AbstractMessageTest extends PHPUnit_Framework_TestCase
             'key_4' => 'value_4'
         ];
 
+        /** @var PHPUnit_Framework_MockObject_MockObject|HydratorInterface $hydratorMock */
         $hydratorMock = $this->getMock(HydratorInterface::class, get_class_methods(HydratorInterface::class));
         $hydratorMock->expects(static::once())->method('extract')->will(static::returnValue($extractResult));
 
-        $message->expects(static::once())->method('getHydrator')->will(static::returnValue($hydratorMock));
+        $this->message->setHydrator($hydratorMock);
 
-        $actual = $message->getContent();
+        $actual = $this->message->getContent();
 
         static::assertEquals(Json::encode($extractResult), $actual);
     }
@@ -139,8 +192,6 @@ class AbstractMessageTest extends PHPUnit_Framework_TestCase
         $serializedData = Json::encode($unserializedData);
 
         //Mock объект для соощения
-        /** @var PHPUnit_Framework_MockObject_MockObject|AbstractMessage  $message */
-        $message = $this->getMockForAbstractClass(AbstractMessage::class);
 
         //Mock объект для валидатора
         /** @var PHPUnit_Framework_MockObject_MockObject|ValidatorInterface $validatorMock */
@@ -155,22 +206,19 @@ class AbstractMessageTest extends PHPUnit_Framework_TestCase
         $hydratorMock = $this->getMock(HydratorInterface::class, get_class_methods(HydratorInterface::class));
         $hydratorMock->expects(static::once())
                      ->method('hydrate')
-                     ->with(static::equalTo($unserializedData), static::equalTo($message))
-                     ->will(static::returnValue($message));
+                     ->with(static::equalTo($unserializedData), static::equalTo($this->message))
+                     ->will(static::returnValue($this->message));
 
 
         //Устанавливаем необходимые для теста зависимости Message
-        $message->expects(static::once())
-                ->method('getHydrator')
-                ->will(static::returnValue($hydratorMock));
-        $message->expects(static::once())
-                ->method('getValidator')
-                ->will(static::returnValue($validatorMock));
+        $this->message->setHydrator($hydratorMock);
+        $this->message->setValidator($validatorMock);
 
 
-        $actual = $message->fromString($serializedData);
 
-        static::assertEquals($message, $actual);
+        $actual = $this->message->fromString($serializedData);
+
+        static::assertEquals($this->message, $actual);
     }
 
 
@@ -192,8 +240,6 @@ class AbstractMessageTest extends PHPUnit_Framework_TestCase
         $serializedData = Json::encode($unserializedData);
 
         //Mock объект для соощения
-        /** @var PHPUnit_Framework_MockObject_MockObject|AbstractMessage  $message */
-        $message = $this->getMockForAbstractClass(AbstractMessage::class);
 
         //Mock объект для валидатора
         /** @var PHPUnit_Framework_MockObject_MockObject|ValidatorInterface $validatorMock */
@@ -208,11 +254,10 @@ class AbstractMessageTest extends PHPUnit_Framework_TestCase
 
 
         //Устанавливаем необходимые для теста зависимости Message
-        $message->expects(static::once())
-            ->method('getValidator')
-            ->will(static::returnValue($validatorMock));
+        $this->message->setValidator($validatorMock);
 
 
-        $message->fromString($serializedData);
+
+        $this->message->fromString($serializedData);
     }
 }

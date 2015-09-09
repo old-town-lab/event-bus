@@ -10,6 +10,6 @@ namespace OldTown\EventBus\Message;
  *
  * @package OldTown\EventBus\Message
  */
-abstract class SimpleMessage extends AbstractMessage
+abstract class AbstractSimpleMessage extends AbstractMessage
 {
 }

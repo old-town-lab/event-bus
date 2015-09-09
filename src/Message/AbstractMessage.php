@@ -5,9 +5,14 @@
  */
 namespace OldTown\EventBus\Message;
 
-use \Zend\Stdlib\Message;
+use Zend\Validator\ValidatorInterface;
+use Zend\Stdlib\Hydrator\HydratorInterface;
+use Zend\Stdlib\Hydrator\HydratorPluginManager;
+use Zend\Stdlib\Message;
 use Zend\Serializer\Adapter\AdapterInterface as Serializer;
 use Zend\Serializer\Serializer as SerializerFactory;
+use OldTown\EventBus\Validator\DelegatingValidator;
+use Zend\Validator\ValidatorPluginManager;
 
 
 /**
@@ -17,6 +22,21 @@ use Zend\Serializer\Serializer as SerializerFactory;
  */
 abstract class AbstractMessage extends Message implements MessageInterface
 {
+    /**
+     * @var HydratorPluginManager
+     */
+    protected $hydratorPluginManager;
+
+    /**
+     * @var ValidatorPluginManager
+     */
+    protected $validatorPluginManager;
+
+    /**
+     * @var ValidatorInterface
+     */
+    protected $validator;
+
     /**
      * Имя Serializer используемого для упаковки/распаковки тела сообщения
      *
@@ -38,6 +58,94 @@ abstract class AbstractMessage extends Message implements MessageInterface
      */
     protected $serializer;
 
+    /**
+     * @var HydratorInterface
+     */
+    protected $hydrator;
+
+    /**
+     * Имя гидратора используемого по умолчанию
+     *
+     * @var string
+     */
+    protected $hydratorName = 'delegatinghydrator';
+
+    /**
+     * Опиции для настройки гидратора
+     *
+     * @var array
+     */
+    protected $hydratorOptions = [];
+
+    /**
+     * @var array
+     */
+    protected $validatorOptions = [];
+
+    /**
+     * Имя валидатора используемого по умолчанию
+     *
+     * @var string
+     */
+    protected $validatorName = DelegatingValidator::class;
+
+    /**
+     * @param HydratorPluginManager  $hydratorPluginManager
+     * @param ValidatorPluginManager $validatorPluginManager
+     */
+    public function __construct(HydratorPluginManager $hydratorPluginManager, ValidatorPluginManager $validatorPluginManager)
+    {
+        $this->setHydratorPluginManager($hydratorPluginManager);
+        $this->setValidatorPluginManager($validatorPluginManager);
+
+        $validatorOptions = [
+            DelegatingValidator::DELEGATE_OBJECT => $this
+        ];
+        $this->setValidatorOptions($validatorOptions);
+    }
+
+
+    /**
+     * @return HydratorPluginManager
+     *
+     */
+    public function getHydratorPluginManager()
+    {
+        return $this->hydratorPluginManager;
+    }
+
+    /**
+     * @param HydratorPluginManager $hydratorPluginManager
+     *
+     * @return $this
+     */
+    public function setHydratorPluginManager(HydratorPluginManager $hydratorPluginManager)
+    {
+        $this->hydratorPluginManager = $hydratorPluginManager;
+
+        return $this;
+    }
+
+    /**
+     * @return ValidatorPluginManager
+     */
+    public function getValidatorPluginManager()
+    {
+        return $this->validatorPluginManager;
+    }
+
+    /**
+     * @param ValidatorPluginManager $validatorPluginManager
+     *
+     * @return $this
+     */
+    public function setValidatorPluginManager(ValidatorPluginManager $validatorPluginManager)
+    {
+        $this->validatorPluginManager = $validatorPluginManager;
+
+        return $this;
+    }
+
 
     /**
      * Получает Serializer используемый для упаковки распаковки сообщений
@@ -55,6 +163,94 @@ abstract class AbstractMessage extends Message implements MessageInterface
         $this->serializer = SerializerFactory::factory($name, $options);
 
         return $this->serializer;
+    }
+
+    /**
+     * @return HydratorInterface
+     *
+     * @throws \Zend\ServiceManager\Exception\ServiceNotFoundException
+     * @throws \Zend\ServiceManager\Exception\RuntimeException
+     * @throws \Zend\ServiceManager\Exception\ServiceNotCreatedException
+     *
+     */
+    public function getHydrator()
+    {
+        if ($this->hydrator) {
+            return $this->hydrator;
+        }
+        $name = $this->getHydratorName();
+        $options = $this->getHydratorOptions();
+
+        $this->hydrator = $this->getHydratorPluginManager()->get($name, $options);
+
+        return $this->hydrator;
+    }
+
+
+    /**
+     * @param HydratorInterface $hydrator
+     *
+     * @return $this
+     */
+    public function setHydrator(HydratorInterface $hydrator)
+    {
+        $this->hydrator = $hydrator;
+
+        return $this;
+    }
+
+    /**
+     * @return ValidatorInterface
+     *
+     * @throws \Zend\ServiceManager\Exception\ServiceNotFoundException
+     * @throws \Zend\ServiceManager\Exception\RuntimeException
+     * @throws \Zend\ServiceManager\Exception\ServiceNotCreatedException
+     */
+    public function getValidator()
+    {
+        if ($this->validator) {
+            return $this->validator;
+        }
+        $name = $this->getValidatorName();
+        $options = $this->getValidatorOptions();
+
+        $this->validator = $this->getValidatorPluginManager()->get($name, $options);
+
+        return $this->validator;
+    }
+
+    /**
+     * @param ValidatorInterface $validator
+     *
+     * @return $this
+     */
+    public function setValidator(ValidatorInterface $validator)
+    {
+        $this->validator = $validator;
+
+        return $this;
+    }
+
+
+
+    /**
+     * @return array
+     */
+    public function getHydratorOptions()
+    {
+        return $this->hydratorOptions;
+    }
+
+    /**
+     * @param array $hydratorOptions
+     *
+     * @return $this
+     */
+    public function setHydratorOptions(array $hydratorOptions = [])
+    {
+        $this->hydratorOptions = $hydratorOptions;
+
+        return $this;
     }
 
     /**
@@ -95,6 +291,68 @@ abstract class AbstractMessage extends Message implements MessageInterface
     }
 
     /**
+     * @return string
+     */
+    public function getHydratorName()
+    {
+        return $this->hydratorName;
+    }
+
+    /**
+     * @param string $hydratorName
+     *
+     * @return $this
+     */
+    public function setHydratorName($hydratorName)
+    {
+        $this->hydratorName = (string)$hydratorName;
+
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getValidatorName()
+    {
+        return $this->validatorName;
+    }
+
+    /**
+     * @param string $validatorName
+     *
+     * @return $this
+     */
+    public function setValidatorName($validatorName)
+    {
+        $this->validatorName = (string)$validatorName;
+
+        return $this;
+    }
+
+    /**
+     * @return array
+     */
+    public function getValidatorOptions()
+    {
+        return $this->validatorOptions;
+    }
+
+    /**
+     * @param array $validatorOptions
+     *
+     * @return $this
+     */
+    public function setValidatorOptions(array $validatorOptions = [])
+    {
+        $this->validatorOptions = $validatorOptions;
+
+        return $this;
+    }
+
+
+
+    /**
      * @return array
      */
     public function getSerializerOptions()
@@ -122,6 +380,9 @@ abstract class AbstractMessage extends Message implements MessageInterface
      * @return string
      *
      * @throws \Zend\Serializer\Exception\ExceptionInterface
+     * @throws \Zend\ServiceManager\Exception\ServiceNotFoundException
+     * @throws \Zend\ServiceManager\Exception\RuntimeException
+     * @throws \Zend\ServiceManager\Exception\ServiceNotCreatedException
      */
     public function getContent()
     {
@@ -138,6 +399,9 @@ abstract class AbstractMessage extends Message implements MessageInterface
      * @throws \OldTown\EventBus\Message\Exception\DataForMessageNotValidException
      * @throws \Zend\Validator\Exception\RuntimeException
      * @throws \Zend\Serializer\Exception\ExceptionInterface
+     * @throws \Zend\ServiceManager\Exception\ServiceNotFoundException
+     * @throws \Zend\ServiceManager\Exception\RuntimeException
+     * @throws \Zend\ServiceManager\Exception\ServiceNotCreatedException
      *
      * @return $this
      */

@@ -16,8 +16,6 @@ use Zend\Validator\ValidatorInterface;
  */
 class DummyMessage extends AbstractMessage implements ValidatorInterface, HydratorInterface
 {
-    use SelfHydratorTrait, SelfValidatorTrait;
-
     /**
      * @var array
      */

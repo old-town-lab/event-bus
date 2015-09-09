@@ -6,11 +6,11 @@
 namespace OldTown\EventBus\Message;
 
 use Zend\ServiceManager\AbstractFactoryInterface;
+use Zend\ServiceManager\AbstractPluginManager;
 use Zend\ServiceManager\MutableCreationOptionsInterface;
 use Zend\ServiceManager\MutableCreationOptionsTrait;
 use Zend\ServiceManager\ServiceLocatorInterface;
-
-
+use ReflectionClass;
 
 /**
  * Class PluginMessageAbstractFactory
@@ -32,11 +32,20 @@ class PluginMessageAbstractFactory implements AbstractFactoryInterface, MutableC
      */
     public function canCreateServiceWithName(ServiceLocatorInterface $serviceLocator, $name, $requestedName)
     {
-        $flag = false;
+        if (!class_exists($requestedName)) {
+            return false;
+        }
+        $implements = class_implements($requestedName);
+        if (!array_key_exists(MessageInterface::class, $implements)) {
+            return false;
+        }
+        $r = new ReflectionClass($requestedName);
+        if (!$r->isInstantiable()) {
+            return false;
+        }
 
 
-
-        return false;
+        return true;
     }
 
     /**
@@ -47,8 +56,33 @@ class PluginMessageAbstractFactory implements AbstractFactoryInterface, MutableC
      * @param $requestedName
      *
      * @return MessageInterface
+     * @throws Exception\RuntimeException
+     * @throws \Zend\ServiceManager\Exception\ServiceNotFoundException
      */
     public function createServiceWithName(ServiceLocatorInterface $serviceLocator, $name, $requestedName)
     {
+        $parents = class_parents($requestedName);
+        $r = new ReflectionClass($requestedName);
+
+        if (array_key_exists(AbstractMessage::class, $parents)) {
+            $appServiceLocator = null;
+            if ($serviceLocator instanceof AbstractPluginManager) {
+                $appServiceLocator = $serviceLocator->getServiceLocator();
+            }
+
+            if (!$appServiceLocator instanceof ServiceLocatorInterface) {
+                $errMsg = 'Не удалось получить ServiceLocator';
+                throw new Exception\RuntimeException($errMsg);
+            }
+
+            $validatorPluginManager = $appServiceLocator->get('ValidatorManager');
+            $hydratorPluginManager = $appServiceLocator->get('HydratorManager');
+
+            $service = $r->newInstance($hydratorPluginManager, $validatorPluginManager);
+        } else {
+            $service = $r->newInstance();
+        }
+
+        return $service;
     }
 }
