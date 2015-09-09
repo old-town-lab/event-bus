@@ -10,6 +10,7 @@ use OldTown\EventBus\Driver\EventBusDriverInterface;
 use OldTown\EventBus\Driver\EventBusDriverPluginManager;
 use OldTown\EventBus\Driver\RabbitMqDriver;
 use OldTown\EventBus\PhpUnit\TestData\Messages\Foo;
+use OldTown\EventBus\PhpUnit\TestData\TestPaths;
 use Zend\Test\PHPUnit\Controller\AbstractHttpControllerTestCase;
 use OldTown\EventBus\Driver\DriverChain;
 use PHPUnit_Framework_MockObject_MockObject;
@@ -27,8 +28,9 @@ class DriverChainTest extends AbstractHttpControllerTestCase
      */
     public function testCreateDriverChain()
     {
+        /** @noinspection PhpIncludeInspection */
         $this->setApplicationConfig(
-            include __DIR__ . '/../../_files/application.config.php'
+            include TestPaths::getApplicationConfig()
         );
         /** @var EventBusDriverPluginManager $eventBusDriverPluginManager */
         $eventBusDriverPluginManager = $this->getApplicationServiceLocator()->get(EventBusDriverPluginManager::class);
@@ -55,8 +57,9 @@ class DriverChainTest extends AbstractHttpControllerTestCase
      */
     public function testErrorBuildDriversFromConfig()
     {
+        /** @noinspection PhpIncludeInspection */
         $this->setApplicationConfig(
-            include __DIR__ . '/../../_files/application.config.php'
+            include TestPaths::getApplicationConfig()
         );
         /** @var EventBusDriverPluginManager $eventBusDriverPluginManager */
         $eventBusDriverPluginManager = $this->getApplicationServiceLocator()->get(EventBusDriverPluginManager::class);
@@ -92,8 +95,9 @@ class DriverChainTest extends AbstractHttpControllerTestCase
      */
     public function testGetDriver()
     {
+        /** @noinspection PhpIncludeInspection */
         $this->setApplicationConfig(
-            include __DIR__ . '/../../_files/application.config.php'
+            include TestPaths::getApplicationConfig()
         );
         /** @var EventBusDriverPluginManager $eventBusDriverPluginManager */
         $eventBusDriverPluginManager = $this->getApplicationServiceLocator()->get(EventBusDriverPluginManager::class);
@@ -124,8 +128,9 @@ class DriverChainTest extends AbstractHttpControllerTestCase
      */
     public function testInitEventBus()
     {
+        /** @noinspection PhpIncludeInspection */
         $this->setApplicationConfig(
-            include __DIR__ . '/../../_files/application.config.php'
+            include TestPaths::getApplicationConfig()
         );
         /** @var EventBusDriverPluginManager $eventBusDriverPluginManager */
         $eventBusDriverPluginManager = $this->getApplicationServiceLocator()->get(EventBusDriverPluginManager::class);
@@ -156,8 +161,9 @@ class DriverChainTest extends AbstractHttpControllerTestCase
      */
     public function testTrigger()
     {
+        /** @noinspection PhpIncludeInspection */
         $this->setApplicationConfig(
-            include __DIR__ . '/../../_files/application.config.php'
+            include TestPaths::getApplicationConfig()
         );
         /** @var EventBusDriverPluginManager $eventBusDriverPluginManager */
         $eventBusDriverPluginManager = $this->getApplicationServiceLocator()->get(EventBusDriverPluginManager::class);

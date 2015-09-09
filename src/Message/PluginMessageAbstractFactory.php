@@ -32,6 +32,10 @@ class PluginMessageAbstractFactory implements AbstractFactoryInterface, MutableC
      */
     public function canCreateServiceWithName(ServiceLocatorInterface $serviceLocator, $name, $requestedName)
     {
+        $flag = false;
+
+
+
         return false;
     }
 

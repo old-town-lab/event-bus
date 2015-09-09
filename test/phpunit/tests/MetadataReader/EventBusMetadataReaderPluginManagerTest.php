@@ -5,6 +5,7 @@
  */
 namespace OldTown\EventBus\PhpUnit\Test\MetadataReader;
 
+use OldTown\EventBus\PhpUnit\TestData\TestPaths;
 use Zend\Test\PHPUnit\Controller\AbstractHttpControllerTestCase;
 use OldTown\EventBus\MetadataReader\EventBusMetadataReaderPluginManager;
 
@@ -22,8 +23,9 @@ class EventBusMetadataReaderPluginManagerTest extends AbstractHttpControllerTest
      */
     public function testGetEventBusMetadataReaderPluginManager()
     {
+        /** @noinspection PhpIncludeInspection */
         $this->setApplicationConfig(
-            include __DIR__ . '/../../_files/application.config.php'
+            include TestPaths::getApplicationConfig()
         );
         /** @var EventBusMetadataReaderPluginManager $manager */
         $manager = $this->getApplicationServiceLocator()->get(EventBusMetadataReaderPluginManager::class);
@@ -39,8 +41,9 @@ class EventBusMetadataReaderPluginManagerTest extends AbstractHttpControllerTest
      */
     public function testCreateNotValidMetadataReader()
     {
+        /** @noinspection PhpIncludeInspection */
         $this->setApplicationConfig(
-            include __DIR__ . '/../../_files/application.config.php'
+            include TestPaths::getApplicationConfig()
         );
         /** @var EventBusMetadataReaderPluginManager $manager */
         $manager = $this->getApplicationServiceLocator()->get(EventBusMetadataReaderPluginManager::class);

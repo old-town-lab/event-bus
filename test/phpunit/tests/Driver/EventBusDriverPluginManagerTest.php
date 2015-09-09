@@ -6,6 +6,7 @@
 namespace OldTown\EventBus\PhpUnit\Test\Driver;
 
 use OldTown\EventBus\Driver\EventBusDriverPluginManager;
+use OldTown\EventBus\PhpUnit\TestData\TestPaths;
 use Zend\Test\PHPUnit\Controller\AbstractHttpControllerTestCase;
 
 
@@ -28,8 +29,9 @@ class EventBusDriverPluginManagerTest extends AbstractHttpControllerTestCase
      */
     public function testNotValidPlugin()
     {
+        /** @noinspection PhpIncludeInspection */
         $this->setApplicationConfig(
-            include __DIR__ . '/../../_files/application.config.php'
+            include TestPaths::getApplicationConfig()
         );
 
         /** @var EventBusDriverPluginManager $eventBusDriverPluginManager */

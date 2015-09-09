@@ -5,6 +5,7 @@
  */
 namespace OldTown\EventBus\PhpUnit\Test\EventBusManager;
 
+use OldTown\EventBus\PhpUnit\TestData\TestPaths;
 use Zend\Test\PHPUnit\Controller\AbstractHttpControllerTestCase;
 use OldTown\EventBus\EventBusManager\EventBusManagerFacade;
 
@@ -24,8 +25,9 @@ class EventBusManagerAbstractFactoryTest extends AbstractHttpControllerTestCase
      */
     public function testGetDefaultEventBusManager()
     {
+        /** @noinspection PhpIncludeInspection */
         $this->setApplicationConfig(
-            include __DIR__ . '/../../_files/application.config.php'
+            include TestPaths::getApplicationConfig()
         );
         $eventBusManager = $this->getApplicationServiceLocator()->get('event_bus.manager.default');
 
@@ -43,8 +45,9 @@ class EventBusManagerAbstractFactoryTest extends AbstractHttpControllerTestCase
      */
     public function testInvalidNameEventBusManager()
     {
+        /** @noinspection PhpIncludeInspection */
         $this->setApplicationConfig(
-            include __DIR__ . '/../../_files/application.config.php'
+            include TestPaths::getApplicationConfig()
         );
         $this->getApplicationServiceLocator()->get('event_bus.manager.default.invalid');
     }
@@ -58,8 +61,9 @@ class EventBusManagerAbstractFactoryTest extends AbstractHttpControllerTestCase
      */
     public function testNotExistsEventNameBusManager()
     {
+        /** @noinspection PhpIncludeInspection */
         $this->setApplicationConfig(
-            include __DIR__ . '/../../_files/application.config.php'
+            include TestPaths::getApplicationConfig()
         );
         $flag = $this->getApplicationServiceLocator()->has('event_bus.manager.not_exists');
 

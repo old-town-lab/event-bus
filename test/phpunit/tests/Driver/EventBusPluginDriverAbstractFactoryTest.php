@@ -8,6 +8,7 @@ namespace OldTown\EventBus\PhpUnit\Test\Driver;
 use OldTown\EventBus\Driver\ConnectionDriverInterface;
 use OldTown\EventBus\Driver\DriverConfig;
 use OldTown\EventBus\Driver\EventBusPluginDriverAbstractFactory;
+use OldTown\EventBus\PhpUnit\TestData\TestPaths;
 use Zend\ServiceManager\ServiceManager;
 use Zend\Test\PHPUnit\Controller\AbstractHttpControllerTestCase;
 use OldTown\EventBus\Driver\RabbitMqDriver;
@@ -31,8 +32,9 @@ class EventBusPluginDriverAbstractFactoryTest extends AbstractHttpControllerTest
     public function testNoAppServiceLocator()
     {
         try {
+            /** @noinspection PhpIncludeInspection */
             $this->setApplicationConfig(
-                include __DIR__ . '/../../_files/application.config.php'
+                include TestPaths::getApplicationConfig()
             );
 
             /** @var ServiceManager $appServiceLocator */
@@ -59,8 +61,9 @@ class EventBusPluginDriverAbstractFactoryTest extends AbstractHttpControllerTest
     public function testNoModuleServiceLocator()
     {
         try {
+            /** @noinspection PhpIncludeInspection */
             $this->setApplicationConfig(
-                include __DIR__ . '/../../_files/application.config.php'
+                include TestPaths::getApplicationConfig()
             );
 
             /** @var ServiceManager $appServiceLocator */
@@ -93,10 +96,10 @@ class EventBusPluginDriverAbstractFactoryTest extends AbstractHttpControllerTest
     public function testInvalidConnectionName()
     {
         try {
+            /** @noinspection PhpIncludeInspection */
             $this->setApplicationConfig(
-                include __DIR__ . '/../../_files/application.config.php'
+                include TestPaths::getApplicationConfig()
             );
-
             /** @var ServiceManager $appServiceLocator */
             $appServiceManager = $this->getApplicationServiceLocator();
 
@@ -120,10 +123,10 @@ class EventBusPluginDriverAbstractFactoryTest extends AbstractHttpControllerTest
      */
     public function testMergeConnectionConfig()
     {
+        /** @noinspection PhpIncludeInspection */
         $this->setApplicationConfig(
-            include __DIR__ . '/../../_files/application.config.php'
+            include TestPaths::getApplicationConfig()
         );
-
         /** @var ServiceManager $appServiceLocator */
         $appServiceManager = $this->getApplicationServiceLocator();
         $appServiceManager->setAllowOverride(true);
@@ -171,8 +174,9 @@ class EventBusPluginDriverAbstractFactoryTest extends AbstractHttpControllerTest
      */
     public function testConnectionConfig()
     {
+        /** @noinspection PhpIncludeInspection */
         $this->setApplicationConfig(
-            include __DIR__ . '/../../_files/application.config.php'
+            include TestPaths::getApplicationConfig()
         );
 
         /** @var ServiceManager $appServiceLocator */

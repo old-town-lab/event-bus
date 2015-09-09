@@ -5,6 +5,7 @@
  */
 namespace OldTown\EventBus\PhpUnit\Test\EventBusManager;
 
+use OldTown\EventBus\PhpUnit\TestData\TestPaths;
 use Zend\Test\PHPUnit\Controller\AbstractHttpControllerTestCase;
 use OldTown\EventBus\EventBusManager\EventBusPluginManager;
 use OldTown\EventBus\EventBusManager\EventBusManagerFacade;
@@ -27,8 +28,9 @@ class EventBusManagerFactoryTest extends AbstractHttpControllerTestCase
      */
     public function testCreateEventBusDefaultManager()
     {
+        /** @noinspection PhpIncludeInspection */
         $this->setApplicationConfig(
-            include __DIR__ . '/../../_files/application.config.php'
+            include TestPaths::getApplicationConfig()
         );
         /** @var EventBusPluginManager $eventBusPluginManager */
         $eventBusPluginManager = $this->getApplicationServiceLocator()->get('eventBusPluginManager');
@@ -50,8 +52,9 @@ class EventBusManagerFactoryTest extends AbstractHttpControllerTestCase
      */
     public function testCreateEventBusDefaltManagerSectionOfTheDriverIsAbsent()
     {
+        /** @noinspection PhpIncludeInspection */
         $this->setApplicationConfig(
-            include __DIR__ . '/../../_files/application.config.php'
+            include TestPaths::getApplicationConfig()
         );
         /** @var EventBusPluginManager $eventBusPluginManager */
         $eventBusPluginManager = $this->getApplicationServiceLocator()->get('eventBusPluginManager');
@@ -80,8 +83,9 @@ class EventBusManagerFactoryTest extends AbstractHttpControllerTestCase
      */
     public function testCreateEventBusDefaltManagerNoServiceLocatorApp()
     {
+        /** @noinspection PhpIncludeInspection */
         $this->setApplicationConfig(
-            include __DIR__ . '/../../_files/application.config.php'
+            include TestPaths::getApplicationConfig()
         );
         $this->getApplication();
 

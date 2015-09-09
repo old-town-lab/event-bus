@@ -6,6 +6,7 @@
 namespace OldTown\EventBus\PhpUnit\Test\Driver;
 
 use OldTown\EventBus\Driver\EventBusDriverInterface;
+use OldTown\EventBus\PhpUnit\TestData\TestPaths;
 use Zend\Test\PHPUnit\Controller\AbstractHttpControllerTestCase;
 
 
@@ -24,8 +25,9 @@ class EventBusDriverAbstractFactoryTest extends AbstractHttpControllerTestCase
      */
     public function testGetDefaultDriver()
     {
+        /** @noinspection PhpIncludeInspection */
         $this->setApplicationConfig(
-            include __DIR__ . '/../../_files/application.config.php'
+            include TestPaths::getApplicationConfig()
         );
         $driver = $this->getApplicationServiceLocator()->get('event_bus.driver.default');
 
@@ -43,8 +45,9 @@ class EventBusDriverAbstractFactoryTest extends AbstractHttpControllerTestCase
      */
     public function testInvalidNameDriver()
     {
+        /** @noinspection PhpIncludeInspection */
         $this->setApplicationConfig(
-            include __DIR__ . '/../../_files/application.config.php'
+            include TestPaths::getApplicationConfig()
         );
         $this->getApplicationServiceLocator()->get('event_bus.driver.default.invalid');
     }
@@ -58,8 +61,9 @@ class EventBusDriverAbstractFactoryTest extends AbstractHttpControllerTestCase
      */
     public function testNotExistsDriver()
     {
+        /** @noinspection PhpIncludeInspection */
         $this->setApplicationConfig(
-            include __DIR__ . '/../../_files/application.config.php'
+            include TestPaths::getApplicationConfig()
         );
         $flag = $this->getApplicationServiceLocator()->has('event_bus.driver.not_exists');
 

@@ -8,6 +8,7 @@ namespace OldTown\EventBus\PhpUnit\Test;
 use OldTown\EventBus\Driver\EventBusDriverPluginManager;
 use OldTown\EventBus\EventBusManager\EventBusPluginManager;
 use OldTown\EventBus\Message\EventBusMessagePluginManager;
+use OldTown\EventBus\PhpUnit\TestData\TestPaths;
 use Zend\ModuleManager\ModuleManagerInterface;
 use Zend\Test\PHPUnit\Controller\AbstractHttpControllerTestCase;
 use OldTown\EventBus\Module;
@@ -27,8 +28,9 @@ class ModuleTest extends AbstractHttpControllerTestCase
      */
     public function testLoadModule()
     {
+        /** @noinspection PhpIncludeInspection */
         $this->setApplicationConfig(
-            include __DIR__ . '/../_files/application.config.php'
+            include TestPaths::getApplicationConfig()
         );
         $this->assertModulesLoaded(['OldTown\EventBus']);
     }
@@ -39,8 +41,9 @@ class ModuleTest extends AbstractHttpControllerTestCase
      */
     public function testModuleLocatorRegistered()
     {
+        /** @noinspection PhpIncludeInspection */
         $this->setApplicationConfig(
-            include __DIR__ . '/../_files/application.config.php'
+            include TestPaths::getApplicationConfig()
         );
         $module = $this->getApplicationServiceLocator()->get(Module::class);
 
@@ -53,8 +56,9 @@ class ModuleTest extends AbstractHttpControllerTestCase
      */
     public function testModuleServiceLocator()
     {
+        /** @noinspection PhpIncludeInspection */
         $this->setApplicationConfig(
-            include __DIR__ . '/../_files/application.config.php'
+            include TestPaths::getApplicationConfig()
         );
         /** @var Module $module */
         $module = $this->getApplicationServiceLocator()->get(Module::class);
@@ -72,8 +76,9 @@ class ModuleTest extends AbstractHttpControllerTestCase
      */
     public function testGetModuleOptions()
     {
+        /** @noinspection PhpIncludeInspection */
         $this->setApplicationConfig(
-            include __DIR__ . '/../_files/application.config.php'
+            include TestPaths::getApplicationConfig()
         );
         /** @var Module $module */
         $module = $this->getApplicationServiceLocator()->get(Module::class);
@@ -90,8 +95,9 @@ class ModuleTest extends AbstractHttpControllerTestCase
      */
     public function testInitBadModuleManager()
     {
+        /** @noinspection PhpIncludeInspection */
         $this->setApplicationConfig(
-            include __DIR__ . '/../_files/application.config.php'
+            include TestPaths::getApplicationConfig()
         );
         /** @var Module $module */
         $module = $this->getApplicationServiceLocator()->get(Module::class);
@@ -110,8 +116,9 @@ class ModuleTest extends AbstractHttpControllerTestCase
      */
     public function testInitEventBusDriverPluginManager()
     {
+        /** @noinspection PhpIncludeInspection */
         $this->setApplicationConfig(
-            include __DIR__ . '/../_files/application.config.php'
+            include TestPaths::getApplicationConfig()
         );
 
         $pluginManager = $this->getApplicationServiceLocator()->get('eventBusDriverManager');
@@ -127,8 +134,9 @@ class ModuleTest extends AbstractHttpControllerTestCase
      */
     public function testInitEventBusPluginManager()
     {
+        /** @noinspection PhpIncludeInspection */
         $this->setApplicationConfig(
-            include __DIR__ . '/../_files/application.config.php'
+            include TestPaths::getApplicationConfig()
         );
 
         $pluginManager = $this->getApplicationServiceLocator()->get('eventBusPluginManager');
@@ -143,8 +151,9 @@ class ModuleTest extends AbstractHttpControllerTestCase
      */
     public function testInitEventMessagePluginManager()
     {
+        /** @noinspection PhpIncludeInspection */
         $this->setApplicationConfig(
-            include __DIR__ . '/../_files/application.config.php'
+            include TestPaths::getApplicationConfig()
         );
 
         $pluginManager = $this->getApplicationServiceLocator()->get('eventBusMessageManager');

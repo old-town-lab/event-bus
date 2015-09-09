@@ -6,6 +6,7 @@
 namespace OldTown\EventBus\PhpUnit\Test\Driver\RabbitMqDriver\MetadataReader;
 
 use OldTown\EventBus\MetadataReader\EventBusMetadataReaderPluginManager;
+use OldTown\EventBus\PhpUnit\TestData\TestPaths;
 use Zend\Test\PHPUnit\Controller\AbstractHttpControllerTestCase;
 use OldTown\EventBus\Driver\RabbitMqDriver\MetadataReader\AnnotationReader;
 use \OldTown\EventBus\PhpUnit\TestData\Messages\Foo;
@@ -25,8 +26,9 @@ class AnnotationReaderTest extends AbstractHttpControllerTestCase
      */
     public function testLoadMetadataForClass()
     {
+        /** @noinspection PhpIncludeInspection */
         $this->setApplicationConfig(
-            include __DIR__ . '/../../../../_files/application.config.php'
+            include TestPaths::getApplicationConfig()
         );
         /** @var EventBusMetadataReaderPluginManager $metadataReaderPluginManager */
         $metadataReaderPluginManager = $this->getApplicationServiceLocator()->get(EventBusMetadataReaderPluginManager::class);
@@ -59,8 +61,9 @@ class AnnotationReaderTest extends AbstractHttpControllerTestCase
      */
     public function testLoadMetadataForInvalidClass()
     {
+        /** @noinspection PhpIncludeInspection */
         $this->setApplicationConfig(
-            include __DIR__ . '/../../../../_files/application.config.php'
+            include TestPaths::getApplicationConfig()
         );
         /** @var EventBusMetadataReaderPluginManager $metadataReaderPluginManager */
         $metadataReaderPluginManager = $this->getApplicationServiceLocator()->get(EventBusMetadataReaderPluginManager::class);

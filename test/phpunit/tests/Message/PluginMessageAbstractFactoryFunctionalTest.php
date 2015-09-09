@@ -5,15 +5,15 @@
  */
 namespace OldTown\EventBus\PhpUnit\Test\Message;
 
-use PHPUnit_Framework_TestCase;
-
+use OldTown\EventBus\PhpUnit\TestData\TestPaths;
+use Zend\Test\PHPUnit\Controller\AbstractHttpControllerTestCase;
 
 /**
  * Class AbstractMessageTest
  *
  * @package OldTown\EventBus\PhpUnit\Test\Message
  */
-class PluginMessageAbstractFactoryTest extends PHPUnit_Framework_TestCase
+class PluginMessageAbstractFactoryFunctionalTest extends AbstractHttpControllerTestCase
 {
     /**
      * Тест корректности определения того что сервис может быть создан фабрикой
@@ -21,5 +21,9 @@ class PluginMessageAbstractFactoryTest extends PHPUnit_Framework_TestCase
      */
     public function testCanCreateServiceWithName()
     {
+        /** @noinspection PhpIncludeInspection */
+        $this->setApplicationConfig(
+            include TestPaths::getApplicationConfig()
+        );
     }
 }
