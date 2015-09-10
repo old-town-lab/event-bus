@@ -5,7 +5,11 @@
   "keywords": [
     "zf2",
     "event",
-    "buss"
+    "buss",
+    "event buss",
+    "amqp",
+    "RabbitMq",
+    "zf2 module"
   ],
   "license": "GPL-3.0",
   "authors": [
@@ -36,6 +40,7 @@
     "zendframework/zend-serializer": "~2.4.0",
     "zendframework/zend-log": "~2.4.0",
     "zendframework/zend-i18n": "~2.4.0",
+    "zendframework/zend-json": "~2.4.0",
     "satooshi/php-coveralls": "dev-master",
     "alchemy/rabbitmq-management-client": "~0.2",
     "doctrine/collections":  "~1.3.0"

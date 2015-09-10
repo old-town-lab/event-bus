@@ -70,6 +70,10 @@ class DelegatingValidator extends AbstractValidator
      */
     public function getDelegateObject()
     {
+        if (!$this->delegateObject instanceof ValidatorInterface) {
+            $errMsg = 'Отсутствует объект для делегирования';
+            throw new Exception\DelegateObjectNotFoundException($errMsg);
+        }
         return $this->delegateObject;
     }
 

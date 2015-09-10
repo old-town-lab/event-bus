@@ -23,7 +23,7 @@ use OldTown\EventBus\Message\EventBusMessagePluginManager;
 use OldTown\EventBus\Message\EventBusMessagePluginManagerFactory;
 use OldTown\EventBus\Validator\DelegatingValidatorFactory;
 use OldTown\EventBus\Validator\DelegatingValidator;
-
+use OldTown\EventBus\Hydrator\DelegatingHydrator;
 
 return [
     'service_manager' => [
@@ -48,6 +48,11 @@ return [
     'validators' => [
         'factories' => [
             DelegatingValidator::class => DelegatingValidatorFactory::class,
+        ],
+    ],
+    'hydrators' => [
+        'invokables' => [
+            DelegatingHydrator::class => DelegatingHydrator::class,
         ],
     ],
     'event_bus_manager' => [

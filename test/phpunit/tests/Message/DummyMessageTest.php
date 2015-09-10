@@ -7,10 +7,11 @@ namespace OldTown\EventBus\PhpUnit\Test\Message;
 
 use PHPUnit_Framework_TestCase;
 use OldTown\EventBus\Message\DummyMessage;
-use Zend\Stdlib\Hydrator\DelegatingHydrator;
 use Zend\Stdlib\Hydrator\HydratorPluginManager;
 use Zend\Validator\ValidatorPluginManager;
 use OldTown\EventBus\Validator\DelegatingValidator;
+use Zend\Json\Json;
+use OldTown\EventBus\Hydrator\DelegatingHydrator;
 
 /**
  * Class DummyMessageTest
@@ -155,5 +156,40 @@ class DummyMessageTest extends PHPUnit_Framework_TestCase
         /** @var DummyMessage $invalidObject */
         $invalidObject = new \stdClass();
         $this->dummy->extract($invalidObject);
+    }
+
+
+
+    /**
+     * Проверка получения контента
+     *
+     */
+    public function testGetContent()
+    {
+        $data = [
+            'test_key_1' => 'test_value_1',
+            'test_key_2' => 'test_value_2'
+        ];
+        $this->dummy->setData($data);
+        $content = $this->dummy->getContent();
+
+        static::assertEquals(Json::encode($data), $content);
+    }
+
+
+    /**
+     * Проверка востоновления состояния объекта сообщения, по десерилазованным данным
+     *
+     */
+    public function testFromString()
+    {
+        $expected = [
+            'test_key_1' => 'test_value_1',
+            'test_key_2' => 'test_value_2'
+        ];
+        $serializedData = Json::encode($expected);
+
+        $actual = $this->dummy->fromString($serializedData)->getData();
+        static::assertEquals($expected, $actual);
     }
 }

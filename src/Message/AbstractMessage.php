@@ -13,7 +13,7 @@ use Zend\Serializer\Adapter\AdapterInterface as Serializer;
 use Zend\Serializer\Serializer as SerializerFactory;
 use OldTown\EventBus\Validator\DelegatingValidator;
 use Zend\Validator\ValidatorPluginManager;
-
+use OldTown\EventBus\Hydrator\DelegatingHydrator;
 
 /**
  * Class AbstractMessage
@@ -68,7 +68,7 @@ abstract class AbstractMessage extends Message implements MessageInterface
      *
      * @var string
      */
-    protected $hydratorName = 'delegatinghydrator';
+    protected $hydratorName = DelegatingHydrator::class;
 
     /**
      * Опиции для настройки гидратора
