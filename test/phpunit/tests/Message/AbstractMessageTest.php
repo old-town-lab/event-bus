@@ -260,4 +260,34 @@ class AbstractMessageTest extends PHPUnit_Framework_TestCase
 
         $this->message->fromString($serializedData);
     }
+
+    /**
+     * Проверка получения/установки имени валидатора
+     *
+     */
+    public function testGetterSetterValidatorName()
+    {
+        $expected = 'test_validator_name';
+        static::assertEquals($this->message, $this->message->setValidatorName($expected));
+        static::assertEquals($expected, $this->message->getValidatorName());
+    }
+
+    /**
+     * Проверка получения/установки опций валидатора
+     *
+     */
+    public function testGetterSetterValidatorOptions()
+    {
+        $expected = [
+            'test_key_1' => 'test_value_1',
+            'test_key_2' => 'test_value_2',
+            'test_key_3' => 'test_value_3'
+        ];
+
+        static::assertEquals($this->message, $this->message->setValidatorOptions($expected));
+
+        $actual = $this->message->getValidatorOptions();
+
+        static::assertEquals($expected, $actual);
+    }
 }

@@ -102,8 +102,51 @@ abstract class AbstractMessage extends Message implements MessageInterface
             DelegatingValidator::DELEGATE_OBJECT => $this
         ];
         $this->setValidatorOptions($validatorOptions);
+
+        $this->initMessage();
     }
 
+    /**
+     * Инициация сообщения
+     *
+     *
+     * @return void
+     */
+    protected function initMessage()
+    {
+        $this->initHydrator();
+        $this->initValidator();
+        $this->init();
+    }
+
+    /**
+     * Инициализация гидратора
+     *
+     * @return void
+     */
+    protected function initHydrator()
+    {
+    }
+
+
+    /**
+     * Инициализация валидатора
+     *
+     * @return void
+     */
+    protected function initValidator()
+    {
+    }
+
+
+    /**
+     * Инициализация класса
+     *
+     * @return void
+     */
+    protected function init()
+    {
+    }
 
     /**
      * @return HydratorPluginManager

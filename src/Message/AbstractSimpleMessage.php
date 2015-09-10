@@ -5,11 +5,20 @@
  */
 namespace OldTown\EventBus\Message;
 
-/**
- * Class SimpleMessage
- *
- * @package OldTown\EventBus\Message
- */
-abstract class AbstractSimpleMessage extends AbstractMessage
+use Zend\Stdlib\Hydrator\Filter\FilterProviderInterface;
+use Zend\Validator\ValidatorInterface;
+
+abstract class AbstractSimpleMessage extends AbstractMessage implements FilterProviderInterface, ValidatorInterface
 {
+    use ClassMethodsHydratorTrait;
+
+    public function isValid($value)
+    {
+        // TODO: Implement isValid() method.
+    }
+
+    public function getMessages()
+    {
+        // TODO: Implement getMessages() method.
+    }
 }
