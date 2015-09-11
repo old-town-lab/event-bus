@@ -43,7 +43,7 @@ class Foo extends AbstractSimpleMessage
      *
      * @return $this
      */
-    public function setTestProperty1($testProperty1)
+    public function setTestProperty1($testProperty1 = null)
     {
         $this->testProperty1 = $testProperty1;
 
@@ -53,7 +53,7 @@ class Foo extends AbstractSimpleMessage
     /**
      * @return boolean
      */
-    public function isTestProperty2()
+    public function getTestProperty2()
     {
         return $this->testProperty2;
     }
@@ -63,7 +63,7 @@ class Foo extends AbstractSimpleMessage
      *
      * @return $this
      */
-    public function setTestProperty2($testProperty2)
+    public function setTestProperty2($testProperty2 = null)
     {
         $this->testProperty2 = $testProperty2;
 
@@ -83,7 +83,7 @@ class Foo extends AbstractSimpleMessage
      *
      * @return $this
      */
-    public function setTestProperty3($testProperty3)
+    public function setTestProperty3($testProperty3 = null)
     {
         $this->testProperty3 = $testProperty3;
 
@@ -98,7 +98,7 @@ class Foo extends AbstractSimpleMessage
     {
         return [
             'testProperty1' => $this->testProperty1,
-            'isTestProperty2' => $this->testProperty2,
+            'testProperty2' => $this->testProperty2,
             'testProperty3' => $this->testProperty3
         ];
     }

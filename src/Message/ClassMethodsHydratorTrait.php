@@ -36,6 +36,14 @@ trait ClassMethodsHydratorTrait
     protected $excludeMethods;
 
     /**
+     * Список родительских классов,  а также трейтов, методы которых не должны быть исключены.
+     * При необходимости добавить именна классов в классе в который встроен данный трейт.
+     *
+     * @var array
+     */
+    protected $excludedMethodSource = [];
+
+    /**
      * @param string $hydratorName
      *
      * @return $this
@@ -75,8 +83,8 @@ trait ClassMethodsHydratorTrait
 
         $filter = new FilterComposite();
         $filter->addFilter('excludeAbstractMessageMethod', [$this, 'excludeAbstractMessageMethodFilter'], FilterComposite::CONDITION_AND);
-        $filter->addFilter('is', new IsFilter());
-        $filter->addFilter('has', new HasFilter());
+        //$filter->addFilter('is', new IsFilter());
+        //$filter->addFilter('has', new HasFilter());
         $filter->addFilter('get', new GetFilter());
         $filter->addFilter('parameter', new OptionalParametersFilter(), FilterComposite::CONDITION_AND);
 
@@ -139,14 +147,31 @@ trait ClassMethodsHydratorTrait
 
         $excludeMethods = [];
         foreach ($targets as $target) {
+            if (in_array($target->getName(), $this->excludedMethodSource, true)) {
+                continue;
+            }
             $methods = $target->getMethods();
             foreach ($methods as $method) {
                 $methodName = $method->getName();
                 $excludeMethods[$methodName] = $methodName;
             }
         }
+        $excludeMethods = $this->filterExcludedMethod($excludeMethods);
         $this->excludeMethods = $excludeMethods;
 
         return $this->excludeMethods;
+    }
+
+    /**
+     * Если возникает необходимость скорректрировать список методов исключаемых из hydrate/extract необходимо в конечном
+     * классе организовать фильтрацию с помощью даннного метода
+     *
+     * @param array $excludeMethods
+     *
+     * @return array
+     */
+    protected function filterExcludedMethod(array $excludeMethods = [])
+    {
+        return $excludeMethods;
     }
 }

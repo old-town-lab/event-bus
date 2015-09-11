@@ -18,9 +18,9 @@ use \OldTown\EventBus\PhpUnit\TestData\SimpleMessage\Foo;
 class SimpleMessageFunctionalTest extends AbstractHttpControllerTestCase
 {
     /**
-     * Тестирование гидратора по умолчанию
+     * Проверка работы гидратора - extract
      */
-    public function testObjectPropertyHydrator()
+    public function testExtract()
     {
         /** @noinspection PhpIncludeInspection */
         $this->setApplicationConfig(
@@ -35,6 +35,39 @@ class SimpleMessageFunctionalTest extends AbstractHttpControllerTestCase
         $actual = $message->getHydrator()->extract($message);
 
         $expected = $message->toArray();
+
+        static::assertEquals($expected, $actual);
+    }
+
+    /**
+     * Проверка работы гидратора - hydrate
+     */
+    public function testHydrate()
+    {
+        /** @noinspection PhpIncludeInspection */
+        $this->setApplicationConfig(
+            include TestPaths::getApplicationConfig()
+        );
+        /** @var EventBusMessagePluginManager $manager */
+        $manager = $this->getApplicationServiceLocator()->get(EventBusMessagePluginManager::class);
+
+        /** @var Foo $message */
+        $message = $manager->get(Foo::class);
+        $message->setTestProperty1(null);
+        $message->setTestProperty2(null);
+        $message->setTestProperty3(null);
+
+
+        $expected = [
+            'testProperty1' => 'abrakadabra',
+            'testProperty2' => false,
+            'testProperty3' => []
+        ];
+
+
+        $message->getHydrator()->hydrate($expected, $message);
+
+        $actual = $message->toArray();
 
         static::assertEquals($expected, $actual);
     }
