@@ -8,8 +8,6 @@ namespace OldTown\EventBus\Message;
 use Zend\Stdlib\Hydrator\Filter\FilterComposite;
 use \Zend\Stdlib\Hydrator\Filter\FilterInterface;
 use Zend\Stdlib\Hydrator\Filter\GetFilter;
-use Zend\Stdlib\Hydrator\Filter\HasFilter;
-use Zend\Stdlib\Hydrator\Filter\IsFilter;
 use Zend\Stdlib\Hydrator\Filter\OptionalParametersFilter;
 use \Zend\Stdlib\Hydrator\ClassMethods;
 
@@ -83,8 +81,6 @@ trait ClassMethodsHydratorTrait
 
         $filter = new FilterComposite();
         $filter->addFilter('excludeAbstractMessageMethod', [$this, 'excludeAbstractMessageMethodFilter'], FilterComposite::CONDITION_AND);
-        //$filter->addFilter('is', new IsFilter());
-        //$filter->addFilter('has', new HasFilter());
         $filter->addFilter('get', new GetFilter());
         $filter->addFilter('parameter', new OptionalParametersFilter(), FilterComposite::CONDITION_AND);
 

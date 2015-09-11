@@ -6,13 +6,14 @@
 namespace OldTown\EventBus\PhpUnit\TestData\SimpleMessage;
 
 use OldTown\EventBus\Message\AbstractSimpleMessage;
+use Zend\InputFilter\InputFilterProviderInterface;
 
 /**
  * Class Foo
  *
  * @package OldTown\EventBus\PhpUnit\TestData\SimpleMessage
  */
-class Foo extends AbstractSimpleMessage
+class Foo extends AbstractSimpleMessage implements InputFilterProviderInterface
 {
     /**
      * @var string
@@ -102,5 +103,68 @@ class Foo extends AbstractSimpleMessage
             'testProperty3' => $this->testProperty3
         ];
     }
+
+    /**
+     * @return array
+     */
+    public function getInputFilterSpecification()
+    {
+        $spec = [
+            'testProperty1' => [
+                'required' => true,
+                'allow_empty' => false,
+                'filters' => [
+                    [
+                        'name' => 'StringTrim',
+                    ]
+                ],
+                'validators' => [
+                    [
+                        'name' => 'StringLength',
+                        'options' => [
+                            'min' => 1,
+                            'max' => 255,
+                        ]
+                    ]
+                ]
+            ],
+            'testProperty2' => [
+                'required' => true,
+                'allow_empty' => true,
+                'validators' => [
+                    [
+                        'name' => 'Callback',
+                        'options' => [
+                            'callback' => function($values) {
+                                return is_bool($values);
+                            }
+                        ]
+                    ]
+                ]
+            ],
+            'testProperty3' => [
+                'required' => true,
+                'allow_empty' => true,
+                'validators' => [
+                    [
+                        'name' => 'Callback',
+                        'options' => [
+                            'callback' => function($values) {
+                                return is_array($values);
+                            }
+                        ]
+                    ]
+                ]
+            ],
+
+
+
+        ];
+
+
+
+        return $spec;
+    }
+
 
 }

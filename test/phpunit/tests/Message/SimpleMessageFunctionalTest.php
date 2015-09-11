@@ -71,4 +71,32 @@ class SimpleMessageFunctionalTest extends AbstractHttpControllerTestCase
 
         static::assertEquals($expected, $actual);
     }
+
+
+
+    /**
+     * Проверка работы гидратора - hydrate
+     */
+    public function testValidate()
+    {
+        /** @noinspection PhpIncludeInspection */
+        $this->setApplicationConfig(
+            include TestPaths::getApplicationConfig()
+        );
+        /** @var EventBusMessagePluginManager $manager */
+        $manager = $this->getApplicationServiceLocator()->get(EventBusMessagePluginManager::class);
+
+        /** @var Foo $message */
+        $message = $manager->get(Foo::class);
+
+        $data = [
+            'testProperty1' => 'abrakadabra',
+            'testProperty2' => false,
+            'testProperty3' => []
+        ];
+
+        $isValid = $message->getValidator()->isValid($data);
+
+        static::assertTrue($isValid);
+    }
 }

@@ -8,17 +8,8 @@ namespace OldTown\EventBus\Message;
 use Zend\Stdlib\Hydrator\Filter\FilterProviderInterface;
 use Zend\Validator\ValidatorInterface;
 
-abstract class AbstractSimpleMessage extends AbstractMessage implements FilterProviderInterface, ValidatorInterface
+abstract class AbstractSimpleMessage extends AbstractMessage
+    implements FilterProviderInterface, ValidatorInterface, InputFilterPluginManagerAwareInterface
 {
-    use ClassMethodsHydratorTrait;
-
-    public function isValid($value)
-    {
-        // TODO: Implement isValid() method.
-    }
-
-    public function getMessages()
-    {
-        // TODO: Implement getMessages() method.
-    }
+    use ClassMethodsHydratorTrait, InputFilterPluginManagerAwareTrait, InputFilterValidatorTrait;
 }

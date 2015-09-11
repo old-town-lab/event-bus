@@ -8,7 +8,6 @@ namespace OldTown\EventBus\Message;
 use Zend\Validator\ValidatorInterface;
 use Zend\Stdlib\Hydrator\HydratorInterface;
 use Zend\Stdlib\Hydrator\HydratorPluginManager;
-use Zend\Stdlib\Message;
 use Zend\Serializer\Adapter\AdapterInterface as Serializer;
 use Zend\Serializer\Serializer as SerializerFactory;
 use OldTown\EventBus\Validator\DelegatingValidator;
@@ -20,7 +19,7 @@ use OldTown\EventBus\Hydrator\DelegatingHydrator;
  *
  * @package OldTown\EventBus\Message
  */
-abstract class AbstractMessage extends Message implements MessageInterface
+abstract class AbstractMessage implements MessageInterface
 {
     /**
      * @var HydratorPluginManager
@@ -436,6 +435,7 @@ abstract class AbstractMessage extends Message implements MessageInterface
     }
 
 
+
     /**
      * @param $serializedData
      *
@@ -458,5 +458,36 @@ abstract class AbstractMessage extends Message implements MessageInterface
         $this->getHydrator()->hydrate($data, $this);
 
         return $this;
+    }
+
+
+    /**
+     * Set content
+     *
+     * @param  mixed $content
+     * @return mixed
+     */
+    public function setContent($content)
+    {
+    }
+
+    /**
+     * Set metadata
+     *
+     * @param  string|int|array|\Traversable $spec
+     * @param  mixed $value
+     */
+    public function setMetadata($spec, $value = null)
+    {
+    }
+
+    /**
+     * Get metadata
+     *
+     * @param  null|string|int $key
+     * @return mixed
+     */
+    public function getMetadata($key = null)
+    {
     }
 }

@@ -1,4 +1,8 @@
 <?php
+/**
+ * @link https://github.com/old-town/event-bus
+ * @author  Malofeykin Andrey  <and-rey2@yandex.ru>
+ */
 namespace OldTown\EventBus;
 
 use OldTown\EventBus\Driver\DriverChain;
@@ -7,23 +11,26 @@ use OldTown\EventBus\Driver\EventBusDriverAbstractFactory;
 use OldTown\EventBus\Driver\EventBusDriverPluginManager;
 use OldTown\EventBus\Driver\EventBusDriverPluginManagerFactory;
 use OldTown\EventBus\Driver\RabbitMqDriver;
+use OldTown\EventBus\Driver\EventBusPluginDriverAbstractFactory;
+use OldTown\EventBus\Driver\RabbitMqDriver\MetadataReader\AnnotationReader;
 use OldTown\EventBus\EventBusManager\EventBusManagerFacade;
 use OldTown\EventBus\EventBusManager\EventBusManagerAbstractFactory;
 use OldTown\EventBus\EventBusManager\EventBusManagerFactory;
 use OldTown\EventBus\EventBusManager\EventBusPluginManager;
 use OldTown\EventBus\EventBusManager\EventBusPluginManagerFactory;
 use OldTown\EventBus\Message\PluginMessageAbstractFactory;
+use OldTown\EventBus\Message\EventBusMessagePluginManager;
+use OldTown\EventBus\Message\EventBusMessagePluginManagerFactory;
+use OldTown\EventBus\Message\InputFilterPluginManagerInitializer;
 use OldTown\EventBus\MetadataReader\EventBusMetadataReaderPluginManager;
 use OldTown\EventBus\MetadataReader\EventBusMetadataReaderPluginManagerFactory;
 use OldTown\EventBus\Options\ModuleOptions;
 use OldTown\EventBus\Options\ModuleOptionsFactory;
-use OldTown\EventBus\Driver\EventBusPluginDriverAbstractFactory;
-use OldTown\EventBus\Driver\RabbitMqDriver\MetadataReader\AnnotationReader;
-use OldTown\EventBus\Message\EventBusMessagePluginManager;
-use OldTown\EventBus\Message\EventBusMessagePluginManagerFactory;
 use OldTown\EventBus\Validator\DelegatingValidatorFactory;
 use OldTown\EventBus\Validator\DelegatingValidator;
 use OldTown\EventBus\Hydrator\DelegatingHydrator;
+
+
 
 return [
     'service_manager' => [
@@ -84,6 +91,9 @@ return [
         'abstract_factories' =>[
             PluginMessageAbstractFactory::class => PluginMessageAbstractFactory::class
         ],
+        'initializers' => [
+            InputFilterPluginManagerInitializer::class => InputFilterPluginManagerInitializer::class
+        ]
     ],
     'event_bus' => [
         'connection' => [
