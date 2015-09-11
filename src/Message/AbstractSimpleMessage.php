@@ -9,7 +9,11 @@ use Zend\Stdlib\Hydrator\Filter\FilterProviderInterface;
 use Zend\Validator\ValidatorInterface;
 
 abstract class AbstractSimpleMessage extends AbstractMessage
-    implements FilterProviderInterface, ValidatorInterface, InputFilterPluginManagerAwareInterface
+    implements
+    FilterProviderInterface,
+    ValidatorInterface,
+    InputFilterPluginManagerAwareInterface,
+    ClassMethodsHydratorInterface
 {
     use ClassMethodsHydratorTrait, InputFilterPluginManagerAwareTrait, InputFilterValidatorTrait;
 }

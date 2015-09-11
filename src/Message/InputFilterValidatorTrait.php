@@ -39,6 +39,24 @@ trait InputFilterValidatorTrait
     protected $messages;
 
     /**
+     * Инициация валидатора
+     *
+     * @return void
+     */
+    protected function initValidator()
+    {
+        if ($this instanceof ClassMethodsHydratorInterface) {
+            /** @var ClassMethodsHydratorInterface $this  */
+            if ($this instanceof InputFilterProviderInterface) {
+                $this->addTargetForExcludeMethods(InputFilterProviderInterface::class);
+            }
+            if ($this instanceof InputFilterAwareInterface) {
+                $this->addTargetForExcludeMethods(InputFilterAwareInterface::class);
+            }
+        }
+    }
+
+    /**
      * Создает/возвращает фабрику InputFilter'jов
      *
      * @return InputFilterFactory

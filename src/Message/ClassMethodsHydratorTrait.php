@@ -6,10 +6,11 @@
 namespace OldTown\EventBus\Message;
 
 use Zend\Stdlib\Hydrator\Filter\FilterComposite;
-use \Zend\Stdlib\Hydrator\Filter\FilterInterface;
+use Zend\Stdlib\Hydrator\Filter\FilterInterface;
 use Zend\Stdlib\Hydrator\Filter\GetFilter;
 use Zend\Stdlib\Hydrator\Filter\OptionalParametersFilter;
-use \Zend\Stdlib\Hydrator\ClassMethods;
+use Zend\Stdlib\Hydrator\ClassMethods;
+use ReflectionClass;
 
 /**
  * Важно! Для того что бы trait работал, необходимо что бы класс сообщения мплементировал интерфейс \Zend\Stdlib\Hydrator\Filter\FilterProviderInterface
@@ -40,6 +41,14 @@ trait ClassMethodsHydratorTrait
      * @var array
      */
     protected $excludedMethodSource = [];
+
+    /**
+     * Ключем является имя класса/трейта/интрефейса методы которого должны быть исключены при работе гидратора, а значением
+     * объект рефлекссии для данного класса/трейта/интрефейса
+     *
+     * @var array
+     */
+    protected $targetsForExcludeMethods;
 
     /**
      * @param string $hydratorName
@@ -125,19 +134,7 @@ trait ClassMethodsHydratorTrait
             return $this->excludeMethods;
         }
 
-        $r = $rCurrent = new \ReflectionClass(static::class);
-
-        $candidateTargetClass = null;
-
-        do {
-            $candidateTargetClass = $r;
-            $r = $r->getParentClass();
-        } while (false !== $r && !$candidateTargetClass->isAbstract());
-
-        $targetClass = $candidateTargetClass->isAbstract() ? $candidateTargetClass : $rCurrent;
-
-        $targets = $targetClass->getTraits();
-        $targets[] = $targetClass;
+        $targets = $this->getTargetsForExcludeMethods();
 
         /** @var \ReflectionClass[] $targets */
 
@@ -156,6 +153,84 @@ trait ClassMethodsHydratorTrait
         $this->excludeMethods = $excludeMethods;
 
         return $this->excludeMethods;
+    }
+
+    /**
+     * Возвращает массив ключами которого являются имена классов/трейтов/интрефейсов методы которых должны быть исключены
+     * при работе гидратора, а значением объект рефлекссии для данного класса/трейта/интрефейса
+     *
+     * @return ReflectionClass[]
+     */
+    public function getTargetsForExcludeMethods()
+    {
+        if ($this->targetsForExcludeMethods) {
+            return $this->targetsForExcludeMethods;
+        }
+        $this->initTargetsForExcludeMethods();
+
+
+        return $this->targetsForExcludeMethods;
+    }
+
+    /**
+     * Получение списка ресурсов(классы/трейты) методы которых исключаются при работе гидратора
+     *
+     */
+    protected function initTargetsForExcludeMethods()
+    {
+        $r = $rCurrent = new ReflectionClass(static::class);
+
+        $candidateTargetClass = null;
+
+        do {
+            $candidateTargetClass = $r;
+            $r = $r->getParentClass();
+        } while (false !== $r && !$candidateTargetClass->isAbstract());
+
+        $targetClass = $candidateTargetClass->isAbstract() ? $candidateTargetClass : $rCurrent;
+
+        $targets = $targetClass->getTraits();
+        $targets[] = $targetClass;
+
+        $this->targetsForExcludeMethods = $targets;
+    }
+
+    /**
+     * Добавялет класс/трейт/интрефейс методы которого должны быть исключены при работе гидратора
+     *
+     * @param $target
+     *
+     * @return $this
+     */
+    public function addTargetForExcludeMethods($target)
+    {
+        if (!$this->targetsForExcludeMethods) {
+            $this->initTargetsForExcludeMethods();
+        }
+        $r = new ReflectionClass($target);
+
+        $this->targetsForExcludeMethods[$r->getName()] = $r;
+
+        return $this;
+    }
+
+    /**
+     * Удаляет класс/трейт/интрефейс методы которого должны быть исключены при работе гидратора
+     *
+     * @param $target
+     *
+     * @return boolean
+     */
+    public function removeTargetForExcludeMethods($target)
+    {
+        if (!$this->targetsForExcludeMethods) {
+            $this->initTargetsForExcludeMethods();
+        }
+        if (array_key_exists($target, $this->targetsForExcludeMethods)) {
+            unset($this->targetsForExcludeMethods[$target]);
+            return true;
+        }
+        return false;
     }
 
     /**
