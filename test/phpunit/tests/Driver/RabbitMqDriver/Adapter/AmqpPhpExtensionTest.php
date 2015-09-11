@@ -61,6 +61,10 @@ class AmqpPhpExtensionTest extends PHPUnit_Framework_TestCase implements RabbitM
      */
     public function testAmqpPhpExtensionNotInstalled()
     {
+        if (!extension_loaded(self::AMQP_EXT)) {
+            static::markTestSkipped(sprintf('%s extension not loaded', self::AMQP_EXT));
+        }
+
         $r = new \ReflectionClass(AmqpPhpExtension::class);
         $p = $r->getProperty('amqpPhpExtensionName');
         $p->setAccessible(true);
