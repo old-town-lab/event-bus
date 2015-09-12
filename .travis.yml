@@ -16,6 +16,8 @@ matrix:
   allow_failures:
     - php: 7
     - php: hhvm
+      env:
+        - DISABLE_ADD_TRAVIS_PHP_INI=true
 
 cache:
   directories:
@@ -23,7 +25,7 @@ cache:
 
 before_install:
   - if [[ $EXECUTE_TEST_COVERALLS != 'true' ]]; then phpenv config-rm xdebug.ini || return 0 ; fi
-  - phpenv config-add .travis/php.ini
+  - if [[ $DISABLE_ADD_TRAVIS_PHP_INI != 'true' ]]; then phpenv config-add .travis/php.ini || return 0 ; fi
   - composer self-update
   - if [[ $EXECUTE_TEST_COVERALLS == 'true' ]]; then composer require --dev ; fi
 
