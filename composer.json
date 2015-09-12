@@ -5,8 +5,8 @@
   "keywords": [
     "zf2",
     "event",
-    "buss",
-    "event buss",
+    "bus",
+    "event bus",
     "amqp",
     "RabbitMq",
     "zf2 module"
