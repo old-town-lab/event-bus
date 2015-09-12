@@ -15,4 +15,10 @@ use PHPUnit_Framework_TestCase;
  */
 class InputFilterValidatorTraitTest extends PHPUnit_Framework_TestCase
 {
+    /**
+     * Проверка того что настройка гидратора происходит корректно
+     */
+    public function testInitHydrator()
+    {
+    }
 }
