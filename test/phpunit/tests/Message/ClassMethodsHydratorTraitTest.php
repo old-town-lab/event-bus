@@ -6,6 +6,7 @@
 namespace OldTown\EventBus\PhpUnit\Test\Message;
 
 use OldTown\EventBus\Message\ClassMethodsHydratorTrait;
+use OldTown\EventBus\Message\InputFilterValidatorTrait;
 use OldTown\EventBus\PhpUnit\TestData\Messages\AbstractFooClassMethodsHydrator;
 use OldTown\EventBus\PhpUnit\TestData\Messages\BarClassMethodsHydrator;
 use PHPUnit_Framework_TestCase;
@@ -55,7 +56,8 @@ class ClassMethodsHydratorTraitTest extends PHPUnit_Framework_TestCase
         $expected = [
             ClassMethodsHydratorTrait::class,
             AbstractFooClassMethodsHydrator::class,
-            ServiceLocatorAwareTrait::class
+            ServiceLocatorAwareTrait::class,
+            InputFilterValidatorTrait::class
         ];
 
         static::assertEquals(count($expected), count($actual));
@@ -209,6 +211,7 @@ class ClassMethodsHydratorTraitTest extends PHPUnit_Framework_TestCase
         static::assertTrue($this->message->removeTargetForExcludeMethods(ClassMethodsHydratorTrait::class));
         static::assertTrue($this->message->removeTargetForExcludeMethods(AbstractFooClassMethodsHydrator::class));
         static::assertTrue($this->message->removeTargetForExcludeMethods(ServiceLocatorAwareTrait::class));
+        static::assertTrue($this->message->removeTargetForExcludeMethods(InputFilterValidatorTrait::class));
         static::assertFalse($this->message->removeTargetForExcludeMethods('abrakadabra'));
 
         $actual = $this->message->getTargetsForExcludeMethods();
