@@ -216,7 +216,7 @@ class AbstractMessageTest extends PHPUnit_Framework_TestCase
 
 
 
-        $actual = $this->message->fromString($serializedData);
+        $actual = $this->message->setContent($serializedData);
 
         static::assertEquals($this->message, $actual);
     }
@@ -258,7 +258,7 @@ class AbstractMessageTest extends PHPUnit_Framework_TestCase
 
 
 
-        $this->message->fromString($serializedData);
+        $this->message->setContent($serializedData);
     }
 
     /**

@@ -51,6 +51,14 @@ trait ClassMethodsHydratorTrait
     protected $targetsForExcludeMethods;
 
     /**
+     * Флаг указывающий на то что сформирован список ресурсов(классов, трейтов, интерфейсов) методы которых не должны браться
+     * при рабботе гидратора
+     *
+     * @var bool
+     */
+    protected $flagInitTargetsForExcludeMethods = false;
+
+    /**
      * @param string $hydratorName
      *
      * @return $this
@@ -72,6 +80,39 @@ trait ClassMethodsHydratorTrait
     {
         $this->setHydratorName('classMethods');
         $this->getHydrator()->removeNamingStrategy();
+    }
+
+    /**
+     * Добавить в исключения ресурс(класс,трейт, интерфейс). После этого методы ресурса будут участвовать в работе гидратора
+     *
+     * @param string $excludedMethodSource
+     *
+     * @return $this
+     */
+    public function addExcludedMethodSource($excludedMethodSource)
+    {
+        $excludedMethodSource = (string)$excludedMethodSource;
+
+        $this->excludedMethodSource[$excludedMethodSource] = $excludedMethodSource;
+        $this->excludeMethods = null;
+
+        return $this;
+    }
+
+    /**
+     * Удалить из исключений ресурс
+     *
+     * @param $excludedMethodSource
+     *
+     * @return bool
+     */
+    public function removeExcludedMethodSource($excludedMethodSource)
+    {
+        if (array_key_exists($excludedMethodSource, $this->excludedMethodSource)) {
+            unset($this->excludedMethodSource[$excludedMethodSource]);
+            return true;
+        }
+        return false;
     }
 
 
@@ -140,7 +181,7 @@ trait ClassMethodsHydratorTrait
 
         $excludeMethods = [];
         foreach ($targets as $target) {
-            if (in_array($target->getName(), $this->excludedMethodSource, true)) {
+            if (array_key_exists($target->getName(), $this->excludedMethodSource)) {
                 continue;
             }
             $methods = $target->getMethods();
@@ -175,9 +216,13 @@ trait ClassMethodsHydratorTrait
     /**
      * Получение списка ресурсов(классы/трейты) методы которых исключаются при работе гидратора
      *
+     * @return void
      */
     protected function initTargetsForExcludeMethods()
     {
+        if ($this->flagInitTargetsForExcludeMethods) {
+            return;
+        }
         $r = $rCurrent = new ReflectionClass(static::class);
 
         $candidateTargetClass = null;
@@ -189,10 +234,20 @@ trait ClassMethodsHydratorTrait
 
         $targetClass = $candidateTargetClass->isAbstract() ? $candidateTargetClass : $rCurrent;
 
-        $targets = $targetClass->getTraits();
-        $targets[] = $targetClass;
+        $targetTraits = $targetClass->getTraits();
+        $targets = [];
+        foreach ($targetTraits as $targetTrait) {
+            $targets[$targetTrait->getName()] = $targetTrait;
+        }
+        if (!array_key_exists(ClassMethodsHydratorTrait::class, $targets)) {
+            $selfTrait = new ReflectionClass(ClassMethodsHydratorTrait::class);
+            $targets[$selfTrait->getName()] = $selfTrait;
+        }
+        $targets[$targetClass->getName()] = $targetClass;
 
         $this->targetsForExcludeMethods = $targets;
+
+        $this->flagInitTargetsForExcludeMethods = true;
     }
 
     /**
@@ -204,9 +259,7 @@ trait ClassMethodsHydratorTrait
      */
     public function addTargetForExcludeMethods($target)
     {
-        if (!$this->targetsForExcludeMethods) {
-            $this->initTargetsForExcludeMethods();
-        }
+        $this->initTargetsForExcludeMethods();
         $r = new ReflectionClass($target);
 
         $this->targetsForExcludeMethods[$r->getName()] = $r;
@@ -223,9 +276,7 @@ trait ClassMethodsHydratorTrait
      */
     public function removeTargetForExcludeMethods($target)
     {
-        if (!$this->targetsForExcludeMethods) {
-            $this->initTargetsForExcludeMethods();
-        }
+        $this->initTargetsForExcludeMethods();
         if (array_key_exists($target, $this->targetsForExcludeMethods)) {
             unset($this->targetsForExcludeMethods[$target]);
             return true;

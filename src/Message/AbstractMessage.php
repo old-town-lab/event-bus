@@ -448,7 +448,7 @@ abstract class AbstractMessage implements MessageInterface
      *
      * @return $this
      */
-    public function fromString($serializedData)
+    public function setContent($serializedData)
     {
         $data = $this->getSerializer()->unserialize($serializedData);
         $validator = $this->getValidator();
@@ -458,17 +458,6 @@ abstract class AbstractMessage implements MessageInterface
         $this->getHydrator()->hydrate($data, $this);
 
         return $this;
-    }
-
-
-    /**
-     * Set content
-     *
-     * @param  mixed $content
-     * @return mixed
-     */
-    public function setContent($content)
-    {
     }
 
     /**

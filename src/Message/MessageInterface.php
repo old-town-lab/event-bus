@@ -181,5 +181,5 @@ interface MessageInterface extends BaseMessageInterface, HydratorAwareInterface
      *
      * @return $this
      */
-    public function fromString($serializedData);
+    public function setContent($serializedData);
 }

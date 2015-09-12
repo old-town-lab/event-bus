@@ -189,7 +189,7 @@ class DummyMessageTest extends PHPUnit_Framework_TestCase
         ];
         $serializedData = Json::encode($expected);
 
-        $actual = $this->dummy->fromString($serializedData)->getData();
+        $actual = $this->dummy->setContent($serializedData)->getData();
         static::assertEquals($expected, $actual);
     }
 }

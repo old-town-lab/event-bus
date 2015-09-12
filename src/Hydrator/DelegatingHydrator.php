@@ -30,6 +30,8 @@ class DelegatingHydrator implements HydratorInterface
 
     /**
      * {@inheritdoc}
+     *
+     * @throws \OldTown\EventBus\Hydrator\Exception\DelegateObjectNotFoundException
      */
     public function extract($object)
     {
