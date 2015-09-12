@@ -10,6 +10,8 @@ use OldTown\EventBus\Message\InputFilterValidatorTrait;
 use OldTown\EventBus\PhpUnit\TestData\Messages\AbstractFooClassMethodsHydrator;
 use OldTown\EventBus\PhpUnit\TestData\Messages\BarClassMethodsHydrator;
 use PHPUnit_Framework_TestCase;
+use Zend\InputFilter\InputFilterAwareInterface;
+use Zend\InputFilter\InputFilterProviderInterface;
 use Zend\ServiceManager\ServiceLocatorAwareTrait;
 use Zend\Stdlib\Hydrator\Filter\FilterComposite;
 use Zend\Stdlib\Hydrator\HydratorPluginManager;
@@ -29,6 +31,21 @@ class ClassMethodsHydratorTraitTest extends PHPUnit_Framework_TestCase
      */
     protected $message;
 
+
+    /**
+     *
+     * @return void
+     */
+    protected function setUp()
+    {
+        $hydratorPluginManager = new HydratorPluginManager();
+        $validatorPluginManager = new ValidatorPluginManager();
+
+        $hydratorPluginManager->setService(DelegatingHydrator::class, new DelegatingHydrator());
+
+
+        $this->message = new BarClassMethodsHydrator($hydratorPluginManager, $validatorPluginManager);
+    }
 
     /**
      * Получение фильтра
@@ -57,7 +74,10 @@ class ClassMethodsHydratorTraitTest extends PHPUnit_Framework_TestCase
             ClassMethodsHydratorTrait::class,
             AbstractFooClassMethodsHydrator::class,
             ServiceLocatorAwareTrait::class,
-            InputFilterValidatorTrait::class
+            InputFilterValidatorTrait::class,
+            InputFilterProviderInterface::class,
+            InputFilterAwareInterface::class
+
         ];
 
         static::assertEquals(count($expected), count($actual));
@@ -153,21 +173,6 @@ class ClassMethodsHydratorTraitTest extends PHPUnit_Framework_TestCase
         static::assertEquals($expected, $actual);
     }
 
-    /**
-     *
-     * @return void
-     */
-    protected function setUp()
-    {
-        $hydratorPluginManager = new HydratorPluginManager();
-        $validatorPluginManager = new ValidatorPluginManager();
-
-        $hydratorPluginManager->setService(DelegatingHydrator::class, new DelegatingHydrator());
-
-
-        $this->message = new BarClassMethodsHydrator($hydratorPluginManager, $validatorPluginManager);
-    }
-
 
     /**
      * Проверка корректности инициализации гидратора
@@ -212,6 +217,8 @@ class ClassMethodsHydratorTraitTest extends PHPUnit_Framework_TestCase
         static::assertTrue($this->message->removeTargetForExcludeMethods(AbstractFooClassMethodsHydrator::class));
         static::assertTrue($this->message->removeTargetForExcludeMethods(ServiceLocatorAwareTrait::class));
         static::assertTrue($this->message->removeTargetForExcludeMethods(InputFilterValidatorTrait::class));
+        static::assertTrue($this->message->removeTargetForExcludeMethods(InputFilterAwareInterface::class));
+        static::assertTrue($this->message->removeTargetForExcludeMethods(InputFilterProviderInterface::class));
         static::assertFalse($this->message->removeTargetForExcludeMethods('abrakadabra'));
 
         $actual = $this->message->getTargetsForExcludeMethods();

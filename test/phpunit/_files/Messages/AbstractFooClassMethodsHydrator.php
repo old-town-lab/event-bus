@@ -8,10 +8,19 @@ namespace OldTown\EventBus\PhpUnit\TestData\Messages;
 use OldTown\EventBus\Message\AbstractMessage;
 use OldTown\EventBus\Message\ClassMethodsHydratorInterface;
 use OldTown\EventBus\Message\InputFilterValidatorTrait;
+use Zend\InputFilter\InputFilterAwareInterface;
+use Zend\InputFilter\InputFilterProviderInterface;
 use Zend\ServiceManager\ServiceLocatorAwareInterface;
 use Zend\ServiceManager\ServiceLocatorAwareTrait;
 
-abstract class AbstractFooClassMethodsHydrator extends AbstractMessage implements ClassMethodsHydratorInterface, ServiceLocatorAwareInterface
+abstract class AbstractFooClassMethodsHydrator
+    extends AbstractMessage
+    implements
+        ClassMethodsHydratorInterface,
+        ServiceLocatorAwareInterface,
+        InputFilterProviderInterface,
+        InputFilterAwareInterface
 {
     use ServiceLocatorAwareTrait, InputFilterValidatorTrait;
+
 }
