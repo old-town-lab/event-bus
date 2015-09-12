@@ -6,7 +6,8 @@
 namespace OldTown\EventBus\PhpUnit\TestData\Messages;
 
 use OldTown\EventBus\Message\ClassMethodsHydratorTrait;
-use Zend\InputFilter\InputFilterInterface;
+use Zend\InputFilter\InputFilterAwareTrait;
+
 
 /**
  * Class BarClassMethodsHydrator
@@ -15,7 +16,7 @@ use Zend\InputFilter\InputFilterInterface;
  */
 class BarClassMethodsHydrator extends AbstractFooClassMethodsHydrator
 {
-    use ClassMethodsHydratorTrait;
+    use ClassMethodsHydratorTrait, InputFilterAwareTrait;
 
     /**
      * @var string
@@ -98,16 +99,7 @@ class BarClassMethodsHydrator extends AbstractFooClassMethodsHydrator
 
     public function getInputFilterSpecification()
     {
-        // TODO: Implement getInputFilterSpecification() method.
+        return [];
     }
 
-    public function setInputFilter(InputFilterInterface $inputFilter)
-    {
-        // TODO: Implement getInputFilter() method.
-    }
-
-    public function getInputFilter()
-    {
-        // TODO: Implement getInputFilter() method.
-    }
 }

@@ -155,20 +155,21 @@ trait InputFilterValidatorTrait
      * @param InputFilterInterface $input
      * @param string $name
      *
-     * @throws \Zend\InputFilter\Exception\InvalidArgumentException
      */
     protected function addInputFilter($inputFilter, $input, $name = null)
     {
         /** @var ReplaceableInputInterface|InputFilterInterface|CollectionInputFilter $inputFilter */
         /** @var InputFilterInterface|InputInterface $input */
-        if ($inputFilter instanceof ReplaceableInputInterface && $inputFilter->has($name)) {
-            $input->merge($inputFilter->get($name));
-            $inputFilter->replace($input, $name);
-        } elseif ($inputFilter instanceof CollectionInputFilter && !$inputFilter->getInputFilter()->has($name)) {
-            $inputFilter->getInputFilter()->add($input, $name);
-        } else {
-            $inputFilter->add($input, $name);
-        }
+        //Код на удаление - 12.08.2015. Если не понадобиться в течение месяца - убрать
+//        if ($inputFilter instanceof ReplaceableInputInterface && $inputFilter->has($name)) {
+//            $input->merge($inputFilter->get($name));
+//            $inputFilter->replace($input, $name);
+//        } elseif ($inputFilter instanceof CollectionInputFilter && !$inputFilter->getInputFilter()->has($name)) {
+//            $inputFilter->getInputFilter()->add($input, $name);
+//        } else {
+//            $inputFilter->add($input, $name);
+//        }
+        $inputFilter->add($input, $name);
     }
 
     /**

@@ -7,8 +7,11 @@ namespace OldTown\EventBus\PhpUnit\TestData\Messages;
 
 use OldTown\EventBus\Message\AbstractMessage;
 use OldTown\EventBus\Message\ClassMethodsHydratorInterface;
+use OldTown\EventBus\Message\InputFilterPluginManagerAwareInterface;
+use OldTown\EventBus\Message\InputFilterPluginManagerAwareTrait;
 use OldTown\EventBus\Message\InputFilterValidatorTrait;
 use Zend\InputFilter\InputFilterAwareInterface;
+use Zend\InputFilter\InputFilterPluginManager;
 use Zend\InputFilter\InputFilterProviderInterface;
 use Zend\ServiceManager\ServiceLocatorAwareInterface;
 use Zend\ServiceManager\ServiceLocatorAwareTrait;
@@ -19,8 +22,9 @@ abstract class AbstractFooClassMethodsHydrator
         ClassMethodsHydratorInterface,
         ServiceLocatorAwareInterface,
         InputFilterProviderInterface,
-        InputFilterAwareInterface
+        InputFilterAwareInterface,
+        InputFilterPluginManagerAwareInterface
 {
-    use ServiceLocatorAwareTrait, InputFilterValidatorTrait;
+    use ServiceLocatorAwareTrait, InputFilterValidatorTrait, InputFilterPluginManagerAwareTrait;
 
 }
