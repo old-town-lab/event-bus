@@ -44,13 +44,25 @@
     "alchemy/rabbitmq-management-client": "~0.2",
     "doctrine/collections":  "~1.3.0"
   },
+  "suggest": {
+    "ext-amqp": "If using AmqpPhpExtension adapter"
+  },
   "autoload": {
     "psr-4": {
-      "OldTown\\EventBus\\": "src/",
-      "OldTown\\EventBus\\Test\\": "test/"
+      "OldTown\\EventBus\\": "src/"
     },
     "classmap": [
       "./Module.php"
+    ]
+  },
+  "autoload-dev": {
+    "psr-4": {
+      "OldTown\\EventBus\\PhpUnit\\Test\\": "test/phpunit/tests",
+      "OldTown\\EventBus\\PhpUnit\\TestData\\": "test/phpunit/_files",
+      "OldTown\\EventBus\\PhpUnit\\RabbitMqTestUtils\\": "test/phpunit/rabbit-mq-test-util"
+    },
+    "classmap": [
+      "./test/phpunit/Bootstrap.php"
     ]
   }
 }
