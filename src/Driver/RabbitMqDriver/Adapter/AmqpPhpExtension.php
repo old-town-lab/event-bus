@@ -11,7 +11,7 @@ use AMQPExchange;
 use AMQPQueue;
 use OldTown\EventBus\Driver\RabbitMqDriver\MetadataReader\MetadataInterface;
 use OldTown\EventBus\Message\MessageInterface;
-
+use \OldTown\EventBus\Driver\RabbitMqDriver\Adapter\AmqpPhpExtension\RawArgument;
 
 /**
  * Class AmqpPhpExtension
@@ -202,6 +202,7 @@ class AmqpPhpExtension extends AbstractAdapter
 
             $channel->commitTransaction();
         } catch (\Exception $e) {
+            //@fixme Не работает корректно откат
             $channel->rollbackTransaction();
             throw $e;
         }
@@ -250,6 +251,7 @@ class AmqpPhpExtension extends AbstractAdapter
     protected function createQueueByMetadata(MetadataInterface $metadata, AMQPChannel $channel)
     {
         $queue = new AMQPQueue($channel);
+
         $queue->setName($metadata->getQueueName());
         $queue->declareQueue();
 
@@ -298,6 +300,67 @@ class AmqpPhpExtension extends AbstractAdapter
         $exchange = $this->createExchangeByMetadata($metadata, $channel);
 
         $messageData = $message->getContent();
-        $exchange->publish($messageData, $eventName);
+
+        $arguments = [
+            'headers' => [
+                MessageInterface::SERIALIZER_HEADER => $message->getSerializerName()
+            ]
+        ];
+
+        $exchange->publish($messageData, $eventName, AMQP_NOPARAM, $arguments);
+    }
+
+    /**
+     * @param MetadataInterface $metadata
+     * @param                   $callback
+     *
+     * @throws \AMQPExchangeException
+     * @throws \AMQPChannelException
+     * @throws \AMQPConnectionException
+     * @throws \AMQPQueueException
+     */
+    public function attach(MetadataInterface $metadata, callable $callback)
+    {
+        $channel = $this->getChannel();
+
+        $queue = $this->createQueueByMetadata($metadata, $channel);
+        $queue->consume($callback);
+    }
+
+    /**
+     * @param array $rawData
+     *
+     * @return string
+     *
+     * @throws \OldTown\EventBus\Driver\RabbitMqDriver\Adapter\AmqpPhpExtension\Exception\InvalidRawArgumentException
+     * @throws \OldTown\EventBus\Driver\RabbitMqDriver\Adapter\Exception\InvalidSerializerNameException
+     */
+    public function extractSerializerName(array $rawData = [])
+    {
+        $data = RawArgument::factory($rawData);
+
+        $serializer = $data->getRawMessage()->getHeader(MessageInterface::SERIALIZER_HEADER);
+
+        if (!$serializer) {
+            $errMsg = 'Отсутствуют данные о имени Serializer';
+            throw new Exception\InvalidSerializerNameException($errMsg);
+        }
+
+        return $serializer;
+    }
+
+    /**
+     * @param array $rawData
+     *
+     * @return string
+     *
+     * @throws \OldTown\EventBus\Driver\RabbitMqDriver\Adapter\AmqpPhpExtension\Exception\InvalidRawArgumentException
+     */
+    public function extractSerializedData(array $rawData = [])
+    {
+        $data = RawArgument::factory($rawData);
+
+        $serializedData = $data->getRawMessage()->getBody();
+        return $serializedData;
     }
 }

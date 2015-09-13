@@ -6,6 +6,7 @@
 namespace OldTown\EventBus\PhpUnit\Test\Driver;
 
 use OldTown\EventBus\Driver\DriverConfig;
+use OldTown\EventBus\Message\EventBusMessagePluginManager;
 use OldTown\EventBus\Message\MessageInterface;
 use OldTown\EventBus\MetadataReader\EventBusMetadataReaderPluginManager;
 use OldTown\EventBus\PhpUnit\RabbitMqTestUtils\RabbitMqTestCaseInterface;
@@ -35,7 +36,8 @@ class RabbitMqDriverTest extends PHPUnit_Framework_TestCase implements RabbitMqT
     public function testGetAdapterName()
     {
         $mockAdapter = $this->getMock(AdapterInterface::class);
-        $mockManager = $this->getMock(EventBusMetadataReaderPluginManager::class);
+        $mockMetadataPluginManager = $this->getMock(EventBusMetadataReaderPluginManager::class);
+        $mockMessagePluginManager = $this->getMock(EventBusMessagePluginManager::class);
         $expected = get_class($mockAdapter);
 
         $options = [
@@ -43,7 +45,7 @@ class RabbitMqDriverTest extends PHPUnit_Framework_TestCase implements RabbitMqT
                 'adapter' => $expected
             ]
         ];
-        $driver = new RabbitMqDriver($options, $mockManager);
+        $driver = new RabbitMqDriver($options, $mockMetadataPluginManager, $mockMessagePluginManager);
 
         $actual = $driver->getAdapterName();
 
@@ -59,14 +61,15 @@ class RabbitMqDriverTest extends PHPUnit_Framework_TestCase implements RabbitMqT
      */
     public function testGetAdapterNameInvalidClassName()
     {
-        $mockManager = $this->getMock(EventBusMetadataReaderPluginManager::class);
+        $mockMetadataPluginManager = $this->getMock(EventBusMetadataReaderPluginManager::class);
+        $mockMessagePluginManager = $this->getMock(EventBusMessagePluginManager::class);
 
         $options = [
             'extraOptions' => [
                 'adapter' => 'invalid_class_name'
             ]
         ];
-        $driver = new RabbitMqDriver($options, $mockManager);
+        $driver = new RabbitMqDriver($options, $mockMetadataPluginManager, $mockMessagePluginManager);
 
         $driver->getAdapterName();
     }
@@ -81,14 +84,15 @@ class RabbitMqDriverTest extends PHPUnit_Framework_TestCase implements RabbitMqT
      */
     public function testGetAdapterNameClassNotImplementsInterface()
     {
-        $mockManager = $this->getMock(EventBusMetadataReaderPluginManager::class);
+        $mockMetadataPluginManager = $this->getMock(EventBusMetadataReaderPluginManager::class);
+        $mockMessagePluginManager = $this->getMock(EventBusMessagePluginManager::class);
 
         $options = [
             'extraOptions' => [
                 'adapter' => \stdClass::class
             ]
         ];
-        $driver = new RabbitMqDriver($options, $mockManager);
+        $driver = new RabbitMqDriver($options, $mockMetadataPluginManager, $mockMessagePluginManager);
 
         $driver->getAdapterName();
     }
@@ -100,10 +104,11 @@ class RabbitMqDriverTest extends PHPUnit_Framework_TestCase implements RabbitMqT
      */
     public function testGetAdapterDefaultName()
     {
-        $mockManager = $this->getMock(EventBusMetadataReaderPluginManager::class);
+        $mockMetadataPluginManager = $this->getMock(EventBusMetadataReaderPluginManager::class);
+        $mockMessagePluginManager = $this->getMock(EventBusMessagePluginManager::class);
 
         $options = [];
-        $driver = new RabbitMqDriver($options, $mockManager);
+        $driver = new RabbitMqDriver($options, $mockMetadataPluginManager, $mockMessagePluginManager);
         $actual = $driver->getAdapterName();
 
         static::assertEquals(AmqpPhpExtension::class, $actual);
@@ -115,10 +120,11 @@ class RabbitMqDriverTest extends PHPUnit_Framework_TestCase implements RabbitMqT
      */
     public function testLocalCacheGetAdapterName()
     {
-        $mockManager = $this->getMock(EventBusMetadataReaderPluginManager::class);
+        $mockMetadataPluginManager = $this->getMock(EventBusMetadataReaderPluginManager::class);
+        $mockMessagePluginManager = $this->getMock(EventBusMessagePluginManager::class);
 
         $options = [];
-        $driver = new RabbitMqDriver($options, $mockManager);
+        $driver = new RabbitMqDriver($options, $mockMetadataPluginManager, $mockMessagePluginManager);
         $expected = $driver->getAdapterName();
         $actual = $driver->getAdapterName();
 
@@ -134,7 +140,8 @@ class RabbitMqDriverTest extends PHPUnit_Framework_TestCase implements RabbitMqT
     public function testGetAdapter()
     {
         $mockAdapter = $this->getMock(AdapterInterface::class);
-        $mockManager = $this->getMock(EventBusMetadataReaderPluginManager::class);
+        $mockMetadataPluginManager = $this->getMock(EventBusMetadataReaderPluginManager::class);
+        $mockMessagePluginManager = $this->getMock(EventBusMessagePluginManager::class);
         $expected = get_class($mockAdapter);
 
         $options = [
@@ -145,7 +152,7 @@ class RabbitMqDriverTest extends PHPUnit_Framework_TestCase implements RabbitMqT
                 'adapter' => $expected
             ]
         ];
-        $driver = new RabbitMqDriver($options, $mockManager);
+        $driver = new RabbitMqDriver($options, $mockMetadataPluginManager, $mockMessagePluginManager);
 
         $actual = $driver->getAdapter();
 
@@ -165,6 +172,8 @@ class RabbitMqDriverTest extends PHPUnit_Framework_TestCase implements RabbitMqT
      */
     public function testInitEventBus()
     {
+        $mockMessagePluginManager = $this->getMock(EventBusMessagePluginManager::class);
+
         $metadataMock = $this->getMock(MetadataInterface::class);
 
         /** @var PHPUnit_Framework_MockObject_MockObject|ReaderInterface  $metadataReaderMock */
@@ -183,7 +192,7 @@ class RabbitMqDriverTest extends PHPUnit_Framework_TestCase implements RabbitMqT
             'test_class' => $metadataMock
         ]));
 
-        $mockManager = $this->getMock(EventBusMetadataReaderPluginManager::class);
+        $mockMetadataPluginManager = $this->getMock(EventBusMetadataReaderPluginManager::class);
 
         /** @var RabbitMqDriver|PHPUnit_Framework_MockObject_MockObject $mockDriver */
         $mockDriver = $this->getMock(RabbitMqDriver::class, [
@@ -193,7 +202,8 @@ class RabbitMqDriverTest extends PHPUnit_Framework_TestCase implements RabbitMqT
             'options' => [
                 DriverConfig::CONNECTION_CONFIG => []
             ],
-            'metadataReaderPluginManager' => $mockManager
+            'metadataReaderPluginManager' => $mockMetadataPluginManager,
+            'messagePluginManager' => $mockMessagePluginManager
         ]);
 
 
@@ -212,6 +222,8 @@ class RabbitMqDriverTest extends PHPUnit_Framework_TestCase implements RabbitMqT
      */
     public function testTrigger()
     {
+        $mockMessagePluginManager = $this->getMock(EventBusMessagePluginManager::class);
+
         $expectedEventName = 'test.event';
 
 
@@ -234,7 +246,7 @@ class RabbitMqDriverTest extends PHPUnit_Framework_TestCase implements RabbitMqT
                      ->with(static::equalTo($expectedEventName), static::equalTo($messageMock), static::equalTo($metadataMock));
 
 
-        $mockManager = $this->getMock(EventBusMetadataReaderPluginManager::class);
+        $mockMetadataPluginManager = $this->getMock(EventBusMetadataReaderPluginManager::class);
 
         /** @var RabbitMqDriver|PHPUnit_Framework_MockObject_MockObject $mockDriver */
         $mockDriver = $this->getMock(RabbitMqDriver::class, [
@@ -244,7 +256,8 @@ class RabbitMqDriverTest extends PHPUnit_Framework_TestCase implements RabbitMqT
             'options' => [
                 DriverConfig::CONNECTION_CONFIG => []
             ],
-            'metadataReaderPluginManager' => $mockManager
+            'metadataReaderPluginManager' => $mockMetadataPluginManager,
+            'messagePluginManager' => $mockMessagePluginManager
         ]);
 
 

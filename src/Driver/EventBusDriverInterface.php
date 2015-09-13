@@ -1,6 +1,6 @@
 <?php
 /**
- * @link https://github.com/old-town/event-bus
+ * @link    https://github.com/old-town/event-bus
  * @author  Malofeykin Andrey  <and-rey2@yandex.ru>
  */
 namespace OldTown\EventBus\Driver;
@@ -16,10 +16,18 @@ use OldTown\EventBus\Message\MessageInterface;
 interface EventBusDriverInterface
 {
     /**
-     * @param $eventName
+     * @param                  $eventName
      * @param MessageInterface $message
      */
     public function trigger($eventName, MessageInterface $message);
+
+    /**
+     * Подписывается на прием сообщений
+     *
+     * @param string   $messageName
+     * @param callable $callback
+     */
+    public function attach($messageName, callable $callback);
 
     /**
      * Опции переданные при создание драйвера

@@ -38,4 +38,29 @@ interface AdapterInterface
      * @return
      */
     public function trigger($eventName, MessageInterface $message, MetadataInterface $metadata);
+
+    /**
+     * @param MetadataInterface $metadata
+     * @param                   $callback
+     *
+     */
+    public function attach(MetadataInterface $metadata, callable $callback);
+
+    /**
+     * На основе данных пришедших из очереди, извлекат тип Serializer, которым эти данные упкаованы
+     *
+     * @param array $rawData
+     *
+     * @return string
+     */
+    public function extractSerializerName(array $rawData = []);
+
+    /**
+     * На основе данных пришедших из очереди, извлекат сериализованные данные
+     *
+     * @param array $rawData
+     *
+     * @return string
+     */
+    public function extractSerializedData(array $rawData = []);
 }

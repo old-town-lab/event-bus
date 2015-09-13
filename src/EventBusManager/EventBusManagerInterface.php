@@ -6,6 +6,7 @@
 namespace OldTown\EventBus\EventBusManager;
 
 use OldTown\EventBus\Driver\EventBusDriverInterface;
+use OldTown\EventBus\Message\MessageInterface;
 
 /**
  * Interface EventBusManagerInterface
@@ -25,4 +26,33 @@ interface EventBusManagerInterface
      * @return $this
      */
     public function setDriver(EventBusDriverInterface $driver);
+
+
+    /**
+     * Бросает событие
+     *
+     * @param string $eventName
+     * @param MessageInterface $message
+     */
+    public function trigger($eventName, MessageInterface $message);
+
+    /**
+     * Принимает событие
+     *
+     * @param          $messageName
+     * @param callable $callBack
+     *
+     * @return
+     * @internal param string $message
+     */
+    public function attach($messageName, callable $callBack);
+
+
+    /**
+     * Инициализация шины
+     *
+     * @return void
+     *
+     */
+    public function initEventBus();
 }

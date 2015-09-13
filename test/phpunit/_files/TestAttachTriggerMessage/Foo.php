@@ -3,28 +3,27 @@
  * @link    https://github.com/old-town/event-bus
  * @author  Malofeykin Andrey  <and-rey2@yandex.ru>
  */
-namespace OldTown\EventBus\PhpUnit\TestData\SimpleMessage;
+namespace OldTown\EventBus\PhpUnit\TestData\TestAttachTriggerMessage;
 
+use OldTown\EventBus\Driver\RabbitMqDriver\MetadataReader\Annotations as EventBus;
 use OldTown\EventBus\Message\AbstractSimpleMessage;
 use Zend\InputFilter\InputFilterProviderInterface;
 
 /**
+ * Class FooExtendSimpleMessage
+ *
+ * @package OldTown\EventBus\TestData\Messages
+ *
  * @EventBus\EventBusMessage(
  *     queue=@EventBus\Queue(name="test_queue_name_foo"),
  *     exchange=@EventBus\Exchange(name="test_exchange_name_foo", type="topic"),
  *     bindingKeys={
  *         @EventBus\BindingKey(
- *             name="*.procedure.*"
- *         ),
- *         @EventBus\BindingKey(
- *             name="create.procedure.*"
+ *             name="#"
  *         )
  *     }
  * )
  *
- *
- *
- * @package OldTown\EventBus\PhpUnit\TestData\SimpleMessage
  */
 class Foo extends AbstractSimpleMessage implements InputFilterProviderInterface
 {
@@ -105,19 +104,6 @@ class Foo extends AbstractSimpleMessage implements InputFilterProviderInterface
     }
 
     /**
-     *
-     * @return array
-     */
-    public function toArray()
-    {
-        return [
-            'testProperty1' => $this->testProperty1,
-            'testProperty2' => $this->testProperty2,
-            'testProperty3' => $this->testProperty3
-        ];
-    }
-
-    /**
      * @return array
      */
     public function getInputFilterSpecification()
@@ -178,6 +164,4 @@ class Foo extends AbstractSimpleMessage implements InputFilterProviderInterface
 
         return $spec;
     }
-
-
 }

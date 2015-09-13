@@ -453,12 +453,39 @@ abstract class AbstractMessage implements MessageInterface
         $data = $this->getSerializer()->unserialize($serializedData);
         $validator = $this->getValidator();
         if (!$validator->isValid($data)) {
-            throw new Exception\DataForMessageNotValidException($validator->getMessages());
+            $messages = $validator->getMessages();
+            $errMsg = $this->buildErrMsg($messages);
+            throw new Exception\DataForMessageNotValidException($errMsg);
         }
         $this->getHydrator()->hydrate($data, $this);
 
         return $this;
     }
+
+
+    /**
+     * Подготавливает сообщение о ошибке
+     *
+     * @param array $messages
+     * @param array $buildMsg
+     * @param int   $space
+     *
+     * @return string
+     */
+    public function buildErrMsg(array $messages = [], array $buildMsg = [], $space = 0)
+    {
+        foreach ($messages as $message) {
+            if (is_string($message)) {
+                $buildMsg[] = str_pad($message, $space, ' ');
+                continue;
+            }
+            $this->buildErrMsg($message, $buildMsg, $space + 2);
+        }
+        $msg = implode("\n", $buildMsg);
+
+        return $msg;
+    }
+
 
     /**
      * Set metadata

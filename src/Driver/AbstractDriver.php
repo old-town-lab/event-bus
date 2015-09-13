@@ -5,9 +5,11 @@
  */
 namespace OldTown\EventBus\Driver;
 
+use OldTown\EventBus\Message\EventBusMessagePluginManager;
 use Traversable;
 use Zend\Stdlib\ArrayUtils;
 use OldTown\EventBus\MetadataReader\EventBusMetadataReaderPluginManager;
+use OldTown\EventBus\Message\MessagePluginManagerAwareInterface;
 
 
 /**
@@ -32,14 +34,16 @@ abstract class AbstractDriver implements EventBusDriverInterface
     protected $extraOptions = [];
 
     /**
-     * @param array|Traversable                    $options
+     * @param array|Traversable                   $options
      *
      * @param EventBusMetadataReaderPluginManager $metadataReaderPluginManager
+     *
+     * @param EventBusMessagePluginManager        $messagePluginManager
      *
      * @throws \OldTown\EventBus\Driver\Exception\InvalidArgumentException
      * @throws \Zend\Stdlib\Exception\InvalidArgumentException
      */
-    public function __construct($options = null, EventBusMetadataReaderPluginManager $metadataReaderPluginManager = null)
+    public function __construct($options = null, EventBusMetadataReaderPluginManager $metadataReaderPluginManager = null, EventBusMessagePluginManager $messagePluginManager = null)
     {
         if (null === $options) {
             $options = [];
@@ -58,6 +62,9 @@ abstract class AbstractDriver implements EventBusDriverInterface
 
         if ($this instanceof MetadataReaderInterface) {
             $this->setMetadataReaderPluginManager($metadataReaderPluginManager);
+        }
+        if ($this instanceof MessagePluginManagerAwareInterface) {
+            $this->setMessagePluginManager($messagePluginManager);
         }
     }
 

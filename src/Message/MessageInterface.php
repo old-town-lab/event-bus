@@ -20,6 +20,11 @@ use Zend\Validator\ValidatorPluginManager;
 interface MessageInterface extends BaseMessageInterface, HydratorAwareInterface
 {
     /**
+     * @var string
+     */
+    const SERIALIZER_HEADER = 'serializer';
+
+    /**
      * @return HydratorPluginManager
      *
      */

@@ -10,6 +10,8 @@ use OldTown\EventBus\Driver\RabbitMqDriver\MetadataReader\MetadataInterface;
 use OldTown\EventBus\Message\MessageInterface;
 use OldTown\EventBus\Driver\RabbitMqDriver\Adapter\AdapterInterface;
 use OldTown\EventBus\Driver\RabbitMqDriver\MetadataReader\AnnotationReader;
+use OldTown\EventBus\Message\MessagePluginManagerAwareInterface;
+use OldTown\EventBus\Message\MessagePluginManagerAwareTrait;
 
 
 /**
@@ -17,9 +19,15 @@ use OldTown\EventBus\Driver\RabbitMqDriver\MetadataReader\AnnotationReader;
  *
  * @package OldTown\EventBus\Driver
  */
-class RabbitMqDriver extends AbstractDriver implements ConnectionDriverInterface, MetadataReaderInterface
+class RabbitMqDriver
+    extends AbstractDriver
+    implements
+        ConnectionDriverInterface,
+        MetadataReaderInterface,
+        ExtractorDataFromEventBusInterface,
+        MessagePluginManagerAwareInterface
 {
-    use ConnectionDriverTrait, MetadataReaderTrait;
+    use ConnectionDriverTrait, MetadataReaderTrait, MessagePluginManagerAwareTrait;
 
     /**
      * Имя секции в extraOptions содержащее имя драйвера
@@ -57,25 +65,6 @@ class RabbitMqDriver extends AbstractDriver implements ConnectionDriverInterface
      */
     protected $defaultMetadataReaderName = AnnotationReader::class;
 
-    /**
-     * @param $eventName
-     * @param MessageInterface $message
-     *
-     * @throws \OldTown\EventBus\Driver\Exception\InvalidAdapterNameException
-     * @throws \OldTown\EventBus\Driver\Exception\InvalidEventBusDriverConfigException
-     * @throws \Zend\ServiceManager\Exception\ServiceNotFoundException
-     * @throws \Zend\ServiceManager\Exception\ServiceNotCreatedException
-     * @throws \Zend\ServiceManager\Exception\RuntimeException
-     * @throws \OldTown\EventBus\Driver\Exception\InvalidMetadataReaderNameException
-     */
-    public function trigger($eventName, MessageInterface $message)
-    {
-        $messageClass = get_class($message);
-        /** @var MetadataInterface $metadata */
-        $metadata = $this->getMetadataReader()->loadMetadataForClass($messageClass);
-
-        $this->getAdapter()->trigger($eventName, $message, $metadata);
-    }
 
     /**
      * Возвращает имя используемого адаптера
@@ -160,5 +149,84 @@ class RabbitMqDriver extends AbstractDriver implements ConnectionDriverInterface
         }
 
         $this->getAdapter()->initEventBus($metadataStorage);
+    }
+
+    /**
+     * @param $eventName
+     * @param MessageInterface $message
+     *
+     * @throws \OldTown\EventBus\Driver\Exception\InvalidAdapterNameException
+     * @throws \OldTown\EventBus\Driver\Exception\InvalidEventBusDriverConfigException
+     * @throws \Zend\ServiceManager\Exception\ServiceNotFoundException
+     * @throws \Zend\ServiceManager\Exception\ServiceNotCreatedException
+     * @throws \Zend\ServiceManager\Exception\RuntimeException
+     * @throws \OldTown\EventBus\Driver\Exception\InvalidMetadataReaderNameException
+     */
+    public function trigger($eventName, MessageInterface $message)
+    {
+        $messageClass = get_class($message);
+        /** @var MetadataInterface $metadata */
+        $metadata = $this->getMetadataReader()->loadMetadataForClass($messageClass);
+
+        $this->getAdapter()->trigger($eventName, $message, $metadata);
+    }
+
+    /**
+     * Подписывается на прием сообщений
+     *
+     * @param          $messageName
+     * @param callable $callback
+     *
+     * @throws \OldTown\EventBus\Driver\Exception\InvalidEventBusDriverConfigException
+     * @throws \OldTown\EventBus\Driver\Exception\InvalidAdapterNameException
+     * @throws \Zend\ServiceManager\Exception\ServiceNotFoundException
+     * @throws \Zend\ServiceManager\Exception\ServiceNotCreatedException
+     * @throws \Zend\ServiceManager\Exception\RuntimeException
+     * @throws \OldTown\EventBus\Driver\Exception\InvalidMetadataReaderNameException
+     */
+    public function attach($messageName, callable $callback)
+    {
+
+
+        /** @var MetadataInterface $metadata */
+        $metadata = $this->getMetadataReader()->loadMetadataForClass($messageName);
+
+        $messagePluginManager = $this->getMessagePluginManager();
+        $handler = new MessageHandler($messageName, $callback, $this, $messagePluginManager);
+        $this->getAdapter()->attach($metadata, $handler);
+    }
+
+    /**
+     * На основе данных пришедших из очереди, извлекат тип Serializer, которым эти данные упкаованы
+     *
+     * @param array $rawData
+     *
+     * @return string
+     *
+     * @throws \OldTown\EventBus\Driver\Exception\InvalidEventBusDriverConfigException
+     * @throws \OldTown\EventBus\Driver\Exception\InvalidAdapterNameException
+     */
+    public function extractSerializerName(array $rawData = [])
+    {
+        $serializerName = $this->getAdapter()->extractSerializerName($rawData);
+
+        return $serializerName;
+    }
+
+    /**
+     * На основе данных пришедших из очереди, извлекат сериализованные данные
+     *
+     * @param array $rawData
+     *
+     * @return string
+     *
+     * @throws \OldTown\EventBus\Driver\Exception\InvalidEventBusDriverConfigException
+     * @throws \OldTown\EventBus\Driver\Exception\InvalidAdapterNameException
+     */
+    public function extractSerializedData(array $rawData = [])
+    {
+        $serializedData = $this->getAdapter()->extractSerializedData($rawData);
+
+        return $serializedData;
     }
 }

@@ -94,6 +94,8 @@ class DriverChain extends  AbstractDriver
      * @return $this
      *
      * @throws \OldTown\EventBus\Driver\Exception\ErrorCreateEventBusDriverException
+     * @throws \OldTown\EventBus\Driver\Exception\InvalidEventBusDriverConfigException
+     * @throws \OldTown\EventBus\Driver\Exception\InvalidArgumentException
      */
     public function setOptions(array $options = [])
     {
@@ -110,6 +112,8 @@ class DriverChain extends  AbstractDriver
      * @return $this
      *
      * @throws \OldTown\EventBus\Driver\Exception\ErrorCreateEventBusDriverException
+     * @throws \OldTown\EventBus\Driver\Exception\InvalidEventBusDriverConfigException
+     * @throws \OldTown\EventBus\Driver\Exception\InvalidArgumentException
      */
     protected function buildDriversFromConfig(array $config = [])
     {
@@ -141,5 +145,16 @@ class DriverChain extends  AbstractDriver
         foreach ($drivers as $driver) {
             $driver->initEventBus();
         }
+    }
+
+
+    /**
+     * Подписывается на прием сообщений
+     *
+     * @param string   $messageName
+     * @param callable $callback
+     */
+    public function attach($messageName, callable $callback)
+    {
     }
 }

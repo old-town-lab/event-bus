@@ -7,6 +7,7 @@ namespace OldTown\EventBus\PhpUnit\Test\MetadataReader;
 
 use OldTown\EventBus\Driver\RabbitMqDriver\MetadataReader\Annotations\BindingKey;
 use OldTown\EventBus\MetadataReader\AbstractAnnotationReader;
+use OldTown\EventBus\PhpUnit\TestData\Messages\BarClassMethodsHydrator;
 use OldTown\EventBus\PhpUnit\TestData\Messages\FooExtendAbstractSimpleMessage;
 use OldTown\EventBus\PhpUnit\TestData\Messages\TestMessage1;
 use OldTown\EventBus\PhpUnit\TestData\MetadataReader\Example;
@@ -86,7 +87,12 @@ class AbstractAnnotationReaderTest extends PHPUnit_Framework_TestCase
 
 
         $actual = $abstractAnnotationReaderMock->getAllClassNames();
-        $expected = [Foo::class, TestMessage1::class, FooExtendAbstractSimpleMessage::class];
+        $expected = [
+            Foo::class,
+            TestMessage1::class,
+            FooExtendAbstractSimpleMessage::class,
+            BarClassMethodsHydrator::class
+        ];
         foreach ($expected as $className) {
             $flag = in_array($className, $actual, true);
             static::assertTrue($flag);

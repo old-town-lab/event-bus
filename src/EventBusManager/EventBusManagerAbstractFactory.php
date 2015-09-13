@@ -36,9 +36,9 @@ class EventBusManagerAbstractFactory implements AbstractFactoryInterface
      */
     public function canCreateServiceWithName(ServiceLocatorInterface $serviceLocator, $name, $requestedName)
     {
-        $flag = 0 === strpos($name, 'eventbus.manager.');
+        $flag = 0 === strpos($requestedName, 'event_bus.manager.');
         if ($flag) {
-            $container = $this->getManagerInfoContainer($name, $serviceLocator);
+            $container = $this->getManagerInfoContainer($requestedName, $serviceLocator);
             if (!$container instanceof ManagerInfoContainer) {
                 $flag = false;
             }
@@ -64,7 +64,7 @@ class EventBusManagerAbstractFactory implements AbstractFactoryInterface
      */
     public function createServiceWithName(ServiceLocatorInterface $serviceLocator, $name, $requestedName)
     {
-        $container = $this->getManagerInfoContainer($name, $serviceLocator);
+        $container = $this->getManagerInfoContainer($requestedName, $serviceLocator);
 
         $pluginName = $container->getPluginName();
 

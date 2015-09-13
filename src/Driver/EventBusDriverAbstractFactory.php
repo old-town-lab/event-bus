@@ -39,7 +39,7 @@ class EventBusDriverAbstractFactory implements AbstractFactoryInterface
     {
         $flag = 0 === strpos($name, 'eventbus.driver.');
         if ($flag) {
-            $container = $this->getDriverConfigs($name, $serviceLocator);
+            $container = $this->getDriverConfigs($requestedName, $serviceLocator);
             if (!$container instanceof DriverConfig) {
                 $flag = false;
             }
@@ -64,7 +64,7 @@ class EventBusDriverAbstractFactory implements AbstractFactoryInterface
      */
     public function createServiceWithName(ServiceLocatorInterface $serviceLocator, $name, $requestedName)
     {
-        $container = $this->getDriverConfigs($name, $serviceLocator);
+        $container = $this->getDriverConfigs($requestedName, $serviceLocator);
 
         $pluginName = $container->getPluginName();
 

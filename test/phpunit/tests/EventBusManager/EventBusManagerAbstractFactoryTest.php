@@ -38,7 +38,7 @@ class EventBusManagerAbstractFactoryTest extends AbstractHttpControllerTestCase
      * Проверка указания некорректного имени фабрики
      *
      * @expectedException \OldTown\EventBus\EventBusManager\Exception\ErrorCreateEventBusManagerException
-     * @expectedExceptionMessage eventbus.manager.default.invalid
+     * @expectedExceptionMessage Некорректный формат имени сервиса: event_bus.manager.default.invalid
      *
      * @throws \Zend\Stdlib\Exception\LogicException
      * @throws \Zend\ServiceManager\Exception\ServiceNotFoundException

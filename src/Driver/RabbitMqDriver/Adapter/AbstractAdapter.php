@@ -24,7 +24,7 @@ abstract class AbstractAdapter implements AdapterInterface
      */
     public function __construct(array $connection = [])
     {
-        $this->connectionConfig = $connection;
+        $this->setConnectionConfig($connection);
     }
 
     /**
@@ -33,5 +33,17 @@ abstract class AbstractAdapter implements AdapterInterface
     public function getConnectionConfig()
     {
         return $this->connectionConfig;
+    }
+
+    /**
+     * @param array|null $connectionConfig
+     *
+     * @return $this
+     */
+    public function setConnectionConfig(array $connectionConfig = [])
+    {
+        $this->connectionConfig = $connectionConfig;
+
+        return $this;
     }
 }

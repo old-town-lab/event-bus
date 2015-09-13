@@ -63,10 +63,23 @@ class EventBusManagerFacade implements EventBusManagerInterface
     /**
      * Принимает событие
      *
-     * @param MessageInterface $message
-     * @param $callBack
+     * @param string   $messageName
+     * @param callable $callBack
+     *
      */
-    public function listener(MessageInterface $message, $callBack)
+    public function attach($messageName, callable $callBack)
     {
+        $this->getDriver()->attach($messageName, $callBack);
+    }
+
+    /**
+     * Инициализация шины
+     *
+     * @return void
+     *
+     */
+    public function initEventBus()
+    {
+        $this->getDriver()->initEventBus();
     }
 }

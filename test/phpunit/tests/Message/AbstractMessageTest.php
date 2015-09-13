@@ -250,7 +250,7 @@ class AbstractMessageTest extends PHPUnit_Framework_TestCase
             ->will(static::returnValue(false));
         $validatorMock->expects(static::once())
             ->method('getMessages')
-            ->will(static::returnValue('Данные не прошли валидацию'));
+            ->will(static::returnValue(['Данные не прошли валидацию']));
 
 
         //Устанавливаем необходимые для теста зависимости Message

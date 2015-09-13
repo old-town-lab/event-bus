@@ -5,6 +5,7 @@
  */
 namespace OldTown\EventBus\Driver;
 
+use OldTown\EventBus\Message\EventBusMessagePluginManager;
 use Zend\ServiceManager\AbstractFactoryInterface;
 use Zend\ServiceManager\AbstractPluginManager;
 use Zend\ServiceManager\MutableCreationOptionsInterface;
@@ -13,7 +14,6 @@ use Zend\ServiceManager\ServiceLocatorInterface;
 use OldTown\EventBus\Module;
 use Zend\Stdlib\ArrayUtils;
 use OldTown\EventBus\MetadataReader\EventBusMetadataReaderPluginManager;
-
 
 /**
  * Class ServiceAbstractFactory
@@ -96,8 +96,9 @@ class EventBusPluginDriverAbstractFactory implements AbstractFactoryInterface, M
         }
 
         $metadataReaderPluginManager = $appServiceLocator->get(EventBusMetadataReaderPluginManager::class);
+        $messagePluginManager = $appServiceLocator->get(EventBusMessagePluginManager::class);
 
-        $driver = new $requestedName($options, $metadataReaderPluginManager);
+        $driver = new $requestedName($options, $metadataReaderPluginManager, $messagePluginManager);
         return $driver;
     }
 }

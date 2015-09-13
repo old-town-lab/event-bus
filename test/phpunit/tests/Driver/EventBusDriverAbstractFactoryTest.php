@@ -38,7 +38,7 @@ class EventBusDriverAbstractFactoryTest extends AbstractHttpControllerTestCase
      * Проверка указания некорректного имени
      *
      * @expectedException \OldTown\EventBus\Driver\Exception\ErrorCreateEventBusDriverException
-     * @expectedExceptionMessage Некорректный формат имени сервиса: eventbus.driver.default.invalid
+     * @expectedExceptionMessage Некорректный формат имени сервиса: event_bus.driver.default.invalid
      *
      * @throws \Zend\Stdlib\Exception\LogicException
      * @throws \Zend\ServiceManager\Exception\ServiceNotFoundException

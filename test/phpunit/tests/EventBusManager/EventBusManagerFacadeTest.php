@@ -47,21 +47,4 @@ class EventBusManagerFacadeTest extends PHPUnit_Framework_TestCase
         $message = $this->getMock(MessageInterface::class);
         $manager->trigger('test', $message);
     }
-
-
-    /**
-     * Создаем стандартного EventBusManagerFacade
-     *
-     */
-    public function testListener()
-    {
-        /** @var PHPUnit_Framework_MockObject_MockObject|EventBusDriverInterface  $driver */
-        $driver = $this->getMock(EventBusDriverInterface::class);
-        $manager = new EventBusManagerFacade($driver);
-        /** @var PHPUnit_Framework_MockObject_MockObject|MessageInterface $message */
-        $message = $this->getMock(MessageInterface::class);
-        $manager->listener($message, function () {
-
-        });
-    }
 }
