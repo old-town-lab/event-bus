@@ -467,24 +467,50 @@ abstract class AbstractMessage implements MessageInterface
      * Подготавливает сообщение о ошибке
      *
      * @param array $messages
-     * @param array $buildMsg
-     * @param int   $space
      *
      * @return string
      */
-    public function buildErrMsg(array $messages = [], array $buildMsg = [], $space = 0)
+    public function buildErrMsg(array $messages = [])
     {
-        foreach ($messages as $message) {
-            if (is_string($message)) {
-                $buildMsg[] = str_pad($message, $space, ' ');
-                continue;
-            }
-            $this->buildErrMsg($message, $buildMsg, $space + 2);
-        }
-        $msg = implode("\n", $buildMsg);
+        $formatErrorMessages = [];
+        $this->formatErrorMsg($messages, $formatErrorMessages);
+
+        $msg = implode("\n", $formatErrorMessages);
 
         return $msg;
     }
+
+    /**
+     * Форматирование сообщений о ошибках
+     *
+     * @param       $messages
+     * @param array $buildMsg
+     * @param int   $space
+     *
+     * @return array
+     */
+    protected function formatErrorMsg($messages, array &$buildMsg, $space = 0)
+    {
+        $messagePad = $space;
+        foreach ($messages as $field => $message) {
+            if (is_string($field) && !is_numeric($field)) {
+                $str = sprintf('%sПоле %s:', str_repeat(' ', $space), $field);
+                $buildMsg[] = $str;
+                if ($messagePad === $space) {
+                    $messagePad += 2;
+                }
+            }
+
+            if (is_string($message)) {
+                $buildMsg[] = sprintf('%s%s', str_repeat(' ', $messagePad),  $message);
+                continue;
+            }
+            $newSpace = $messagePad === $space ? $messagePad + 2 : $messagePad;
+            $this->formatErrorMsg($message, $buildMsg, $newSpace);
+        }
+        return $buildMsg;
+    }
+
 
 
     /**

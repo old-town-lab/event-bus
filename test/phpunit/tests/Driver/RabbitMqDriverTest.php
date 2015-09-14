@@ -6,6 +6,7 @@
 namespace OldTown\EventBus\PhpUnit\Test\Driver;
 
 use OldTown\EventBus\Driver\DriverConfig;
+use OldTown\EventBus\Driver\MessageHandler;
 use OldTown\EventBus\Message\EventBusMessagePluginManager;
 use OldTown\EventBus\Message\MessageInterface;
 use OldTown\EventBus\MetadataReader\EventBusMetadataReaderPluginManager;
@@ -266,5 +267,146 @@ class RabbitMqDriverTest extends PHPUnit_Framework_TestCase implements RabbitMqT
 
 
         $mockDriver->trigger($expectedEventName, $messageMock);
+    }
+
+
+
+
+    /**
+     * Проверка получения имени Serializer
+     *
+     */
+    public function testExtractSerializerName()
+    {
+        $rawData = [
+            'test_raw_data_1'
+        ];
+        $expectedSerializerName = 'test_serializer_name';
+
+
+        /** @var AdapterInterface|PHPUnit_Framework_MockObject_MockObject  $mockAdapter */
+        $mockAdapter = $this->getMock(AdapterInterface::class, get_class_methods(AdapterInterface::class));
+
+
+        $mockMetadataPluginManager = $this->getMock(EventBusMetadataReaderPluginManager::class);
+        $mockMessagePluginManager = $this->getMock(EventBusMessagePluginManager::class);
+
+
+        $options = [
+            'connectionConfig' => [
+
+            ],
+            'extraOptions' => [
+                'adapter' => get_class($mockAdapter)
+            ]
+        ];
+        $driver = new RabbitMqDriver($options, $mockMetadataPluginManager, $mockMessagePluginManager);
+        /** @var PHPUnit_Framework_MockObject_MockObject|AdapterInterface $adapter */
+        $adapter = $driver->getAdapter();
+        $adapter->expects(static::once())
+            ->method('extractSerializerName')
+            ->with(static::equalTo($rawData))
+            ->will(static::returnValue($expectedSerializerName));
+
+
+        $actual = $driver->extractSerializerName($rawData);
+
+        static::assertEquals($expectedSerializerName, $actual);
+    }
+
+    /**
+     * Проверка получения имени Serializer
+     *
+     */
+    public function testExtractSerializedData()
+    {
+        $rawData = [
+            'test_raw_data_1'
+        ];
+        $expectedSerializedData = 'test_serializer_data';
+
+
+        /** @var AdapterInterface|PHPUnit_Framework_MockObject_MockObject  $mockAdapter */
+        $mockAdapter = $this->getMock(AdapterInterface::class, get_class_methods(AdapterInterface::class));
+
+
+        $mockMetadataPluginManager = $this->getMock(EventBusMetadataReaderPluginManager::class);
+        $mockMessagePluginManager = $this->getMock(EventBusMessagePluginManager::class);
+
+
+        $options = [
+            'connectionConfig' => [
+
+            ],
+            'extraOptions' => [
+                'adapter' => get_class($mockAdapter)
+            ]
+        ];
+        $driver = new RabbitMqDriver($options, $mockMetadataPluginManager, $mockMessagePluginManager);
+        /** @var PHPUnit_Framework_MockObject_MockObject|AdapterInterface $adapter */
+        $adapter = $driver->getAdapter();
+        $adapter->expects(static::once())
+            ->method('extractSerializedData')
+            ->with(static::equalTo($rawData))
+            ->will(static::returnValue($expectedSerializedData));
+
+
+        $actual = $driver->extractSerializedData($rawData);
+
+        static::assertEquals($expectedSerializedData, $actual);
+    }
+
+
+
+    /**
+     * Проверка получения имени Serializer
+     *
+     */
+    public function testAttach()
+    {
+        $expectedMessageName = 'test_message_name';
+        $expectedHandler = function () {};
+
+        /** @var AdapterInterface|PHPUnit_Framework_MockObject_MockObject  $mockAdapter */
+        $mockAdapter = $this->getMock(AdapterInterface::class, get_class_methods(AdapterInterface::class));
+
+
+        $mockMetadata = $this->getMock(MetadataInterface::class);
+
+        /** @var ReaderInterface|PHPUnit_Framework_MockObject_MockObject $metadataReader */
+        $metadataReader = $this->getMock(ReaderInterface::class);
+        $metadataReader->expects(static::once())
+            ->method('loadMetadataForClass')
+            ->with(static::equalTo($expectedMessageName))
+            ->will(static::returnValue($mockMetadata));
+
+        /** @var EventBusMetadataReaderPluginManager|PHPUnit_Framework_MockObject_MockObject $mockMetadataPluginManager */
+        $mockMetadataPluginManager = $this->getMock(EventBusMetadataReaderPluginManager::class);
+        $mockMetadataPluginManager->expects(static::once())
+                                  ->method('get')
+                                  ->will(static::returnValue($metadataReader));
+
+
+        $mockMessagePluginManager = $this->getMock(EventBusMessagePluginManager::class);
+
+
+        $options = [
+            'connectionConfig' => [
+
+            ],
+            'extraOptions' => [
+                'adapter' => get_class($mockAdapter)
+            ]
+        ];
+
+        $driver = new RabbitMqDriver($options, $mockMetadataPluginManager, $mockMessagePluginManager);
+
+        /** @var PHPUnit_Framework_MockObject_MockObject|AdapterInterface $adapter */
+        $adapter = $driver->getAdapter();
+        $adapter->expects(static::once())
+            ->method('attach')
+            ->with(static::equalTo($mockMetadata), static::isInstanceOf(MessageHandler::class));
+
+        $driver->attach($expectedMessageName, $expectedHandler);
     }
 }

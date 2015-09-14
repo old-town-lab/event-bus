@@ -10,7 +10,7 @@ namespace OldTown\EventBus\Driver;
  *
  * @package OldTown\EventBus\Driver
  */
-interface ExtractorDataFromEventBusInterface
+interface ExtractorDataFromEventBusInterface extends EventBusDriverInterface
 {
     /**
      * На основе данных пришедших из очереди, извлекат тип Serializer, которым эти данные упкаованы

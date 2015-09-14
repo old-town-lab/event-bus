@@ -383,4 +383,212 @@ class AmqpPhpExtensionTest extends PHPUnit_Framework_TestCase implements RabbitM
 
         static::assertEquals($expected, $actualMessage->getBody());
     }
+
+    /**
+     * Тестируем приме сообщений
+     *
+     */
+    public function testAttach()
+    {
+        if (!extension_loaded(self::AMQP_EXT)) {
+            static::markTestSkipped(sprintf('%s extension not loaded', self::AMQP_EXT));
+        }
+
+        $annotation = new EventBusMessage();
+        $annotation->exchange = new Exchange();
+        $annotation->exchange->name = 'test_exchange_name';
+        $annotation->exchange->durable = true;
+        $annotation->exchange->type = 'direct';
+        $annotation->queue = new Queue();
+        $annotation->queue->name = 'test_queue_name';
+
+        $bindKey = new BindingKey();
+        $bindKey->name = 'test_queue_name';
+
+        $annotation->bindingKeys[] = $bindKey;
+
+        $metadata = new Metadata($annotation);
+
+        $adapter = new AmqpPhpExtension([
+            AmqpPhpExtension::PARAMS => $this->getRabbitMqConnectionForTest()
+        ]);
+        $adapter->initEventBus([$metadata]);
+
+        $serializer = 'test_serializer_header';
+        $testContent = 'test_content';
+
+
+        /** @var MessageInterface|PHPUnit_Framework_MockObject_MockObject $message */
+        $message = $this->getMock(MessageInterface::class);
+        $message->expects(static::once())->method('getSerializerName')->will(static::returnValue($serializer));
+        $message->expects(static::once())->method('getContent')->will(static::returnValue($testContent));
+
+        $adapter->trigger($bindKey->name, $message, $metadata);
+
+        $flag = false;
+        $adapter->attach($metadata, function (\AMQPEnvelope $message) use (&$flag, $testContent) {
+            $flag = $message->getBody() === $testContent;
+            return false;
+        });
+
+        static::assertTrue($flag);
+    }
+
+
+    /**
+     * Проверка получения имени сериалайзера из заголовков сообщения
+     *
+     * @throws \Exception
+     */
+    public function testExtractSerializerName()
+    {
+        if (!extension_loaded(self::AMQP_EXT)) {
+            static::markTestSkipped(sprintf('%s extension not loaded', self::AMQP_EXT));
+        }
+
+        $annotation = new EventBusMessage();
+        $annotation->exchange = new Exchange();
+        $annotation->exchange->name = 'test_exchange_name';
+        $annotation->exchange->durable = true;
+        $annotation->exchange->type = 'direct';
+        $annotation->queue = new Queue();
+        $annotation->queue->name = 'test_queue_name';
+
+        $bindKey = new BindingKey();
+        $bindKey->name = 'test_queue_name';
+
+        $annotation->bindingKeys[] = $bindKey;
+
+        $metadata = new Metadata($annotation);
+
+        $adapter = new AmqpPhpExtension([
+            AmqpPhpExtension::PARAMS => $this->getRabbitMqConnectionForTest()
+        ]);
+        $adapter->initEventBus([$metadata]);
+
+        $expectedSerializerName = 'test_serializer_header';
+        $testContent = 'test_content';
+
+
+        /** @var MessageInterface|PHPUnit_Framework_MockObject_MockObject $message */
+        $message = $this->getMock(MessageInterface::class);
+        $message->expects(static::once())->method('getSerializerName')->will(static::returnValue($expectedSerializerName));
+        $message->expects(static::once())->method('getContent')->will(static::returnValue($testContent));
+
+        $adapter->trigger($bindKey->name, $message, $metadata);
+
+        $rawData = [];
+
+        $adapter->attach($metadata, function () use (&$rawData) {
+            $rawData = func_get_args();
+            return false;
+        });
+
+
+        static::assertEquals($expectedSerializerName, $adapter->extractSerializerName($rawData));
+    }
+
+
+    /**
+     * Проверка ситуации когда отсутствует имя сериалайзера в заголовках сообщения
+     *
+     * @expectedException \OldTown\EventBus\Driver\RabbitMqDriver\Adapter\Exception\InvalidSerializerNameException
+     * @expectedExceptionMessage Отсутствуют данные о имени Serializer
+     * @throws \Exception
+     */
+    public function testErrorExtractSerializerName()
+    {
+        if (!extension_loaded(self::AMQP_EXT)) {
+            static::markTestSkipped(sprintf('%s extension not loaded', self::AMQP_EXT));
+        }
+
+        $annotation = new EventBusMessage();
+        $annotation->exchange = new Exchange();
+        $annotation->exchange->name = 'test_exchange_name';
+        $annotation->exchange->durable = true;
+        $annotation->exchange->type = 'direct';
+        $annotation->queue = new Queue();
+        $annotation->queue->name = 'test_queue_name';
+
+        $bindKey = new BindingKey();
+        $bindKey->name = 'test_queue_name';
+
+        $annotation->bindingKeys[] = $bindKey;
+
+        $metadata = new Metadata($annotation);
+
+        $adapter = new AmqpPhpExtension([
+            AmqpPhpExtension::PARAMS => $this->getRabbitMqConnectionForTest()
+        ]);
+        $adapter->initEventBus([$metadata]);
+
+        $testContent = 'test_content';
+
+        /** @var MessageInterface|PHPUnit_Framework_MockObject_MockObject $message */
+        $message = $this->getMock(MessageInterface::class);
+        $message->expects(static::once())->method('getContent')->will(static::returnValue($testContent));
+
+        $adapter->trigger($bindKey->name, $message, $metadata);
+
+        $rawData = [];
+
+        $adapter->attach($metadata, function () use (&$rawData) {
+            $rawData = func_get_args();
+            return false;
+        });
+        $adapter->extractSerializerName($rawData);
+    }
+
+
+    /**
+     * Проверка ситуации когда отсутствует имя сериалайзера в заголовках сообщения
+     *
+     * @throws \Exception
+     */
+    public function testExtractSerializedData()
+    {
+        if (!extension_loaded(self::AMQP_EXT)) {
+            static::markTestSkipped(sprintf('%s extension not loaded', self::AMQP_EXT));
+        }
+
+        $annotation = new EventBusMessage();
+        $annotation->exchange = new Exchange();
+        $annotation->exchange->name = 'test_exchange_name';
+        $annotation->exchange->durable = true;
+        $annotation->exchange->type = 'direct';
+        $annotation->queue = new Queue();
+        $annotation->queue->name = 'test_queue_name';
+
+        $bindKey = new BindingKey();
+        $bindKey->name = 'test_queue_name';
+
+        $annotation->bindingKeys[] = $bindKey;
+
+        $metadata = new Metadata($annotation);
+
+        $adapter = new AmqpPhpExtension([
+            AmqpPhpExtension::PARAMS => $this->getRabbitMqConnectionForTest()
+        ]);
+        $adapter->initEventBus([$metadata]);
+
+        $expectedContent = 'test_content';
+        $expectedSerializerName = 'test_serializer_name';
+
+        /** @var MessageInterface|PHPUnit_Framework_MockObject_MockObject $message */
+        $message = $this->getMock(MessageInterface::class);
+        $message->expects(static::once())->method('getSerializerName')->will(static::returnValue($expectedSerializerName));
+        $message->expects(static::once())->method('getContent')->will(static::returnValue($expectedContent));
+
+        $adapter->trigger($bindKey->name, $message, $metadata);
+
+        $rawData = [];
+
+        $adapter->attach($metadata, function () use (&$rawData) {
+            $rawData = func_get_args();
+            return false;
+        });
+
+
+        static::assertEquals($expectedContent, $adapter->extractSerializedData($rawData));
+    }
 }

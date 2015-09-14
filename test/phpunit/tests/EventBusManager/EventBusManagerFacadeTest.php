@@ -34,7 +34,7 @@ class EventBusManagerFacadeTest extends PHPUnit_Framework_TestCase
 
 
     /**
-     * Создаем стандартного EventBusManagerFacade
+     * Тестируем бросание события
      *
      */
     public function testTrigger()
@@ -46,5 +46,45 @@ class EventBusManagerFacadeTest extends PHPUnit_Framework_TestCase
         /** @var PHPUnit_Framework_MockObject_MockObject|MessageInterface $message */
         $message = $this->getMock(MessageInterface::class);
         $manager->trigger('test', $message);
+    }
+
+
+    /**
+     * Тестируем подписывание на событие
+     *
+     */
+    public function testAttachTrigger()
+    {
+        $expectedMessageName = 'message_name';
+        $expectedCallback = function () {};
+
+
+        /** @var PHPUnit_Framework_MockObject_MockObject|EventBusDriverInterface  $driver */
+        $driver = $this->getMock(EventBusDriverInterface::class);
+        $driver->expects(static::once())
+               ->method('attach')
+               ->with(static::equalTo($expectedMessageName), static::equalTo($expectedCallback));
+
+        $manager = new EventBusManagerFacade($driver);
+
+        $manager->attach($expectedMessageName, $expectedCallback);
+    }
+
+
+    /**
+     * Тестируем инициацию шины
+     *
+     */
+    public function testInitEventBus()
+    {
+
+        /** @var PHPUnit_Framework_MockObject_MockObject|EventBusDriverInterface  $driver */
+        $driver = $this->getMock(EventBusDriverInterface::class);
+        $driver->expects(static::once())
+            ->method('initEventBus');
+
+        $manager = new EventBusManagerFacade($driver);
+
+        $manager->initEventBus();
     }
 }

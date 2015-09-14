@@ -85,7 +85,7 @@ class MessageHandler
      *
      * @return $this
      */
-    public function setMessagePluginManager($messagePluginManager)
+    public function setMessagePluginManager(EventBusMessagePluginManager $messagePluginManager)
     {
         $this->messagePluginManager = $messagePluginManager;
 

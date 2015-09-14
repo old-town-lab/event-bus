@@ -40,11 +40,11 @@ class RawArgument
     public static function factory(array $data = [])
     {
         if (!array_key_exists(0, $data) || !$data[0] instanceof AMQPEnvelope) {
-            $errMsg = 'Некорретнай формат аргументов';
+            $errMsg = 'Некорретнай формат аргументов. Первый элемент должен быть AMQPEnvelope';
             throw new Exception\InvalidRawArgumentException($errMsg);
         }
         if (!array_key_exists(1, $data) || !$data[1] instanceof AMQPQueue) {
-            $errMsg = 'Некорретнай формат аргументов';
+            $errMsg = 'Некорретнай формат аргументов. Второй элемент должен быть AMQPQueue';
             throw new Exception\InvalidRawArgumentException($errMsg);
         }
 

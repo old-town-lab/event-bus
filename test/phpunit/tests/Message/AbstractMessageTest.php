@@ -290,4 +290,38 @@ class AbstractMessageTest extends PHPUnit_Framework_TestCase
 
         static::assertEquals($expected, $actual);
     }
+
+    /**
+     * Генерация сообщений о ошибках
+     *
+     */
+    public function testBuildErrMsg()
+    {
+        $messages = [
+            'field_1' => [
+                'error_message_1',
+                'error_message_2',
+                'error_message_3',
+            ],
+            'field_2' => [
+                'error_message_4',
+                'error_message_5',
+                'error_message_6',
+            ],
+            'field_3' => [
+                'error_message_7',
+                'error_message_8',
+                'error_message_9',
+            ]
+        ];
+
+
+        $actual = $this->message->buildErrMsg($messages);
+
+        $expected = "Поле field_1:\n  error_message_1\n  error_message_2\n  error_message_3\n"
+                    . "Поле field_2:\n  error_message_4\n  error_message_5\n  error_message_6\n"
+                    . "Поле field_3:\n  error_message_7\n  error_message_8\n  error_message_9";
+
+        static::assertEquals($expected, $actual);
+    }
 }
